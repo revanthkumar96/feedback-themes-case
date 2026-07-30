@@ -32,6 +32,14 @@ class TaxonomyTests(unittest.TestCase):
         with self.assertRaisesRegex(ContractError, "duplicate theme id"):
             Taxonomy.from_dict(broken)
 
+    def test_rejects_duplicate_labels_that_would_break_flat_tree(self) -> None:
+        broken = copy.deepcopy(self.taxonomy.source)
+        broken["strategic_themes"][1]["midlevel_themes"][0]["label"] = (
+            broken["strategic_themes"][0]["midlevel_themes"][0]["label"]
+        )
+        with self.assertRaisesRegex(ContractError, "duplicate midlevel"):
+            Taxonomy.from_dict(broken)
+
     def test_schema_restricts_leaf_ids_without_unsupported_array_keywords(self) -> None:
         schema = self.taxonomy.model_schema(3)
         results = schema["properties"]["results"]
@@ -139,8 +147,10 @@ class AssignmentContractTests(unittest.TestCase):
         with self.assertRaisesRegex(ContractError, "every requested review"):
             validate_model_output(payload, self.reviews, self.taxonomy)
 
-    def test_rejects_empty_assignments_without_reason(self) -> None:
+    def test_derives_reason_for_empty_assignments(self) -> None:
         payload = self._valid_payload()
         payload["results"][1]["no_assignment_reason"] = None
-        with self.assertRaisesRegex(ContractError, "require no_relevant_theme"):
-            validate_model_output(payload, self.reviews, self.taxonomy)
+        results = validate_model_output(payload, self.reviews, self.taxonomy)
+        self.assertEqual(
+            "no_relevant_theme", results[1]["no_assignment_reason"]
+        )

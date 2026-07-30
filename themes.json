@@ -1,0 +1,286 @@
+{
+  "version": "v1",
+  "strategic_themes": [
+    {
+      "id": "financing_lifecycle",
+      "label": "Financing lifecycle",
+      "definition": "Feedback about obtaining, using, changing, and repaying business financing.",
+      "midlevel_themes": [
+        {
+          "id": "application_and_decisions",
+          "label": "Application and decisions",
+          "definition": "Feedback about submitting a financing application and receiving a decision.",
+          "specific_themes": [
+            {
+              "id": "application_requirements",
+              "label": "Application requirements",
+              "definition": "The documents, business history, and information required to apply."
+            },
+            {
+              "id": "decision_turnaround",
+              "label": "Decision turnaround",
+              "definition": "The time between submitting an application and receiving an approval or rejection."
+            },
+            {
+              "id": "decision_transparency",
+              "label": "Decision transparency",
+              "definition": "How clearly an application status, outcome, and reasons for the decision are communicated."
+            }
+          ]
+        },
+        {
+          "id": "funding_and_invoices",
+          "label": "Funding and invoices",
+          "definition": "Feedback about processing financed invoices and receiving the resulting funds.",
+          "specific_themes": [
+            {
+              "id": "payout_timing",
+              "label": "Payout timing",
+              "definition": "The elapsed time between invoice approval or submission and payout."
+            },
+            {
+              "id": "invoice_administration",
+              "label": "Invoice administration",
+              "definition": "Creating, changing, automating, or otherwise managing invoices in the financing service."
+            }
+          ]
+        },
+        {
+          "id": "product_fit_and_flexibility",
+          "label": "Product fit and flexibility",
+          "definition": "Feedback about whether financing products fit the business and can adapt as its needs change.",
+          "specific_themes": [
+            {
+              "id": "product_suitability",
+              "label": "Product suitability",
+              "definition": "How well a financing or banking product fits the company's size, situation, and needs."
+            },
+            {
+              "id": "credit_line_flexibility",
+              "label": "Credit line flexibility",
+              "definition": "The ability to adjust, renew, or end a credit line without unnecessary reapplication or delay."
+            }
+          ]
+        },
+        {
+          "id": "repayment_and_collections",
+          "label": "Repayment and collections",
+          "definition": "Feedback about meeting payment obligations and how overdue cases are handled.",
+          "specific_themes": [
+            {
+              "id": "repayment_flexibility",
+              "label": "Repayment flexibility",
+              "definition": "The availability of adapted repayment plans, payment deferrals, or seasonal arrangements."
+            },
+            {
+              "id": "collections_handling",
+              "label": "Collections handling",
+              "definition": "How the company communicates and acts before or during debt collection."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pricing_and_terms",
+      "label": "Pricing and terms",
+      "definition": "Feedback about fees, interest, and the contractual conditions attached to products.",
+      "midlevel_themes": [
+        {
+          "id": "fees",
+          "label": "Fees",
+          "definition": "Feedback about the amount, number, and explanation of non-interest charges.",
+          "specific_themes": [
+            {
+              "id": "fee_level",
+              "label": "Fee level",
+              "definition": "The overall amount or cumulative burden of fees charged."
+            },
+            {
+              "id": "fee_transparency",
+              "label": "Fee transparency",
+              "definition": "How clearly individual fees, their purpose, and their inclusion in an offer are disclosed."
+            }
+          ]
+        },
+        {
+          "id": "interest_rates",
+          "label": "Interest rates",
+          "definition": "Feedback about the price of borrowing and how interest is determined.",
+          "specific_themes": [
+            {
+              "id": "interest_rate_level",
+              "label": "Interest rate level",
+              "definition": "The competitiveness or affordability of the interest rate offered."
+            },
+            {
+              "id": "interest_calculation",
+              "label": "Interest calculation",
+              "definition": "How clearly and accurately interest or effective rates are calculated and explained."
+            },
+            {
+              "id": "rate_change_communication",
+              "label": "Rate change communication",
+              "definition": "How interest-rate changes are announced and reflected in the product."
+            }
+          ]
+        },
+        {
+          "id": "contractual_terms",
+          "label": "Contractual terms",
+          "definition": "Feedback about understanding and relying on product agreements and conditions.",
+          "specific_themes": [
+            {
+              "id": "terms_clarity",
+              "label": "Terms clarity",
+              "definition": "How easy the agreement, eligibility rules, and product conditions are to find and understand."
+            },
+            {
+              "id": "term_changes",
+              "label": "Term changes",
+              "definition": "Changes to agreed product conditions and how those changes affect the customer."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "service_and_communication",
+      "label": "Service and communication",
+      "definition": "Feedback about assistance from people or support channels and the reliability of information provided.",
+      "midlevel_themes": [
+        {
+          "id": "support_delivery",
+          "label": "Support delivery",
+          "definition": "Feedback about reaching support, receiving replies, and getting an issue carried through.",
+          "specific_themes": [
+            {
+              "id": "response_timeliness",
+              "label": "Response timeliness",
+              "definition": "How quickly and reliably support responds across phone, email, chat, or messaging."
+            },
+            {
+              "id": "follow_up_and_ownership",
+              "label": "Follow-up and ownership",
+              "definition": "Whether staff take responsibility, keep promises, and follow an issue through to completion."
+            },
+            {
+              "id": "support_channel_navigation",
+              "label": "Support channel navigation",
+              "definition": "The ability to reach the right help, move beyond automated support, and avoid channel loops."
+            }
+          ]
+        },
+        {
+          "id": "advisor_relationship",
+          "label": "Advisor relationship",
+          "definition": "Feedback about the competence, behaviour, and continuity of customer-facing staff.",
+          "specific_themes": [
+            {
+              "id": "advisor_expertise",
+              "label": "Advisor expertise",
+              "definition": "The advisor's knowledge of products, rules, and the customer's business situation."
+            },
+            {
+              "id": "staff_conduct",
+              "label": "Staff conduct",
+              "definition": "How courteous, respectful, and constructive staff are when dealing with customers."
+            },
+            {
+              "id": "relationship_continuity",
+              "label": "Relationship continuity",
+              "definition": "The availability of a consistent contact person and continuity when staff change."
+            }
+          ]
+        },
+        {
+          "id": "information_trust",
+          "label": "Information trust",
+          "definition": "Feedback about whether company information and public signals are consistent and credible.",
+          "specific_themes": [
+            {
+              "id": "cross_channel_consistency",
+              "label": "Cross-channel consistency",
+              "definition": "Whether the portal, website, chatbot, email, and staff provide compatible information."
+            },
+            {
+              "id": "institutional_credibility",
+              "label": "Institutional credibility",
+              "definition": "Signals that affect trust in the company, including the perceived authenticity of public reviews."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "digital_experience_and_data",
+      "label": "Digital experience and data",
+      "definition": "Feedback about digital access, interfaces, integrations, reports, and the accuracy of displayed data.",
+      "midlevel_themes": [
+        {
+          "id": "online_portal",
+          "label": "Online portal",
+          "definition": "Feedback about accessing and using the browser-based customer portal.",
+          "specific_themes": [
+            {
+              "id": "portal_access",
+              "label": "Portal access",
+              "definition": "The ability to authenticate and log in to the portal reliably."
+            },
+            {
+              "id": "portal_usability",
+              "label": "Portal usability",
+              "definition": "How clear, modern, and easy the portal is to navigate."
+            },
+            {
+              "id": "portal_performance",
+              "label": "Portal performance",
+              "definition": "The speed, responsiveness, and technical stability of the portal."
+            }
+          ]
+        },
+        {
+          "id": "mobile_banking",
+          "label": "Mobile banking",
+          "definition": "Feedback about using the service from a dedicated mobile application.",
+          "specific_themes": [
+            {
+              "id": "mobile_app",
+              "label": "Mobile app",
+              "definition": "The availability and practical functionality of the mobile application."
+            }
+          ]
+        },
+        {
+          "id": "external_integrations",
+          "label": "External integrations",
+          "definition": "Feedback about exchanging data with bookkeeping or accounting systems.",
+          "specific_themes": [
+            {
+              "id": "accounting_integration_reliability",
+              "label": "Accounting integration reliability",
+              "definition": "How consistently and accurately accounting-system integrations exchange data."
+            }
+          ]
+        },
+        {
+          "id": "reporting_and_data",
+          "label": "Reporting and data",
+          "definition": "Feedback about obtaining financial records and trusting the information shown.",
+          "specific_themes": [
+            {
+              "id": "reporting_and_export_access",
+              "label": "Reporting and export access",
+              "definition": "The availability, history, completeness, and exportability of statements and reports."
+            },
+            {
+              "id": "financial_data_accuracy",
+              "label": "Financial data accuracy",
+              "definition": "The correctness of balances, transactions, invoices, and other financial figures displayed."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

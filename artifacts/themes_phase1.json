@@ -1,0 +1,312 @@
+{
+  "version": "v1",
+  "strategic_themes": [
+    {
+      "id": "application_process",
+      "label": "Application process",
+      "definition": "All subjects related to how a customer initiates or completes a financing request, including speed, requirements, and approvals.",
+      "midlevel_themes": [
+        {
+          "id": "approval_time",
+          "label": "Approval time",
+          "definition": "The duration from application submission to approval decision.",
+          "specific_themes": [
+            {
+              "id": "approval_time_fast",
+              "label": "Fast approval",
+              "definition": "Approval received within minutes or hours."
+            },
+            {
+              "id": "approval_time_slow",
+              "label": "Slow approval",
+              "definition": "Approval delayed to days or weeks."
+            }
+          ]
+        },
+        {
+          "id": "application_requirements",
+          "label": "Application requirements",
+          "definition": "Documents or information required to submit an application.",
+          "specific_themes": [
+            {
+              "id": "requirements_many",
+              "label": "Too many requirements",
+              "definition": "Large number of documents or years of accounts demanded."
+            },
+            {
+              "id": "requirements_few",
+              "label": "Minimal requirements",
+              "definition": "Only essential information needed."
+            }
+          ]
+        },
+        {
+          "id": "application_adjustment",
+          "label": "Adjusting terms after approval",
+          "definition": "Ability to change credit lines or other terms without reapplying.",
+          "specific_themes": [
+            {
+              "id": "adjustment_possible",
+              "label": "Adjustments allowed",
+              "definition": "Terms can be modified after approval."
+            },
+            {
+              "id": "adjustment_not_allowed",
+              "label": "Adjustments not allowed",
+              "definition": "New application required for changes."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "digital_interface",
+      "label": "Digital interface",
+      "definition": "All subjects related to the digital tools and user experience provided by the bank.",
+      "midlevel_themes": [
+        {
+          "id": "portal_performance",
+          "label": "Portal performance",
+          "definition": "Speed, stability, and usability of the online portal.",
+          "specific_themes": [
+            {
+              "id": "portal_fast",
+              "label": "Fast portal",
+              "definition": "Portal loads quickly and functions smoothly."
+            },
+            {
+              "id": "portal_slow",
+              "label": "Slow portal",
+              "definition": "Portal experiences delays or crashes."
+            }
+          ]
+        },
+        {
+          "id": "mobile_app",
+          "label": "Mobile app",
+          "definition": "Availability and functionality of a mobile application.",
+          "specific_themes": [
+            {
+              "id": "app_available",
+              "label": "App available",
+              "definition": "A functional mobile app exists."
+            },
+            {
+              "id": "app_missing",
+              "label": "App missing",
+              "definition": "No mobile app is offered."
+            }
+          ]
+        },
+        {
+          "id": "integration_capabilities",
+          "label": "Integration capabilities",
+          "definition": "How well the system works with accounting or other software.",
+          "specific_themes": [
+            {
+              "id": "integration_successful",
+              "label": "Successful integration",
+              "definition": "Smooth data exchange with external systems."
+            },
+            {
+              "id": "integration_failed",
+              "label": "Integration failed",
+              "definition": "Repeated failures or errors during integration."
+            }
+          ]
+        },
+        {
+          "id": "login_and_security",
+          "label": "Login and security",
+          "definition": "Issues surrounding authentication and secure access.",
+          "specific_themes": [
+            {
+              "id": "login_fails",
+              "label": "Login fails",
+              "definition": "Login attempts repeatedly fail."
+            },
+            {
+              "id": "login_successful",
+              "label": "Login successful",
+              "definition": "Login proceeds without issues."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pricing_terms",
+      "label": "Pricing and terms",
+      "definition": "All subjects related to fees, rates, and contractual clarity.",
+      "midlevel_themes": [
+        {
+          "id": "interest_rate",
+          "label": "Interest rate",
+          "definition": "Whether the rate is fixed or variable and its transparency.",
+          "specific_themes": [
+            {
+              "id": "rate_fixed",
+              "label": "Fixed rate",
+              "definition": "Rate remains unchanged over time."
+            },
+            {
+              "id": "rate_variable",
+              "label": "Variable rate",
+              "definition": "Rate can change and may not be disclosed clearly."
+            }
+          ]
+        },
+        {
+          "id": "fee_structure",
+          "label": "Fee structure",
+          "definition": "Presence, amount, and clarity of fees.",
+          "specific_themes": [
+            {
+              "id": "fees_high",
+              "label": "High fees",
+              "definition": "Fees considered excessive or unclear."
+            },
+            {
+              "id": "fees_low",
+              "label": "Low fees",
+              "definition": "Fees are minimal and transparent."
+            }
+          ]
+        },
+        {
+          "id": "contract_clarity",
+          "label": "Contract clarity",
+          "definition": "How clearly the terms are presented to the customer.",
+          "specific_themes": [
+            {
+              "id": "terms_clear",
+              "label": "Terms clear",
+              "definition": "Contracts are easy to understand."
+            },
+            {
+              "id": "terms_unclear",
+              "label": "Terms unclear",
+              "definition": "Contracts lack clarity or are difficult to interpret."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "customer_service",
+      "label": "Customer service",
+      "definition": "All subjects related to interactions with bank staff and support channels.",
+      "midlevel_themes": [
+        {
+          "id": "response_time",
+          "label": "Response time",
+          "definition": "Speed of replies across channels.",
+          "specific_themes": [
+            {
+              "id": "response_fast",
+              "label": "Fast response",
+              "definition": "Replies within minutes or hours."
+            },
+            {
+              "id": "response_slow",
+              "label": "Slow response",
+              "definition": "Replies delayed to days."
+            }
+          ]
+        },
+        {
+          "id": "staff_behavior",
+          "label": "Staff behavior",
+          "definition": "Tone, professionalism, and consistency of staff.",
+          "specific_themes": [
+            {
+              "id": "behavior_polite",
+              "label": "Polite staff",
+              "definition": "Staff are courteous and helpful."
+            },
+            {
+              "id": "behavior_rude",
+              "label": "Rude staff",
+              "definition": "Staff exhibit disrespectful or dismissive behavior."
+            }
+          ]
+        },
+        {
+          "id": "access_to_personal_contact",
+          "label": "Access to personal contact",
+          "definition": "Consistency of speaking to the same representative.",
+          "specific_themes": [
+            {
+              "id": "personal_contact_present",
+              "label": "Consistent contact",
+              "definition": "Same representative available repeatedly."
+            },
+            {
+              "id": "personal_contact_missing",
+              "label": "No consistent contact",
+              "definition": "Different people on each interaction."
+            }
+          ]
+        },
+        {
+          "id": "support_channels",
+          "label": "Support channels",
+          "definition": "Availability and quality of various support channels.",
+          "specific_themes": [
+            {
+              "id": "channels_available",
+              "label": "Channels available",
+              "definition": "Chat, phone, and email options work."
+            },
+            {
+              "id": "channels_limited",
+              "label": "Channels limited",
+              "definition": "Some channels are missing or unresponsive."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "product_fit",
+      "label": "Product fit",
+      "definition": "How well the product meets the customer's needs and expectations.",
+      "midlevel_themes": [
+        {
+          "id": "product_suitability",
+          "label": "Product suitability",
+          "definition": "Whether the product matches the customer's business size and needs.",
+          "specific_themes": [
+            {
+              "id": "suitable_small_business",
+              "label": "Suitable for small business",
+              "definition": "Product fits a small or early-stage company."
+            },
+            {
+              "id": "suitable_large_business",
+              "label": "Suitable for large business",
+              "definition": "Product meets larger enterprise requirements."
+            }
+          ]
+        },
+        {
+          "id": "flexibility",
+          "label": "Product flexibility",
+          "definition": "Ability to adapt terms, credit lines, or usage without extra hurdles.",
+          "specific_themes": [
+            {
+              "id": "flexible",
+              "label": "Flexible terms",
+              "definition": "Terms can be adjusted easily."
+            },
+            {
+              "id": "inflexible",
+              "label": "Inflexible terms",
+              "definition": "Rigid terms that require reapplication."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

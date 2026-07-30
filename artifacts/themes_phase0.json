@@ -1,0 +1,263 @@
+{
+  "version": "v1",
+  "strategic_themes": [
+    {
+      "id": "customer_service",
+      "label": "Customer Service",
+      "definition": "Interactions with bank staff, advisors, or support channels.",
+      "midlevel_themes": [
+        {
+          "id": "advisory_interaction",
+          "label": "Advisory Interaction",
+          "definition": "Quality and usefulness of advice from bank representatives.",
+          "specific_themes": [
+            {
+              "id": "advisor_expertise",
+              "label": "Advisor Expertise",
+              "definition": "Advisor's knowledge of bank products and rules."
+            },
+            {
+              "id": "advisor_accessibility",
+              "label": "Advisor Accessibility",
+              "definition": "Ease of contacting and receiving timely responses from advisors."
+            }
+          ]
+        },
+        {
+          "id": "support_channel_effectiveness",
+          "label": "Support Channel Effectiveness",
+          "definition": "Performance of chat, phone, or email support in resolving issues.",
+          "specific_themes": [
+            {
+              "id": "chatbot_efficiency",
+              "label": "Chatbot Efficiency",
+              "definition": "Speed and accuracy of automated chat responses."
+            },
+            {
+              "id": "phone_support_response_time",
+              "label": "Phone Support Response Time",
+              "definition": "Time taken to connect and resolve over the phone."
+            },
+            {
+              "id": "email_response_timeliness",
+              "label": "Email Response Timeliness",
+              "definition": "Delay between sending email and receiving reply."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "product_features",
+      "label": "Product Features",
+      "definition": "Specific characteristics and capabilities of banking products.",
+      "midlevel_themes": [
+        {
+          "id": "invoice_financing",
+          "label": "Invoice Financing",
+          "definition": "Terms, eligibility, and usage of invoice financing services.",
+          "specific_themes": [
+            {
+              "id": "invoice_payment_schedule",
+              "label": "Invoice Payment Schedule",
+              "definition": "Timing and amount of payments on financed invoices."
+            },
+            {
+              "id": "invoice_automation",
+              "label": "Invoice Automation",
+              "definition": "Automated handling of invoices within the platform."
+            }
+          ]
+        },
+        {
+          "id": "savings_account",
+          "label": "Savings Account",
+          "definition": "Features and restrictions of savings accounts for businesses.",
+          "specific_themes": [
+            {
+              "id": "savings_account_terms_clarity",
+              "label": "Savings Account Terms Clarity",
+              "definition": "Clear communication of account lock‑ups and rates."
+            },
+            {
+              "id": "savings_account_rate_competitiveness",
+              "label": "Savings Account Rate Competitiveness",
+              "definition": "Comparative interest rate of the savings product."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pricing_and_fees",
+      "label": "Pricing & Fees",
+      "definition": "Interest rates, fee structures, and related costs.",
+      "midlevel_themes": [
+        {
+          "id": "interest_rate_changes",
+          "label": "Interest Rate Changes",
+          "definition": "Changes to rates and associated communication.",
+          "specific_themes": [
+            {
+              "id": "rate_increase_notification",
+              "label": "Rate Increase Notification",
+              "definition": "Advance notice of rate increases."
+            },
+            {
+              "id": "rate_unchanged_after_increase",
+              "label": "Rate Unchanged After Increase",
+              "definition": "Failure to apply new rate after notice."
+            }
+          ]
+        },
+        {
+          "id": "fee_structure",
+          "label": "Fee Structure",
+          "definition": "Number, type, and clarity of fees.",
+          "specific_themes": [
+            {
+              "id": "fee_transparency",
+              "label": "Fee Transparency",
+              "definition": "Clarity of fee descriptions in invoices."
+            },
+            {
+              "id": "multiple_fee_types",
+              "label": "Multiple Fee Types",
+              "definition": "Presence of many distinct fee categories."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "application_and_approval",
+      "label": "Application & Approval",
+      "definition": "Process of applying for credit lines, account changes, and approvals.",
+      "midlevel_themes": [
+        {
+          "id": "credit_line_application",
+          "label": "Credit Line Application",
+          "definition": "Steps, documentation, and speed of applying for credit.",
+          "specific_themes": [
+            {
+              "id": "application_document_redundancy",
+              "label": "Application Document Redundancy",
+              "definition": "Need to submit the same document multiple times."
+            },
+            {
+              "id": "application_processing_time",
+              "label": "Application Processing Time",
+              "definition": "Time taken from submission to decision."
+            }
+          ]
+        },
+        {
+          "id": "account_change_process",
+          "label": "Account Change Process",
+          "definition": "Changing account details or closing accounts.",
+          "specific_themes": [
+            {
+              "id": "account_change_delay",
+              "label": "Account Change Delay",
+              "definition": "Time lag before account changes take effect."
+            },
+            {
+              "id": "account_change_failure",
+              "label": "Account Change Failure",
+              "definition": "Attempts to change account details that do not succeed."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "account_management",
+      "label": "Account Management",
+      "definition": "Daily operations related to account operations and access.",
+      "midlevel_themes": [
+        {
+          "id": "multi_user_access",
+          "label": "Multi‑User Access",
+          "definition": "Ability for multiple staff to log into the same account.",
+          "specific_themes": [
+            {
+              "id": "user_role_assignment",
+              "label": "User Role Assignment",
+              "definition": "Assigning and managing different user roles."
+            }
+          ]
+        },
+        {
+          "id": "termination_and_revoke",
+          "label": "Termination & Revocation",
+          "definition": "Closing or withdrawing credit lines and accounts.",
+          "specific_themes": [
+            {
+              "id": "termination_process",
+              "label": "Termination Process",
+              "definition": "Steps to terminate a credit line via portal."
+            },
+            {
+              "id": "termination_response_delay",
+              "label": "Termination Response Delay",
+              "definition": "Delay in processing termination requests."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "digital_platform",
+      "label": "Digital Platform",
+      "definition": "Online portal, mobile app, and integration features.",
+      "midlevel_themes": [
+        {
+          "id": "portal_usability",
+          "label": "Portal Usability",
+          "definition": "Ease of navigation, clarity, and responsiveness of the online portal.",
+          "specific_themes": [
+            {
+              "id": "portal_interface_clarity",
+              "label": "Portal Interface Clarity",
+              "definition": "Visibility of key information on a single screen."
+            },
+            {
+              "id": "portal_loading_problems",
+              "label": "Portal Loading Problems",
+              "definition": "Portal hangs or slow loading."
+            }
+          ]
+        },
+        {
+          "id": "integration_and_reporting",
+          "label": "Integration & Reporting",
+          "definition": "Integration with accounting systems and reporting capabilities.",
+          "specific_themes": [
+            {
+              "id": "accounting_integration_failures",
+              "label": "Accounting Integration Failures",
+              "definition": "Frequent failures of integration with bookkeeping software."
+            },
+            {
+              "id": "historical_statement_availability",
+              "label": "Historical Statement Availability",
+              "definition": "Availability of past statements in the portal."
+            }
+          ]
+        },
+        {
+          "id": "mobile_app",
+          "label": "Mobile App",
+          "definition": "Availability and functionality of mobile applications.",
+          "specific_themes": [
+            {
+              "id": "no_mobile_app",
+              "label": "No Mobile App",
+              "definition": "Absence of a dedicated mobile application."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

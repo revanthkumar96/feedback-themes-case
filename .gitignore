@@ -6,7 +6,9 @@ gold*.json
 GRADING.md
 authored.py
 
-out/
+out/*
+!out/results.json
+!out/flat.json
 __pycache__/
 *.pyc
 .venv/

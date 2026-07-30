@@ -1,0 +1,272 @@
+{
+  "version": "v1",
+  "strategic_themes": [
+    {
+      "id": "application_and_approval",
+      "label": "Application and Approval",
+      "definition": "Themes related to applying for, obtaining, and modifying credit products.",
+      "midlevel_themes": [
+        {
+          "id": "approval_process",
+          "label": "Approval Process",
+          "definition": "Elements that describe how quickly and under what conditions an application is decided.",
+          "specific_themes": [
+            {
+              "id": "approval_time",
+              "label": "Approval Time",
+              "definition": "Time elapsed between submission of an application and the issuance of a decision."
+            },
+            {
+              "id": "application_requirements",
+              "label": "Application Requirements",
+              "definition": "Documents, data, or conditions that must be supplied to submit an application."
+            },
+            {
+              "id": "term_adjustability",
+              "label": "Term Adjustability",
+              "definition": "Ability to modify credit line terms after the initial approval."
+            }
+          ]
+        },
+        {
+          "id": "account_change",
+          "label": "Account Change",
+          "definition": "Processes that modify existing account details after activation.",
+          "specific_themes": [
+            {
+              "id": "account_change_speed",
+              "label": "Account Change Speed",
+              "definition": "Time required for a requested change to become effective."
+            },
+            {
+              "id": "account_change_success",
+              "label": "Account Change Success",
+              "definition": "Whether requested account changes are applied without error."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "product_features",
+      "label": "Product Features",
+      "definition": "Core capabilities and characteristics of the bank’s products.",
+      "midlevel_themes": [
+        {
+          "id": "invoice_financing",
+          "label": "Invoice Financing",
+          "definition": "Features that allow financing of invoices.",
+          "specific_themes": [
+            {
+              "id": "invoice_payment_schedule",
+              "label": "Invoice Payment Schedule",
+              "definition": "Timing and amounts of payments made on financed invoices."
+            },
+            {
+              "id": "invoice_automation",
+              "label": "Invoice Automation",
+              "definition": "Automated handling of invoice processing within the platform."
+            }
+          ]
+        },
+        {
+          "id": "savings_account",
+          "label": "Savings Account",
+          "definition": "Characteristics of the savings‑type product offered.",
+          "specific_themes": [
+            {
+              "id": "savings_terms_clarity",
+              "label": "Savings Terms Clarity",
+              "definition": "How clearly account lock‑up periods and rates are communicated."
+            },
+            {
+              "id": "savings_rate_competitiveness",
+              "label": "Savings Rate Competitiveness",
+              "definition": "Relative attractiveness of the interest rate offered on savings."
+            }
+          ]
+        },
+        {
+          "id": "credit_line_suitability",
+          "label": "Credit Line Suitability",
+          "definition": "Fit of the credit line product for different business sizes and needs.",
+          "specific_themes": [
+            {
+              "id": "credit_line_fit_small_business",
+              "label": "Fit for Small Business",
+              "definition": "Extent to which the credit line meets needs of small or early‑stage firms."
+            },
+            {
+              "id": "credit_line_fit_large_business",
+              "label": "Fit for Large Business",
+              "definition": "Extent to which the credit line meets needs of larger enterprises."
+            },
+            {
+              "id": "credit_line_flexibility",
+              "label": "Credit Line Flexibility",
+              "definition": "Ease of adjusting credit line limits or terms without re‑applying."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pricing_and_fees",
+      "label": "Pricing and Fees",
+      "definition": "Cost structures, fee transparency, and interest‑rate characteristics.",
+      "midlevel_themes": [
+        {
+          "id": "fee_structure",
+          "label": "Fee Structure",
+          "definition": "Overall composition and visibility of fees charged to customers.",
+          "specific_themes": [
+            {
+              "id": "fee_structure_overview",
+              "label": "Fee Structure Overview",
+              "definition": "Clarity, level, and number of distinct fee categories applied."
+            }
+          ]
+        },
+        {
+          "id": "interest_rate",
+          "label": "Interest Rate",
+          "definition": "Characteristics of interest rates applied to credit products.",
+          "specific_themes": [
+            {
+              "id": "interest_rate_details",
+              "label": "Interest Rate Details",
+              "definition": "Type of rate (fixed or variable) and how changes are communicated and applied."
+            }
+          ]
+        },
+        {
+          "id": "contract_clarity",
+          "label": "Contract Clarity",
+          "definition": "Consistency and understandability of contractual documentation.",
+          "specific_themes": [
+            {
+              "id": "contract_clarity_overview",
+              "label": "Contract Clarity Overview",
+              "definition": "Degree to which contracts are clear, consistent, and easily accessed."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "digital_platform",
+      "label": "Digital Platform",
+      "definition": "Usability, performance, and integration capabilities of the online portal and mobile app.",
+      "midlevel_themes": [
+        {
+          "id": "portal_usability",
+          "label": "Portal Usability",
+          "definition": "How easily users can navigate and obtain information within the portal.",
+          "specific_themes": [
+            {
+              "id": "portal_usability_overview",
+              "label": "Portal Usability Overview",
+              "definition": "Clarity of interface elements and overall loading/performance behavior."
+            }
+          ]
+        },
+        {
+          "id": "mobile_access",
+          "label": "Mobile Access",
+          "definition": "Availability and functionality of a mobile application.",
+          "specific_themes": [
+            {
+              "id": "mobile_app_availability",
+              "label": "Mobile App Availability",
+              "definition": "Whether a dedicated mobile application is offered to customers."
+            }
+          ]
+        },
+        {
+          "id": "integration_reporting",
+          "label": "Integration and Reporting",
+          "definition": "Reliability of data exchange with external systems and historical reporting.",
+          "specific_themes": [
+            {
+              "id": "integration_reliability",
+              "label": "Integration Reliability",
+              "definition": "Consistency and success rate of integrations with bookkeeping or ERP systems."
+            },
+            {
+              "id": "historical_statement_access",
+              "label": "Historical Statement Access",
+              "definition": "Availability of past account statements within the platform."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "customer_service",
+      "label": "Customer Service",
+      "definition": "Interactions with support staff, channels, and overall responsiveness.",
+      "midlevel_themes": [
+        {
+          "id": "support_response",
+          "label": "Support Response",
+          "definition": "Timeliness and effectiveness of replies across support channels.",
+          "specific_themes": [
+            {
+              "id": "support_response_overview",
+              "label": "Support Response Overview",
+              "definition": "Speed of replies and overall effectiveness of the channel used."
+            },
+            {
+              "id": "staff_interaction",
+              "label": "Staff Interaction",
+              "definition": "Behaviour of staff and continuity of personal contact across interactions."
+            }
+          ]
+        },
+        {
+          "id": "advisor_interaction",
+          "label": "Advisor Interaction",
+          "definition": "Quality and accessibility of advisory personnel.",
+          "specific_themes": [
+            {
+              "id": "advisor_interaction_overview",
+              "label": "Advisor Interaction Overview",
+              "definition": "Expertise of advisors and ease of reaching them."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "account_management",
+      "label": "Account Management",
+      "definition": "Controls and processes for managing user access and closing accounts.",
+      "midlevel_themes": [
+        {
+          "id": "multi_user_access",
+          "label": "Multi‑User Access",
+          "definition": "Management of multiple users and role assignments within an account.",
+          "specific_themes": [
+            {
+              "id": "user_role_management",
+              "label": "User Role Management",
+              "definition": "Assigning and maintaining different permission levels for users."
+            }
+          ]
+        },
+        {
+          "id": "termination_process",
+          "label": "Termination Process",
+          "definition": "Steps and speed of closing or revoking a credit line.",
+          "specific_themes": [
+            {
+              "id": "termination_process_overview",
+              "label": "Termination Process Overview",
+              "definition": "Procedures for ending a credit line and any associated delays."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

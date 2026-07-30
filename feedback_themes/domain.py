@@ -49,6 +49,11 @@ class Taxonomy:
             raise ContractError("taxonomy.strategic_themes must be a non-empty list")
 
         seen_ids: set[str] = set()
+        seen_labels = {
+            "strategic": set(),
+            "midlevel": set(),
+            "specific": set(),
+        }
         leaves: dict[str, ThemePath] = {}
 
         def unique_id(value: Any, location: str) -> str:
@@ -58,13 +63,23 @@ class Taxonomy:
             seen_ids.add(theme_id)
             return theme_id
 
+        def unique_label(value: Any, tier: str, location: str) -> str:
+            label = _required_text(value, location)
+            normalized = label.casefold()
+            if normalized in seen_labels[tier]:
+                raise ContractError(f"duplicate {tier} theme label: {label!r}")
+            seen_labels[tier].add(normalized)
+            return label
+
         for strategic_index, strategic in enumerate(strategic_themes):
             strategic_location = f"strategic_themes[{strategic_index}]"
             if not isinstance(strategic, dict):
                 raise ContractError(f"{strategic_location} must be an object")
             strategic_id = unique_id(strategic.get("id"), f"{strategic_location}.id")
-            strategic_label = _required_text(
-                strategic.get("label"), f"{strategic_location}.label"
+            strategic_label = unique_label(
+                strategic.get("label"),
+                "strategic",
+                f"{strategic_location}.label",
             )
             _required_text(strategic.get("definition"), f"{strategic_location}.definition")
             midlevels = strategic.get("midlevel_themes")
@@ -80,8 +95,10 @@ class Taxonomy:
                 if not isinstance(midlevel, dict):
                     raise ContractError(f"{midlevel_location} must be an object")
                 midlevel_id = unique_id(midlevel.get("id"), f"{midlevel_location}.id")
-                midlevel_label = _required_text(
-                    midlevel.get("label"), f"{midlevel_location}.label"
+                midlevel_label = unique_label(
+                    midlevel.get("label"),
+                    "midlevel",
+                    f"{midlevel_location}.label",
                 )
                 _required_text(
                     midlevel.get("definition"), f"{midlevel_location}.definition"
@@ -101,8 +118,10 @@ class Taxonomy:
                     specific_id = unique_id(
                         specific.get("id"), f"{specific_location}.id"
                     )
-                    specific_label = _required_text(
-                        specific.get("label"), f"{specific_location}.label"
+                    specific_label = unique_label(
+                        specific.get("label"),
+                        "specific",
+                        f"{specific_location}.label",
                     )
                     _required_text(
                         specific.get("definition"), f"{specific_location}.definition"
@@ -161,15 +180,8 @@ class Taxonomy:
                                     "additionalProperties": False,
                                 },
                             },
-                            "no_assignment_reason": {
-                                "type": ["string", "null"]
-                            },
                         },
-                        "required": [
-                            "review_id",
-                            "assignments",
-                            "no_assignment_reason",
-                        ],
+                        "required": ["review_id", "assignments"],
                         "additionalProperties": False,
                     },
                 }
@@ -226,9 +238,9 @@ def validate_model_output(
             raise ContractError(
                 f"{review_id}: no_assignment_reason must be null when themes exist"
             )
-        if not assignments and reason != "no_relevant_theme":
+        if not assignments and reason not in {None, "no_relevant_theme"}:
             raise ContractError(
-                f"{review_id}: empty assignments require no_relevant_theme"
+                f"{review_id}: invalid no-assignment reason {reason!r}"
             )
 
         seen_leaf_ids: set[str] = set()
@@ -277,7 +289,9 @@ def validate_model_output(
             {
                 "review_id": review_id,
                 "assignments": normalized_assignments,
-                "no_assignment_reason": reason,
+                "no_assignment_reason": (
+                    None if assignments else "no_relevant_theme"
+                ),
             }
         )
     return validated

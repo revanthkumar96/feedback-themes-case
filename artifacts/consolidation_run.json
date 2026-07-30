@@ -1,0 +1,23 @@
+{
+  "prompt_version": "taxonomy-consolidation-v1",
+  "created_at": "2026-07-30T10:11:53.348548+00:00",
+  "provider": "groq",
+  "model": "openai/gpt-oss-120b",
+  "reasoning_effort": "low",
+  "max_completion_tokens": 4700,
+  "elapsed_seconds": 52.767,
+  "usage": {
+    "input_tokens": 5999,
+    "output_tokens": 6250,
+    "total_tokens": 12249
+  },
+  "estimated_cost_usd": 0.00465,
+  "request_count": 2,
+  "validation_retries": 1,
+  "rate_limit_retries": 2,
+  "candidate_taxonomy_hashes": [
+    "073251ffbd1b1170fc9afff15a40033e868f48b9402f902511d669bb9758112a",
+    "c98c8f2c2f7faed98e4812a06b775da2a07c3e0f59a3e0abad962a4500f84535"
+  ],
+  "taxonomy_hash": "54a3cb7a4ba9179c05eb421b3d4d87d670c6c1cb64ccb13ab8a9a655d46e13f6"
+}

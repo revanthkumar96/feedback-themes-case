@@ -22,6 +22,23 @@ I would choose the third approach, specifically an LLM-led hybrid rather than an
 
 The principal design decision is that the model will assign only a stable `specific_theme_id`. The midlevel and strategic themes will be resolved deterministically from the taxonomy registry. This makes an inconsistent tree impossible in the final output unless the registry itself is invalid.
 
+### Implementation result after measurement
+
+The implemented baseline did not add a local embedding model. On 223 short
+reviews, the complete frozen-taxonomy classification cost approximately three
+cents at list price, while the observed errors were taxonomy-coverage and
+semantic-boundary mistakes rather than candidate-retrieval failures. A local
+embedding dependency would therefore add installation, latency, and evaluation
+surface without addressing the demonstrated failure modes. The lightweight
+component remains a benchmark to run only after a labelled holdout exists.
+
+The model probe also changed the final provider configuration. GPT-OSS 20B
+remains the inexpensive baseline, but GPT-OSS 120B at low reasoning recovered
+known secondary themes that 20B at medium reasoning missed and completed the
+full corpus in 11 minutes 31 seconds for an estimated $0.028990. The production
+runner therefore uses 120B-low, while 20B-low remains the taxonomy candidate
+generator.
+
 ---
 
 ## 1. How I interpret the task

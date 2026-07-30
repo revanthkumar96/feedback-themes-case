@@ -14,7 +14,7 @@ from .domain import (
 )
 from .groq import Completion
 
-PROMPT_VERSION = "slice1-classification-v2"
+PROMPT_VERSION = "classification-v3"
 MODEL_PRICING_USD_PER_MILLION = {
     "openai/gpt-oss-20b": {"input": 0.075, "output": 0.30},
     "openai/gpt-oss-120b": {"input": 0.15, "output": 0.60},
@@ -68,7 +68,7 @@ def build_prompt(
             "Never use the title as evidence.",
             "Do not assign the same specific theme twice to one review.",
             "Return every review once and preserve input order.",
-            "Set no_assignment_reason to no_relevant_theme only when assignments is empty; otherwise set it to null.",
+            "Return an empty assignments list when no supplied theme is explicitly supported.",
         ],
         "taxonomy": taxonomy_for_model,
         "reviews": reviews_for_model,
@@ -112,7 +112,7 @@ def _load_reviews(path: str | Path, limit: int) -> list[dict[str, Any]]:
     return selected
 
 
-def _estimated_cost_usd(model: str, usage: dict[str, int]) -> float | None:
+def estimated_cost_usd(model: str, usage: dict[str, int]) -> float | None:
     pricing = MODEL_PRICING_USD_PER_MILLION.get(model)
     if pricing is None:
         return None
@@ -156,7 +156,7 @@ def run_slice1(
 
     results = validate_model_output(raw_output, reviews, taxonomy)
     flat = build_flat_projection(results, taxonomy)
-    estimated_cost = _estimated_cost_usd(completion.model, completion.usage)
+    estimated_cost = estimated_cost_usd(completion.model, completion.usage)
     rich_output = {
         "run": {
             "slice": "classification-contract",

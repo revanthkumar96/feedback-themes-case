@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Customer feedback themes — implementation notes</title>
+  <style>
+    :root {
+      --ink: #17202a;
+      --muted: #5b6573;
+      --line: #d8dee8;
+      --paper: #ffffff;
+      --wash: #f4f7fb;
+      --accent: #176b87;
+      --accent-soft: #e8f4f7;
+      --warning: #8a4b08;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+      color: var(--ink);
+      background: var(--wash);
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; line-height: 1.48; }
+    main {
+      width: min(980px, calc(100% - 32px));
+      margin: 32px auto;
+      padding: 44px 54px;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      box-shadow: 0 12px 36px rgba(25, 40, 60, .08);
+    }
+    h1 { margin: 0 0 8px; font-size: 2rem; letter-spacing: -.03em; }
+    h2 {
+      margin: 34px 0 12px;
+      padding-top: 8px;
+      border-top: 1px solid var(--line);
+      font-size: 1.25rem;
+    }
+    h3 { margin: 20px 0 6px; font-size: 1rem; }
+    p { margin: 8px 0 12px; }
+    .lede { color: var(--muted); font-size: 1.06rem; max-width: 780px; }
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin: 22px 0;
+    }
+    .metric {
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 9px;
+      background: var(--wash);
+    }
+    .metric strong { display: block; color: var(--accent); font-size: 1.35rem; }
+    .metric span { color: var(--muted); font-size: .82rem; }
+    .flow {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      align-items: stretch;
+      gap: 20px;
+      margin: 18px 0;
+    }
+    .flow div {
+      position: relative;
+      padding: 13px 11px;
+      text-align: center;
+      border: 1px solid #a9cbd6;
+      border-radius: 8px;
+      background: var(--accent-soft);
+      font-size: .88rem;
+    }
+    .flow div:not(:last-child)::after {
+      content: "→";
+      position: absolute;
+      right: -17px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--accent);
+      font-weight: 700;
+    }
+    code {
+      padding: 1px 5px;
+      border-radius: 4px;
+      background: #edf1f6;
+      font-size: .88em;
+    }
+    table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: .9rem; }
+    th, td { padding: 9px 10px; border: 1px solid var(--line); vertical-align: top; }
+    th { text-align: left; background: var(--wash); }
+    ul, ol { padding-left: 22px; }
+    li { margin: 5px 0; }
+    .callout {
+      margin: 14px 0;
+      padding: 12px 15px;
+      border-left: 4px solid var(--accent);
+      background: var(--accent-soft);
+    }
+    .warning { border-left-color: var(--warning); background: #fff6e8; }
+    .small { color: var(--muted); font-size: .86rem; }
+    @media (max-width: 760px) {
+      main { padding: 28px 22px; }
+      .metrics, .flow { grid-template-columns: 1fr 1fr; }
+      .flow div::after { display: none; }
+    }
+    @media print {
+      :root { background: white; }
+      main { width: 100%; margin: 0; padding: 10mm; border: 0; box-shadow: none; }
+      h2 { break-after: avoid; }
+      table, .callout { break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+<main>
+  <h1>Customer feedback themes</h1>
+  <p class="lede">
+    An evidence-backed pipeline that discovers a subject taxonomy, freezes it,
+    and assigns reviews to stable leaf IDs. The model handles semantic judgement;
+    ordinary code owns identity, hierarchy, evidence validation, retry limits,
+    accounting, and output projection.
+  </p>
+
+  <div class="metrics">
+    <div class="metric"><strong>11m 31s</strong><span>full classification</span></div>
+    <div class="metric"><strong>$0.028990</strong><span>classification list-price estimate</span></div>
+    <div class="metric"><strong>283</strong><span>assignments from 223 reviews</span></div>
+    <div class="metric"><strong>4 / 14 / 31</strong><span>strategic / midlevel / specific</span></div>
+  </div>
+
+  <h2>Theme set and how I arrived at it</h2>
+  <p>
+    I selected two disjoint samples of 40 reviews. Each sample contains eight
+    reviews from every rating and deliberately spans short and long feedback.
+    This controls the dataset's strong one-star/five-star imbalance without
+    allowing rating to become a theme. GPT-OSS 20B at low reasoning produced two
+    independent candidate trees.
+  </p>
+  <p>
+    The candidate trees were useful but not acceptable as final taxonomies. One
+    overfit incidents and support channels; the other created mirror labels such
+    as “fast approval” and “slow approval,” encoding polarity in the taxonomy.
+    A GPT-OSS 120B consolidation removed some duplication but collapsed distinct
+    subjects into vague “overview” leaves and introduced many one-child hierarchy
+    layers. I therefore treated all three outputs as research material and
+    performed the final taxonomy review myself.
+  </p>
+  <p>
+    The frozen set contains 31 polarity-neutral specific subjects under 14
+    midlevel and four strategic themes. Important boundary decisions include
+    separating fee level from fee transparency, portal access from usability and
+    performance, response speed from follow-up ownership, and interest level
+    from calculation. A positive and negative review use the same subject label.
+  </p>
+  <div class="callout">
+    The final distribution supports the chosen granularity: the median specific
+    theme has eight rows, only one of 31 leaves is a singleton, and the largest
+    strategic theme contains 35% rather than dominating the tree.
+  </div>
+
+  <h2>Decisions the brief left open</h2>
+  <ul>
+    <li><strong>Theme identity:</strong> stable snake-case IDs are canonical; labels and definitions can evolve without breaking assignments.</li>
+    <li><strong>Multi-label behaviour:</strong> every independently supported subject is returned, up to a safety ceiling of five.</li>
+    <li><strong>Abstention:</strong> an empty assignment list means the review contains no supported subject. The rich output derives an explicit <code>no_relevant_theme</code> reason.</li>
+    <li><strong>Evidence:</strong> every assignment carries one contiguous source span. Unknown IDs, duplicates, paraphrased evidence, missing reviews, or reordered results fail the batch.</li>
+    <li><strong>Hierarchy:</strong> the model emits only a specific-theme ID. Midlevel and strategic parents are looked up from the frozen registry, making model-created tree contradictions impossible.</li>
+    <li><strong>Provider configuration:</strong> 20-review responses were not reliably schema-complete. Ten-review batches cleared that failure mode and remained comfortably inside the time gate.</li>
+  </ul>
+
+  <h2>Architecture</h2>
+  <div class="flow" aria-label="Pipeline flow">
+    <div>Reviews + frozen taxonomy</div>
+    <div>Groq structured classification</div>
+    <div>Semantic contract validation</div>
+    <div>Rich result + flat projection</div>
+  </div>
+  <p>
+    The primary <code>out/results.json</code> is normalized: it contains run
+    metadata, the exact taxonomy, and review assignments referencing leaf IDs
+    with evidence. <code>out/flat.json</code> is a deterministic, intentionally
+    lossy join used by the supplied checker.
+  </p>
+  <p>
+    Calls are sequential because the free-tier token-per-minute limit, not model
+    inference, controls latency. HTTP 429 responses are retried only after the
+    server-provided delay. Schema-generation and semantic retries are separately
+    bounded and counted. Every successful batch is atomically checkpointed; a
+    checkpoint is reusable only when review IDs, taxonomy hash, prompt version,
+    model, reasoning setting, completion limit, and batch size all match.
+  </p>
+
+  <h2>What I tried that did not work</h2>
+  <ul>
+    <li>Medium reasoning was useful for fixed classification but repeatedly consumed the taxonomy-generation budget before returning JSON. Discovery moved to 20B-low.</li>
+    <li>Strict JSON mode did not prevent every provider-side schema failure. Removing a redundant nullable reason field simplified the model contract, while local semantic validation remained authoritative.</li>
+    <li>A 20-review batch omitted a required field. Ten-review batches were stable and still completed well below 25 minutes.</li>
+    <li>The first full 20B run exhausted a development daily-token allowance after 110 reviews. That exposed the need for batch checkpoints. The 120B-low challenger then recovered more known secondary themes and earned selection for the final run.</li>
+    <li>Model-generated taxonomy consolidation was not trusted blindly. The final human review removed polarity pairs, vague “overview” nodes, and unsupported hierarchy layers.</li>
+  </ul>
+
+  <h2>Measured numbers</h2>
+  <table>
+    <thead>
+      <tr><th>Stage</th><th>Model</th><th>Input</th><th>Output</th><th>Time</th><th>Estimated cost</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Candidate sample A</td><td>GPT-OSS 20B, low</td><td>2,593</td><td>1,319</td><td>2.353s</td><td>$0.000590</td></tr>
+      <tr><td>Candidate sample B</td><td>GPT-OSS 20B, low</td><td>2,588</td><td>2,093</td><td>3.155s</td><td>$0.000822</td></tr>
+      <tr><td>Candidate consolidation</td><td>GPT-OSS 120B, low</td><td>5,999</td><td>6,250</td><td>52.767s</td><td>$0.004650</td></tr>
+      <tr><td>Full classification</td><td>GPT-OSS 120B, low</td><td>70,849</td><td>30,605</td><td>691.239s</td><td>$0.028990</td></tr>
+      <tr><th>Successful reproducible calls</th><th>Both</th><th>82,029</th><th>40,267</th><th>749.514s</th><th>$0.035052</th></tr>
+    </tbody>
+  </table>
+  <p class="small">
+    The account was on Groq's free tier, so charged API spend was $0.00. The
+    table reports list-price estimates from provider token usage. Provider-rejected
+    development calls did not return usage and are not disguised as measured
+    numbers; even conservative daily-cap pricing remains orders of magnitude
+    below the $6 gate. The final classification used 23 batches, one semantic
+    retry, 28 rate-limit waits, and no schema-generation retry.
+  </p>
+
+  <h2>Five outputs I believe are wrong</h2>
+  <table>
+    <thead>
+      <tr><th>Review</th><th>Observed output</th><th>What I think is right</th><th>Cause</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>rev-706ecdc3768f</code><br>“Credit-checked me four times…”</td>
+        <td>No assignment</td>
+        <td>A credit-check frequency or credit-bureau impact theme.</td>
+        <td>The compact taxonomy has no credit-enquiry subject; this is a coverage miss.</td>
+      </tr>
+      <tr>
+        <td><code>rev-eb742f5a177c</code><br>“Two months to change an account number.”</td>
+        <td>No assignment</td>
+        <td>Account-detail changes, with the evidence describing turnaround.</td>
+        <td>Account administration appeared in a candidate but was removed too aggressively during final consolidation.</td>
+      </tr>
+      <tr>
+        <td><code>rev-c4a71cb33578</code><br>“Can you attach several users…”</td>
+        <td>No assignment</td>
+        <td>User access and role management.</td>
+        <td>The taxonomy treats portal use but lacks the recurring permissions boundary.</td>
+      </tr>
+      <tr>
+        <td><code>rev-ff00c2ae9405</code><br>“The chatbot sent me to a page that doesn't exist.”</td>
+        <td>Portal usability</td>
+        <td>Support channel navigation.</td>
+        <td>The model over-weighted “page” and ignored that the action originated inside the chatbot.</td>
+      </tr>
+      <tr>
+        <td><code>rev-9326017b404c</code><br>Advertised 3.9%, effective rate 38%.</td>
+        <td>Rate change communication</td>
+        <td>Interest calculation and possibly terms clarity; no temporal rate change is stated.</td>
+        <td>The classifier treated a discrepancy between nominal and effective rates as a rate change.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>What I would do with another week</h2>
+  <p>
+    I would annotate a small stratified holdout independently, then measure
+    assignment precision/recall, abstention accuracy, and evidence sufficiency.
+    The first taxonomy revision would add account administration, user roles,
+    credit enquiries, and unsolicited marketing only if the holdout confirms
+    recurrence. I would test boundary examples for rate calculation versus rate
+    changes and chatbot navigation versus portal usability.
+  </p>
+  <p>
+    Only after that baseline would I benchmark a compact embedding or zero-shot
+    model for leaf pre-filtering. With 223 short reviews and a measured API cost
+    of cents, adding a local model now would increase dependency and evaluation
+    surface without solving the demonstrated errors, which are primarily
+    taxonomy coverage and semantic boundary problems.
+  </p>
+
+  <p class="small">
+    I used Codex for web research, architecture discussion, implementation,
+    tests, live-run monitoring, and output inspection. I reviewed the generated
+    code and model outputs, rejected weak candidate taxonomies, made the final
+    taxonomy and model-selection decisions, and kept the known failures visible.
+  </p>
+</main>
+</body>
+</html>

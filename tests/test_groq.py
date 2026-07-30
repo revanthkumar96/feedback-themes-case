@@ -43,3 +43,42 @@ class GroqClientTests(unittest.TestCase):
         )
         with self.assertRaises(GroqError):
             client.classify("prompt", {"type": "object"})
+
+    def test_allows_explicit_completion_budget(self) -> None:
+        client = GroqClient(
+            "secret-key",
+            max_completion_tokens=5000,
+            post_json=lambda *_: {
+                "choices": [{"message": {"content": "{}"}}],
+                "usage": {},
+            },
+        )
+        self.assertEqual(5000, client.max_completion_tokens)
+
+    def test_retries_only_rate_limits_using_server_delay(self) -> None:
+        calls = 0
+        waits = []
+
+        def rate_limited_once(*_):
+            nonlocal calls
+            calls += 1
+            if calls == 1:
+                raise GroqError(
+                    "rate limited",
+                    status_code=429,
+                    retry_after_seconds=2.0,
+                )
+            return {
+                "choices": [{"message": {"content": "{}"}}],
+                "usage": {},
+            }
+
+        client = GroqClient(
+            "secret-key",
+            post_json=rate_limited_once,
+            sleep=waits.append,
+        )
+        client.classify("prompt", {"type": "object"})
+        self.assertEqual(2, calls)
+        self.assertEqual([2.5], waits)
+        self.assertEqual(1, client.rate_limit_retry_count)
