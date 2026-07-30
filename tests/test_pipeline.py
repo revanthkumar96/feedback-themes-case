@@ -12,6 +12,8 @@ ROOT = Path(__file__).resolve().parents[1]
 
 class FakeClassifier:
     model = "openai/gpt-oss-20b"
+    reasoning_effort = "low"
+    max_completion_tokens = 2048
 
     def classify(self, prompt, schema):
         self.prompt = prompt
@@ -63,7 +65,9 @@ class PipelineTests(unittest.TestCase):
 
         self.assertEqual(2, summary["review_count"])
         self.assertEqual(1, summary["assignment_count"])
-        self.assertEqual("slice1-classification-v1", rich["run"]["prompt_version"])
+        self.assertEqual("slice1-classification-v2", rich["run"]["prompt_version"])
+        self.assertEqual("low", rich["run"]["reasoning_effort"])
+        self.assertEqual(2048, rich["run"]["max_completion_tokens"])
         self.assertEqual(0.000105, rich["run"]["estimated_cost_usd"])
         self.assertEqual("Review authenticity", flat[0]["specific_theme"])
         self.assertNotIn("rating", classifier.prompt)

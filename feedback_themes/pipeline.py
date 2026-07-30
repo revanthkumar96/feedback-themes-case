@@ -14,7 +14,7 @@ from .domain import (
 )
 from .groq import Completion
 
-PROMPT_VERSION = "slice1-classification-v1"
+PROMPT_VERSION = "slice1-classification-v2"
 MODEL_PRICING_USD_PER_MILLION = {
     "openai/gpt-oss-20b": {"input": 0.075, "output": 0.30},
     "openai/gpt-oss-120b": {"input": 0.15, "output": 0.60},
@@ -60,7 +60,11 @@ def build_prompt(
             "Classify subjects the customer explicitly discusses, not sentiment.",
             "Use only the supplied specific_theme_id values.",
             "Do not force an assignment when no supplied theme is supported.",
-            "For every assignment, copy the shortest useful verbatim evidence substring from content_en.",
+            "Evaluate every independent sentence and clause; return every distinct supported theme rather than only the most prominent one.",
+            "A multi-topic review should normally have multiple assignments when separate clauses support separate themes.",
+            "For every assignment, copy the shortest self-contained verbatim substring from content_en that identifies both the subject and the behavior or property supporting the theme.",
+            "Evidence must remain understandable on its own; include important qualifiers such as delays, negations, timing, or missing communication.",
+            "Evidence must be one contiguous substring copied without paraphrasing, changed capitalization, omitted words, or inserted ellipses.",
             "Never use the title as evidence.",
             "Do not assign the same specific theme twice to one review.",
             "Return every review once and preserve input order.",
@@ -159,6 +163,10 @@ def run_slice1(
             "prompt_version": PROMPT_VERSION,
             "provider": "groq",
             "model": completion.model,
+            "reasoning_effort": getattr(classifier, "reasoning_effort", None),
+            "max_completion_tokens": getattr(
+                classifier, "max_completion_tokens", None
+            ),
             "created_at": datetime.now(timezone.utc).isoformat(),
             "elapsed_seconds": elapsed_seconds,
             "usage": completion.usage,

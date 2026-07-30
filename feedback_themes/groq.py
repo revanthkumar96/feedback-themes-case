@@ -54,6 +54,7 @@ class GroqClient:
         api_key: str,
         *,
         model: str = "openai/gpt-oss-20b",
+        reasoning_effort: str = "medium",
         base_url: str = "https://api.groq.com/openai/v1",
         timeout_seconds: float = 60.0,
         post_json: PostJson = _post_json,
@@ -62,7 +63,13 @@ class GroqClient:
             raise ValueError("api_key must not be empty")
         if timeout_seconds <= 0:
             raise ValueError("timeout_seconds must be positive")
+        if reasoning_effort not in {"low", "medium", "high"}:
+            raise ValueError("reasoning_effort must be low, medium, or high")
         self.model = model
+        self.reasoning_effort = reasoning_effort
+        self.max_completion_tokens = (
+            2048 if reasoning_effort == "low" else 4096
+        )
         self._api_key = api_key
         self._base_url = base_url.rstrip("/")
         self._timeout_seconds = timeout_seconds
@@ -82,8 +89,8 @@ class GroqClient:
                 },
                 {"role": "user", "content": prompt},
             ],
-            "reasoning_effort": "low",
-            "max_completion_tokens": 4096,
+            "reasoning_effort": self.reasoning_effort,
+            "max_completion_tokens": self.max_completion_tokens,
             "response_format": {
                 "type": "json_schema",
                 "json_schema": {

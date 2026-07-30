@@ -31,7 +31,8 @@ class GroqClientTests(unittest.TestCase):
         response_format = captured["payload"]["response_format"]
         self.assertTrue(response_format["json_schema"]["strict"])
         self.assertIs(schema, response_format["json_schema"]["schema"])
-        self.assertEqual("low", captured["payload"]["reasoning_effort"])
+        self.assertEqual("medium", captured["payload"]["reasoning_effort"])
+        self.assertEqual(4096, captured["payload"]["max_completion_tokens"])
         self.assertNotIn("secret-key", str(captured["payload"]))
         self.assertEqual(100, completion.usage["input_tokens"])
 

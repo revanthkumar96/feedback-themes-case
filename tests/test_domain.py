@@ -124,6 +124,15 @@ class AssignmentContractTests(unittest.TestCase):
         with self.assertRaisesRegex(ContractError, "exact substring"):
             validate_model_output(payload, self.reviews, self.taxonomy)
 
+    def test_canonicalizes_one_unambiguous_case_only_evidence_mismatch(self) -> None:
+        payload = self._valid_payload()
+        payload["results"][0]["assignments"][0]["evidence"] = "the portal is slow"
+        results = validate_model_output(payload, self.reviews, self.taxonomy)
+        self.assertEqual(
+            "The portal is slow",
+            results[0]["assignments"][0]["evidence"],
+        )
+
     def test_rejects_missing_or_reordered_reviews(self) -> None:
         payload = self._valid_payload()
         payload["results"].reverse()

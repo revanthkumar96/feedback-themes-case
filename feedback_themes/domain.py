@@ -162,13 +162,7 @@ class Taxonomy:
                                 },
                             },
                             "no_assignment_reason": {
-                                "anyOf": [
-                                    {
-                                        "type": "string",
-                                        "enum": ["no_relevant_theme"],
-                                    },
-                                    {"type": "null"},
-                                ]
+                                "type": ["string", "null"]
                             },
                         },
                         "required": [
@@ -256,10 +250,24 @@ def validate_model_output(
                 raise ContractError(
                     f"{location}: duplicate theme assignment {leaf_id!r}"
                 )
-            if evidence not in content_by_id[review_id]:
-                raise ContractError(
-                    f"{location}: evidence must be an exact substring of content_en"
+            review_content = content_by_id[review_id]
+            if evidence not in review_content:
+                lowered_content = review_content.lower()
+                lowered_evidence = evidence.lower()
+                start = lowered_content.find(lowered_evidence)
+                unique_case_insensitive_match = (
+                    start >= 0
+                    and lowered_content.find(
+                        lowered_evidence, start + len(lowered_evidence)
+                    )
+                    == -1
                 )
+                if not unique_case_insensitive_match:
+                    raise ContractError(
+                        f"{location}: evidence {evidence!r} must be an exact "
+                        "substring of content_en"
+                    )
+                evidence = review_content[start : start + len(evidence)]
             seen_leaf_ids.add(leaf_id)
             normalized_assignments.append(
                 {"specific_theme_id": leaf_id, "evidence": evidence}

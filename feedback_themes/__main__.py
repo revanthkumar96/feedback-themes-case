@@ -29,6 +29,11 @@ def _parser() -> argparse.ArgumentParser:
         default="openai/gpt-oss-20b",
     )
     slice1.add_argument(
+        "--reasoning-effort",
+        choices=["low", "medium", "high"],
+        default="medium",
+    )
+    slice1.add_argument(
         "--api-base", default="https://api.groq.com/openai/v1"
     )
     slice1.add_argument("--timeout-seconds", type=float, default=60.0)
@@ -52,6 +57,7 @@ def main() -> int:
         classifier = GroqClient(
             api_key,
             model=args.model,
+            reasoning_effort=args.reasoning_effort,
             base_url=args.api_base,
             timeout_seconds=args.timeout_seconds,
         )
