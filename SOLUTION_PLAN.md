@@ -18,7 +18,7 @@ I considered three approaches:
 2. unconstrained end-to-end LLM generation;
 3. a controlled hybrid pipeline that discovers a taxonomy, freezes it, and then performs evidence-backed classification.
 
-I would choose the third approach. It preserves the flexibility needed to discover domain-specific themes while preventing labels and parent relationships from drifting during final classification. It also gives me a clear place to validate, retry, measure cost, and inspect mistakes.
+I would choose the third approach, specifically an LLM-led hybrid rather than an LLM-only implementation. A lightweight local embedding model can assist with candidate grouping, synonym discovery, representative-example selection, and optional theme pre-filtering. The LLM remains responsible for the semantic decisions that lightweight models handle poorly: atomic subject extraction, taxonomy consolidation, ambiguous cases, and final evidence-backed classification. This preserves the flexibility needed to discover domain-specific themes while preventing labels and parent relationships from drifting during final classification.
 
 The principal design decision is that the model will assign only a stable `specific_theme_id`. The midlevel and strategic themes will be resolved deterministically from the taxonomy registry. This makes an inconsistent tree impossible in the final output unless the registry itself is invalid.
 
@@ -184,7 +184,7 @@ I would use an LLM for semantic extraction, but I would not let it invent taxono
 
 #### How it would work
 
-The pipeline first extracts atomic candidate subjects from the corpus. It then consolidates those candidates into a reviewed, versioned three-level taxonomy. Once the taxonomy is frozen, the pipeline classifies every review against the fixed specific-theme IDs and attaches supporting evidence.
+The pipeline first extracts atomic candidate subjects from the corpus. A lightweight embedding model proposes similar candidates and representative examples, while an LLM makes the semantic merge and naming decisions. The pipeline then consolidates those candidates into a reviewed, versioned three-level taxonomy. Once the taxonomy is frozen, the pipeline classifies every review against the fixed specific-theme IDs and attaches supporting evidence.
 
 #### Advantages
 
@@ -227,6 +227,85 @@ This is the approach I would implement. Its additional complexity directly addre
 | Ease of defending decisions | Medium | Weak | Strong |
 
 The controlled hybrid is not the shortest implementation, but it creates the clearest relationship between input text, taxonomy decisions, final assignments, and validation.
+
+### Deciding how much of the pipeline should depend on an LLM
+
+The broad architectural choice does not by itself determine how much work should be delegated to an external LLM. I would make that decision through a small controlled experiment rather than assuming either that a larger model is always better or that a local model is automatically more efficient.
+
+#### Variants to compare
+
+I would compare three variants:
+
+1. **LLM-only baseline:** use the LLM for candidate extraction, taxonomy consolidation, and fixed-taxonomy classification. Deterministic code still performs validation and parent lookup.
+2. **Embedding-assisted hybrid:** use a lightweight local sentence-embedding model for similarity, candidate grouping, representative-example selection, and ranking likely specific themes. Use the LLM for consolidation and final classification.
+3. **Lightweight-first with LLM fallback:** use embeddings or a small zero-shot classification model for high-confidence assignments, escalating ambiguous, multi-subject, or low-margin cases to the LLM.
+
+The third variant is a useful test, but I would not assume it will win. There are no supervised theme labels at the start, the taxonomy is dataset-specific, and a similarity model does not naturally distinguish several subjects mentioned in one review. A generic sentiment model would be useful only as a diagnostic; it should not choose themes because sentiment and subject are different dimensions.
+
+#### Evaluation sample
+
+Before the full run, I would create a manually reviewed set of approximately 40–60 reviews. The sample would be stratified to include:
+
+- short, medium, and long reviews;
+- every rating;
+- reviews with and without titles;
+- clear single-subject reviews;
+- clear multi-subject reviews;
+- sentiment-only or no-subject reviews;
+- positive and negative references to the same subject;
+- implicit, sarcastic, and operationally ambiguous feedback.
+
+This set is for evaluating general pipeline behavior, not for creating review-ID overrides. The same frozen taxonomy and evaluation set must be used when comparing final classifiers so the comparison measures classification rather than differences between taxonomies.
+
+#### Quality measures
+
+I would measure:
+
+- assignment precision and recall against the reviewed set;
+- set-level similarity for multi-label reviews;
+- unsupported-assignment rate;
+- recall on multi-subject reviews;
+- correct abstention on no-subject reviews;
+- agreement on positive and negative mentions of the same subject;
+- evidence-substring validity;
+- rate of overly broad or overly specific assignments;
+- run-to-run assignment stability.
+
+Taxonomy discovery would be evaluated separately through:
+
+- coverage of subjects found in the holdout sample;
+- duplicate or near-duplicate themes;
+- singleton and low-frequency specific themes;
+- consistency of sibling granularity;
+- clarity and actionability of definitions;
+- hierarchy validity and branch balance.
+
+#### Operational measures
+
+Semantic quality is the first gate, but the decision should also include:
+
+- external API input and output tokens;
+- total API cost;
+- wall-clock runtime;
+- local model download and startup cost;
+- memory and CPU requirements;
+- percentage of reviews escalated to the LLM;
+- retry rate;
+- implementation and maintenance complexity;
+- ability to reproduce the result from a clean checkout.
+
+#### Predeclared decision rule
+
+I would use the following pragmatic rule:
+
+1. Reject any variant that produces hierarchy violations, silently loses reviews, or cannot consistently ground assignments in evidence.
+2. Prefer the best semantic-quality result when differences are material.
+3. Prefer the hybrid if its reviewed-set quality is within roughly 3–5 percentage points of the best result and it materially improves cost, stability, or traceability.
+4. Treat a reduction of roughly 30% or more in API cost or latency as material, provided multi-label recall and correct abstention do not regress significantly.
+5. Use lightweight-first classification only if its high-confidence region is demonstrably reliable and its LLM fallback rate is low enough to justify the added model and routing complexity.
+6. If the hybrid adds dependencies but produces negligible savings on only 223 reviews, retain local embeddings for taxonomy discovery and use the LLM for all final classifications.
+
+My expected choice is the embedding-assisted hybrid. Lightweight embeddings should provide useful structure and reduce duplicate candidate work, while the LLM should preserve quality on implicit, multi-topic, and ambiguous reviews. The experiment exists to verify that expectation and to decide whether the lightweight model should merely assist the LLM or safely bypass it for a subset of assignments.
 
 ---
 
@@ -480,6 +559,20 @@ I would run a small quality-and-cost probe before committing to a model:
 If a single inexpensive model performs adequately in the probe, using one model would simplify reproducibility. The provider and model names would remain configuration values so the pipeline is not tied to one vendor.
 
 I would use deterministic settings where supported, but I would not claim that temperature zero makes a remote model perfectly deterministic. Stability comes primarily from the frozen taxonomy, strict schema, evidence validation, and caching.
+
+### Lightweight-model role
+
+The default lightweight component would be a compact sentence-embedding model that can run locally. Its responsibilities would be deliberately bounded:
+
+- propose semantically similar candidate labels;
+- retrieve representative review evidence for consolidation;
+- detect possible taxonomy duplicates;
+- rank likely specific themes before classification;
+- support analysis of outliers and low-frequency themes.
+
+Embedding similarity would remain a candidate-generation signal rather than an authoritative assignment. I would optionally benchmark a small zero-shot classification model after the taxonomy is frozen, but I would promote it into the production path only if the controlled comparison demonstrates reliable multi-label behavior and correct abstention.
+
+The local model name, revision, configuration, startup time, and hardware requirements would be recorded alongside LLM telemetry. This ensures that reducing API dependency does not hide a new reproducibility or operational cost.
 
 ---
 
