@@ -1,0 +1,125 @@
+{
+  "version": "slice1-v1",
+  "strategic_themes": [
+    {
+      "id": "trust_and_transparency",
+      "label": "Trust and transparency",
+      "definition": "Feedback about whether the company appears credible and communicates its commercial practices clearly.",
+      "midlevel_themes": [
+        {
+          "id": "public_reputation",
+          "label": "Public reputation",
+          "definition": "Feedback about signals that affect confidence in the company's public reputation.",
+          "specific_themes": [
+            {
+              "id": "review_authenticity",
+              "label": "Review authenticity",
+              "definition": "Questions or concerns about whether published customer reviews are genuine."
+            }
+          ]
+        },
+        {
+          "id": "pricing_and_fees",
+          "label": "Pricing and fees",
+          "definition": "Feedback about charges, pricing, and how they are communicated.",
+          "specific_themes": [
+            {
+              "id": "fee_transparency",
+              "label": "Fee transparency",
+              "definition": "How clearly the purpose or composition of fees is explained."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "financing_operations",
+      "label": "Financing operations",
+      "definition": "Feedback about operational steps in invoice financing and debt recovery.",
+      "midlevel_themes": [
+        {
+          "id": "fund_disbursement",
+          "label": "Fund disbursement",
+          "definition": "Feedback about receiving funds after an invoice is submitted or approved.",
+          "specific_themes": [
+            {
+              "id": "payout_timing",
+              "label": "Payout timing",
+              "definition": "The elapsed time between invoice processing or approval and payout."
+            }
+          ]
+        },
+        {
+          "id": "collections_process",
+          "label": "Collections process",
+          "definition": "Feedback about how overdue amounts and collections cases are handled.",
+          "specific_themes": [
+            {
+              "id": "collections_communication",
+              "label": "Collections communication",
+              "definition": "Whether and how the customer is contacted before or during collections."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "service_experience",
+      "label": "Service experience",
+      "definition": "Feedback about help received from people or automated support channels.",
+      "midlevel_themes": [
+        {
+          "id": "customer_support",
+          "label": "Customer support",
+          "definition": "Feedback about access to support and the quality of follow-up.",
+          "specific_themes": [
+            {
+              "id": "support_responsiveness",
+              "label": "Support responsiveness",
+              "definition": "How quickly or reliably support responds to a request."
+            },
+            {
+              "id": "proactive_follow_up",
+              "label": "Proactive follow-up",
+              "definition": "Whether support takes ownership and follows up without repeated prompting."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "digital_experience",
+      "label": "Digital experience",
+      "definition": "Feedback about using the company's digital portal and its capabilities.",
+      "midlevel_themes": [
+        {
+          "id": "online_portal",
+          "label": "Online portal",
+          "definition": "Feedback about portal access, usability, performance, and features.",
+          "specific_themes": [
+            {
+              "id": "portal_access",
+              "label": "Portal access",
+              "definition": "The ability to log in to and access the portal."
+            },
+            {
+              "id": "portal_usability",
+              "label": "Portal usability",
+              "definition": "How easy, clear, or modern the portal is to use."
+            },
+            {
+              "id": "portal_performance",
+              "label": "Portal performance",
+              "definition": "The speed and responsiveness of the portal."
+            },
+            {
+              "id": "data_export",
+              "label": "Data export",
+              "definition": "The ability to download portal data in reusable formats."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

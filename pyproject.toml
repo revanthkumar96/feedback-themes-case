@@ -1,0 +1,11 @@
+[project]
+name = "feedback-themes"
+version = "0.1.0"
+description = "Evidence-backed customer feedback theme extraction"
+requires-python = ">=3.11"
+
+[project.scripts]
+feedback-themes = "feedback_themes.__main__:main"
+
+[tool.unittest]
+start-directory = "tests"
