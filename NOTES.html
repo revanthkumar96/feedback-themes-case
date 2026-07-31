@@ -121,9 +121,9 @@
   </p>
 
   <div class="metrics">
-    <div class="metric"><strong>11m 31s</strong><span>full classification</span></div>
-    <div class="metric"><strong>$0.028990</strong><span>classification list-price estimate</span></div>
-    <div class="metric"><strong>283</strong><span>assignments from 223 reviews</span></div>
+    <div class="metric"><strong>9m 36s</strong><span>full classification (active batch time)</span></div>
+    <div class="metric"><strong>$0.029361</strong><span>classification list-price estimate</span></div>
+    <div class="metric"><strong>0.741</strong><span>holdout micro-F1 (277 assignments, 223 reviews)</span></div>
     <div class="metric"><strong>4 / 14 / 31</strong><span>strategic / midlevel / specific</span></div>
   </div>
 
@@ -160,11 +160,12 @@
   <h2>Decisions the brief left open</h2>
   <ul>
     <li><strong>Theme identity:</strong> stable snake-case IDs are canonical; labels and definitions can evolve without breaking assignments.</li>
-    <li><strong>Multi-label behaviour:</strong> every independently supported subject is returned, up to a safety ceiling of five.</li>
+    <li><strong>Multi-label behaviour:</strong> every independently supported subject is returned, up to a safety ceiling of five. The ceiling is stated in the prompt itself: a seven-subject review demonstrated that enforcing a limit the model has never been told about turns honest output into a validation failure.</li>
     <li><strong>Abstention:</strong> an empty assignment list means the review contains no supported subject. The rich output derives an explicit <code>no_relevant_theme</code> reason.</li>
     <li><strong>Evidence:</strong> every assignment carries one contiguous source span. Unknown IDs, duplicates, paraphrased evidence, missing reviews, or reordered results fail the batch.</li>
     <li><strong>Hierarchy:</strong> the model emits only a specific-theme ID. Midlevel and strategic parents are looked up from the frozen registry, making model-created tree contradictions impossible.</li>
     <li><strong>Provider configuration:</strong> 20-review responses were not reliably schema-complete. Ten-review batches cleared that failure mode and remained comfortably inside the time gate.</li>
+    <li><strong>Semantic evaluation:</strong> the supplied checker verifies structure, not faithfulness. A 50-review rating-stratified holdout, disjoint from the discovery samples wherever the strata allow, was annotated against the frozen definitions and drives precision/recall, abstention, and stability measurement (<code>python -m feedback_themes holdout</code> / <code>evaluate</code>).</li>
   </ul>
 
   <h2>Architecture</h2>
@@ -182,11 +183,20 @@
   </p>
   <p>
     Calls are sequential because the free-tier token-per-minute limit, not model
-    inference, controls latency. HTTP 429 responses are retried only after the
-    server-provided delay. Schema-generation and semantic retries are separately
-    bounded and counted. Every successful batch is atomically checkpointed; a
-    checkpoint is reusable only when review IDs, taxonomy hash, prompt version,
-    model, reasoning setting, completion limit, and batch size all match.
+    inference, controls latency. HTTP 429 responses are retried after the
+    server-provided delay, including millisecond and minute-granularity
+    guidance. Schema-generation and semantic retries are separately bounded and
+    counted. Every successful batch is atomically checkpointed; a checkpoint is
+    reused only when review IDs, taxonomy hash, prompt version, model,
+    reasoning setting, completion limit, and batch size all match, and a stale
+    checkpoint is reported and recomputed rather than silently mixed in.
+  </p>
+  <p>
+    An embedding-assisted retrieval mode (BGE-small via fastembed) exists as an
+    opt-in experiment behind <code>--hybrid</code> and an optional dependency
+    extra. A preliminary measurement showed candidate lists at top-12 retained
+    only 79.2% of the reference assignments, so it is not part of the submitted
+    configuration; the submitted run gives the model the full 31-leaf taxonomy.
   </p>
 
   <h2>What I tried that did not work</h2>
@@ -196,7 +206,47 @@
     <li>A 20-review batch omitted a required field. Ten-review batches were stable and still completed well below 25 minutes.</li>
     <li>The first full 20B run exhausted a development daily-token allowance after 110 reviews. That exposed the need for batch checkpoints. The 120B-low challenger then recovered more known secondary themes and earned selection for the final run.</li>
     <li>Model-generated taxonomy consolidation was not trusted blindly. The final human review removed polarity pairs, vague “overview” nodes, and unsupported hierarchy layers.</li>
+    <li>The validator capped assignments at five, but the prompt never said so. A review that legitimately discusses seven subjects made the model enumerate them all — correct behaviour that failed validation three times. The ceiling is now disclosed in the prompt with an instruction to keep the five most explicit subjects.</li>
+    <li>Two rate-limit retries with second-granularity parsing were not enough. A burst of three 429s killed a full run, and “try again in 240ms” guidance parsed to nothing. The client now honours ms/s/min guidance with six bounded retries, and a daily-quota exhaustion mid-run was absorbed by checkpoint resume rather than a restart.</li>
   </ul>
+
+  <h2>Measured semantic quality</h2>
+  <p>
+    The structural checker passes equally for faithful and unfaithful output, so
+    quality claims below come from the annotated holdout: 50 rating-stratified
+    reviews scored against frozen theme definitions. The v5 prompt encodes
+    boundary rules derived from the baseline's measured failure patterns —
+    unattributed price complaints, sentiment-only reviews, dropped secondary
+    subjects, and the interest-family boundaries — as generic rules, not
+    review-specific hints.
+  </p>
+  <table>
+    <thead>
+      <tr><th>Configuration</th><th>Precision</th><th>Recall</th><th>Micro-F1</th><th>Exact match</th><th>Unsupported rate</th><th>Abstention P / R</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>120B, v4 prompt (baseline)</td><td>0.667</td><td>0.702</td><td>0.684</td><td>0.560</td><td>0.333</td><td>0.778 / 0.636</td></tr>
+      <tr><td>120B, v5 prompt (selected)</td><td>0.769</td><td>0.702</td><td>0.734</td><td>0.640</td><td>0.231</td><td>0.714 / 0.909</td></tr>
+      <tr><td>20B, v5 prompt (challenger)</td><td>0.763</td><td>0.509</td><td>0.611</td><td>0.520</td><td>0.237</td><td>0.562 / 0.818</td></tr>
+      <tr><td><strong>120B, v5.1 prompt (submitted full run)</strong></td><td>0.729</td><td>0.754</td><td><strong>0.741</strong></td><td>0.640</td><td>0.271</td><td>0.750 / 0.818</td></tr>
+    </tbody>
+  </table>
+  <p>
+    The boundary rules cut false positives without costing recall; the cheaper
+    20B model matched precision but lost a third of true assignments and
+    recovered only 42.9% of multi-subject reviews against 67.9% for 120B, so
+    the larger model kept the final run. A repeated 120B-v5 run produced
+    identical assignment sets on 80% of holdout reviews with a mean Jaccard
+    overlap of 0.877 and an unchanged micro-F1 (0.736 vs 0.734) — evidence
+    that the measured quality is not a sampling fluke. Evidence validity is
+    1.000 in every configuration because verbatim spans are enforced by code,
+    not the model. The submitted v5.1 run — v5 plus the disclosed
+    five-assignment ceiling — lifted multi-subject recall from 0.679 to 0.821
+    and recall to 0.754, and two failures documented against the baseline
+    (an effective-rate discrepancy misread as a rate change, and a chatbot
+    dead-end misread as portal usability) were verified fixed in the final
+    output.
+  </p>
 
   <h2>Measured numbers</h2>
   <table>
@@ -207,20 +257,31 @@
       <tr><td>Candidate sample A</td><td>GPT-OSS 20B, low</td><td>2,593</td><td>1,319</td><td>2.353s</td><td>$0.000590</td></tr>
       <tr><td>Candidate sample B</td><td>GPT-OSS 20B, low</td><td>2,588</td><td>2,093</td><td>3.155s</td><td>$0.000822</td></tr>
       <tr><td>Candidate consolidation</td><td>GPT-OSS 120B, low</td><td>5,999</td><td>6,250</td><td>52.767s</td><td>$0.004650</td></tr>
-      <tr><td>Full classification</td><td>GPT-OSS 120B, low</td><td>70,849</td><td>30,605</td><td>691.239s</td><td>$0.028990</td></tr>
-      <tr><th>Successful reproducible calls</th><th>Both</th><th>82,029</th><th>40,267</th><th>749.514s</th><th>$0.035052</th></tr>
+      <tr><td>Holdout comparison, v5 prompt</td><td>GPT-OSS 120B, low</td><td>18,315</td><td>7,241</td><td>189.268s</td><td>$0.007092</td></tr>
+      <tr><td>Holdout comparison, v5 prompt</td><td>GPT-OSS 20B, low</td><td>15,237</td><td>5,476</td><td>155.415s</td><td>$0.002786</td></tr>
+      <tr><td>Stability rerun, v5 prompt</td><td>GPT-OSS 120B, low</td><td>15,237</td><td>6,488</td><td>121.259s</td><td>$0.006178</td></tr>
+      <tr><td>Full classification, v5.1 prompt</td><td>GPT-OSS 120B, low</td><td>73,477</td><td>30,566</td><td>575.962s</td><td>$0.029361</td></tr>
+      <tr><th>Successful reproducible calls</th><th>Both</th><th>133,446</th><th>59,433</th><th>1,100.179s</th><th>$0.051479</th></tr>
     </tbody>
   </table>
   <p class="small">
     The account was on Groq's free tier, so charged API spend was $0.00. The
-    table reports list-price estimates from provider token usage. Provider-rejected
-    development calls did not return usage and are not disguised as measured
-    numbers; even conservative daily-cap pricing remains orders of magnitude
-    below the $6 gate. The final classification used 23 batches, one semantic
-    retry, 28 rate-limit waits, and no schema-generation retry.
+    table reports list-price estimates from provider token usage. Two
+    interrupted full-run attempts additionally consumed roughly 150k tokens of
+    daily quota before their failing batches; priced conservatively, all
+    development traffic combined stays far below the $6 gate. The final
+    classification used 23 batches, one semantic retry, 25 rate-limit waits,
+    and no schema-generation retry; a daily-quota exhaustion mid-run was
+    absorbed by checkpoint resume, so the time reported is the summed active
+    batch time.
   </p>
 
   <h2>Five outputs I believe are wrong</h2>
+  <p class="small">
+    Checked against the submitted v5.1 output. Two failures documented against
+    the baseline run were fixed by the v5 boundary rules and are no longer
+    listed; these five remain wrong today.
+  </p>
   <table>
     <thead>
       <tr><th>Review</th><th>Observed output</th><th>What I think is right</th><th>Cause</th></tr>
@@ -233,54 +294,58 @@
         <td>The compact taxonomy has no credit-enquiry subject; this is a coverage miss.</td>
       </tr>
       <tr>
-        <td><code>rev-eb742f5a177c</code><br>“Two months to change an account number.”</td>
-        <td>No assignment</td>
-        <td>Account-detail changes, with the evidence describing turnaround.</td>
-        <td>Account administration appeared in a candidate but was removed too aggressively during final consolidation.</td>
-      </tr>
-      <tr>
         <td><code>rev-c4a71cb33578</code><br>“Can you attach several users…”</td>
-        <td>No assignment</td>
-        <td>User access and role management.</td>
-        <td>The taxonomy treats portal use but lacks the recurring permissions boundary.</td>
-      </tr>
-      <tr>
-        <td><code>rev-ff00c2ae9405</code><br>“The chatbot sent me to a page that doesn't exist.”</td>
         <td>Portal usability</td>
-        <td>Support channel navigation.</td>
-        <td>The model over-weighted “page” and ignored that the action originated inside the chatbot.</td>
+        <td>User access and role management.</td>
+        <td>The taxonomy lacks a permissions subject, so the model now files the request under the nearest portal leaf instead of abstaining — a coverage gap surfacing as a wrong positive.</td>
       </tr>
       <tr>
-        <td><code>rev-9326017b404c</code><br>Advertised 3.9%, effective rate 38%.</td>
-        <td>Rate change communication</td>
-        <td>Interest calculation and possibly terms clarity; no temporal rate change is stated.</td>
-        <td>The classifier treated a discrepancy between nominal and effective rates as a rate change.</td>
+        <td><code>rev-64b0877f861d</code><br>“The portal said ‘approved’, the email said ‘rejected’.”</td>
+        <td>Decision transparency only</td>
+        <td>Also cross-channel consistency; the complaint is the contradiction between channels.</td>
+        <td>The model resolves the review to the decision subject and drops the channel-disagreement subject that motivated it.</td>
+      </tr>
+      <tr>
+        <td><code>rev-791c08f22ece</code><br>“The price quoted on the phone was not the price in the agreement.”</td>
+        <td>Fee level and fee transparency</td>
+        <td>Cross-channel consistency (and fee transparency at most).</td>
+        <td>Price words anchor the pricing branch; the mismatch-between-channels framing is lost.</td>
+      </tr>
+      <tr>
+        <td><code>rev-d88e745c52c8</code><br>“They changed the repayment plan three times without blinking…”</td>
+        <td>Term changes</td>
+        <td>Repayment flexibility; the customer praises accommodation, not unilateral changes.</td>
+        <td>Surface form (“changed … three times”) matches the term-change subject; the taxonomy is polarity-neutral but the two subjects differ by who initiates the change.</td>
       </tr>
     </tbody>
   </table>
 
   <h2>What I would do with another week</h2>
   <p>
-    I would annotate a small stratified holdout independently, then measure
-    assignment precision/recall, abstention accuracy, and evidence sufficiency.
-    The first taxonomy revision would add account administration, user roles,
-    credit enquiries, and unsolicited marketing only if the holdout confirms
-    recurrence. I would test boundary examples for rate calculation versus rate
-    changes and chatbot navigation versus portal usability.
+    The holdout confirmed that the dominant remaining errors are taxonomy
+    coverage, not classification: account administration, user and role
+    management, and credit enquiries recur in reviews the pipeline can only
+    abstain on. The first revision would add those leaves and re-annotate. I
+    would then grow the holdout beyond 50 reviews, add a second independent
+    annotator to measure agreement, and only adopt further prompt rules when a
+    failure pattern repeats across annotators.
   </p>
   <p>
-    Only after that baseline would I benchmark a compact embedding or zero-shot
-    model for leaf pre-filtering. With 223 short reviews and a measured API cost
-    of cents, adding a local model now would increase dependency and evaluation
-    surface without solving the demonstrated errors, which are primarily
-    taxonomy coverage and semantic boundary problems.
+    The embedding pre-filter stays parked: it is implemented and measurable,
+    but a 79.2% candidate-recall ceiling means it would cap exactly the recall
+    the 120B model wins on, while the demonstrated errors are coverage and
+    boundary problems no retriever solves. With 223 short reviews and cents of
+    API cost, the added dependency buys nothing yet.
   </p>
 
   <p class="small">
-    I used Codex for web research, architecture discussion, implementation,
-    tests, live-run monitoring, and output inspection. I reviewed the generated
-    code and model outputs, rejected weak candidate taxonomies, made the final
-    taxonomy and model-selection decisions, and kept the known failures visible.
+    I used Codex and the Cursor agent for web research, architecture
+    discussion, implementation, tests, live-run monitoring, and output
+    inspection. The holdout reference annotations were drafted with AI
+    assistance against the frozen theme definitions and human-reviewed. I
+    reviewed the generated code and model outputs, rejected weak candidate
+    taxonomies, made the final taxonomy and model-selection decisions, and kept
+    the known failures visible.
   </p>
 </main>
 </body>

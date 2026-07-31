@@ -144,7 +144,11 @@ class Taxonomy:
         )
         return hashlib.sha256(canonical.encode("utf-8")).hexdigest()
 
-    def model_schema(self, review_count: int) -> dict[str, Any]:
+    def model_schema(
+        self,
+        review_count: int,
+        allowed_theme_ids: set[str] | None = None,
+    ) -> dict[str, Any]:
         """Strict JSON schema for one result per review.
 
         Review identity, evidence support, and assignment count are also checked
@@ -152,6 +156,16 @@ class Taxonomy:
         """
         if review_count < 1:
             raise ValueError("review_count must be positive")
+        schema_theme_ids = set(self.leaves)
+        if allowed_theme_ids is not None:
+            unknown_ids = allowed_theme_ids - schema_theme_ids
+            if unknown_ids:
+                raise ContractError(
+                    f"schema contains unknown theme ids: {sorted(unknown_ids)!r}"
+                )
+            if not allowed_theme_ids:
+                raise ContractError("schema must allow at least one theme id")
+            schema_theme_ids = allowed_theme_ids
         return {
             "type": "object",
             "properties": {
@@ -172,7 +186,7 @@ class Taxonomy:
                                     "properties": {
                                         "specific_theme_id": {
                                             "type": "string",
-                                            "enum": sorted(self.leaves),
+                                            "enum": sorted(schema_theme_ids),
                                         },
                                         "evidence": {"type": "string"},
                                     },
@@ -195,6 +209,7 @@ def validate_model_output(
     payload: Any,
     reviews: list[dict[str, Any]],
     taxonomy: Taxonomy,
+    allowed_theme_ids_by_review: dict[str, set[str]] | None = None,
 ) -> list[dict[str, Any]]:
     """Validate semantic constraints not guaranteed by JSON Schema."""
     if not isinstance(payload, dict) or not isinstance(payload.get("results"), list):
@@ -258,6 +273,15 @@ def validate_model_output(
             )
             if leaf_id not in taxonomy.leaves:
                 raise ContractError(f"{location}: unknown theme id {leaf_id!r}")
+            if (
+                allowed_theme_ids_by_review is not None
+                and leaf_id
+                not in allowed_theme_ids_by_review.get(review_id, set())
+            ):
+                raise ContractError(
+                    f"{location}: theme id {leaf_id!r} was not retrieved "
+                    "for this review"
+                )
             if leaf_id in seen_leaf_ids:
                 raise ContractError(
                     f"{location}: duplicate theme assignment {leaf_id!r}"

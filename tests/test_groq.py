@@ -1,5 +1,30 @@
 import unittest
 
+from feedback_themes.groq import _retry_after_seconds_from_text
+
+
+class RetryAfterParsingTests(unittest.TestCase):
+    def test_parses_milliseconds(self):
+        self.assertAlmostEqual(
+            0.24,
+            _retry_after_seconds_from_text("Please try again in 240ms."),
+        )
+
+    def test_parses_seconds(self):
+        self.assertAlmostEqual(
+            7.66,
+            _retry_after_seconds_from_text("Please try again in 7.66s."),
+        )
+
+    def test_parses_minutes_and_seconds(self):
+        self.assertAlmostEqual(
+            63.5,
+            _retry_after_seconds_from_text("Please try again in 1m3.5s."),
+        )
+
+    def test_returns_none_without_guidance(self):
+        self.assertIsNone(_retry_after_seconds_from_text("slow down"))
+
 from feedback_themes.groq import GroqClient, GroqError
 
 

@@ -14,7 +14,7 @@ from .domain import (
 )
 from .groq import Completion
 
-PROMPT_VERSION = "classification-v3"
+PROMPT_VERSION = "classification-v5.1"
 MODEL_PRICING_USD_PER_MILLION = {
     "openai/gpt-oss-20b": {"input": 0.075, "output": 0.30},
     "openai/gpt-oss-120b": {"input": 0.15, "output": 0.60},
@@ -30,7 +30,23 @@ class Classifier(Protocol):
 def build_prompt(
     reviews: list[dict[str, Any]],
     taxonomy: Taxonomy,
+    candidate_ids_by_review: dict[str, list[str]] | None = None,
 ) -> str:
+    if candidate_ids_by_review is not None:
+        for review in reviews:
+            review_id = review["id"]
+            candidates = candidate_ids_by_review.get(review_id)
+            if not candidates:
+                raise ContractError(
+                    f"semantic candidates missing for review {review_id!r}"
+                )
+            unknown_ids = set(candidates) - set(taxonomy.leaves)
+            if unknown_ids:
+                raise ContractError(
+                    f"unknown semantic candidates for {review_id!r}: "
+                    f"{sorted(unknown_ids)!r}"
+                )
+
     taxonomy_for_model = []
     for leaf_id, path in taxonomy.leaves.items():
         definition = _find_leaf_definition(taxonomy.source, leaf_id)
@@ -46,30 +62,45 @@ def build_prompt(
             }
         )
 
-    reviews_for_model = [
-        {
+    reviews_for_model = []
+    for review in reviews:
+        review_payload = {
             "review_id": review["id"],
             "title": review.get("title") or "",
             "content_en": review["content_en"],
         }
-        for review in reviews
+        if candidate_ids_by_review is not None:
+            review_payload["candidate_specific_theme_ids"] = (
+                candidate_ids_by_review[review["id"]]
+            )
+        reviews_for_model.append(review_payload)
+
+    rules = [
+        "Classify subjects the customer explicitly discusses, not sentiment.",
+        "Use only the supplied specific_theme_id values.",
+        "Do not force an assignment when no supplied theme is supported.",
+        "A general verdict on the company or service that names no concrete subject supports no theme, however strongly it is worded.",
+        "When a cost complaint does not identify whether fees or interest are meant, treat it as unsupported rather than guessing a pricing theme.",
+        "Distinguish the interest subjects: the size or competitiveness of a rate, how interest or effective rates are calculated or explained, and how rate changes are announced are different themes.",
+        "Evaluate every independent sentence and clause; return every distinct supported theme rather than only the most prominent one.",
+        "A multi-topic review should normally have multiple assignments when separate clauses support separate themes.",
+        "Return at most five assignments per review; when more are supported, keep the five with the most explicit evidence.",
+        "For every assignment, copy the shortest self-contained verbatim substring from content_en that identifies both the subject and the behavior or property supporting the theme.",
+        "Evidence must remain understandable on its own; include important qualifiers such as delays, negations, timing, or missing communication.",
+        "Evidence must be one contiguous substring copied without paraphrasing, changed capitalization, omitted words, or inserted ellipses.",
+        "Never use the title as evidence.",
+        "Do not assign the same specific theme twice to one review.",
+        "Return every review once and preserve input order.",
+        "Return an empty assignments list when no supplied theme is explicitly supported.",
     ]
+    if candidate_ids_by_review is not None:
+        rules.insert(
+            2,
+            "For each review, inspect its ordered candidate_specific_theme_ids first. A local semantic encoder produced this ranking, but it is only a recall aid: you may assign any supplied theme, and review meaning plus evidence must decide.",
+        )
     instructions = {
         "task": "Assign zero or more fixed specific themes to each review.",
-        "rules": [
-            "Classify subjects the customer explicitly discusses, not sentiment.",
-            "Use only the supplied specific_theme_id values.",
-            "Do not force an assignment when no supplied theme is supported.",
-            "Evaluate every independent sentence and clause; return every distinct supported theme rather than only the most prominent one.",
-            "A multi-topic review should normally have multiple assignments when separate clauses support separate themes.",
-            "For every assignment, copy the shortest self-contained verbatim substring from content_en that identifies both the subject and the behavior or property supporting the theme.",
-            "Evidence must remain understandable on its own; include important qualifiers such as delays, negations, timing, or missing communication.",
-            "Evidence must be one contiguous substring copied without paraphrasing, changed capitalization, omitted words, or inserted ellipses.",
-            "Never use the title as evidence.",
-            "Do not assign the same specific theme twice to one review.",
-            "Return every review once and preserve input order.",
-            "Return an empty assignments list when no supplied theme is explicitly supported.",
-        ],
+        "rules": rules,
         "taxonomy": taxonomy_for_model,
         "reviews": reviews_for_model,
     }

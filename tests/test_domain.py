@@ -52,6 +52,19 @@ class TaxonomyTests(unittest.TestCase):
         self.assertNotIn("minItems", results)
         self.assertNotIn("maxItems", results)
 
+    def test_schema_can_be_narrowed_to_retrieved_theme_ids(self) -> None:
+        schema = self.taxonomy.model_schema(
+            1,
+            {"portal_performance", "portal_usability"},
+        )
+        leaf_schema = schema["properties"]["results"]["items"]["properties"][
+            "assignments"
+        ]["items"]["properties"]["specific_theme_id"]
+        self.assertEqual(
+            ["portal_performance", "portal_usability"],
+            leaf_schema["enum"],
+        )
+
     def test_every_schema_object_is_closed_and_all_fields_are_required(self) -> None:
         schema = self.taxonomy.model_schema(3)
 
@@ -154,3 +167,15 @@ class AssignmentContractTests(unittest.TestCase):
         self.assertEqual(
             "no_relevant_theme", results[1]["no_assignment_reason"]
         )
+
+    def test_rejects_assignment_outside_retrieved_candidates(self) -> None:
+        with self.assertRaisesRegex(ContractError, "was not retrieved"):
+            validate_model_output(
+                self._valid_payload(),
+                self.reviews,
+                self.taxonomy,
+                allowed_theme_ids_by_review={
+                    "review-1": {"portal_performance"},
+                    "review-2": {"review_authenticity"},
+                },
+            )

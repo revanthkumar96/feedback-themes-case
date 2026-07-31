@@ -40,6 +40,22 @@ PostJson = Callable[
 Sleep = Callable[[float], None]
 
 
+def _retry_after_seconds_from_text(text: str) -> float | None:
+    """Parse provider guidance like 'try again in 240ms', '7.66s', '1m3.5s'."""
+    match = re.search(
+        r"try again in (?:([0-9]+)m(?!s))?([0-9.]+)\s*(ms|s)",
+        text,
+        re.IGNORECASE,
+    )
+    if not match:
+        return None
+    minutes = float(match.group(1) or 0)
+    value = float(match.group(2))
+    if match.group(3).lower() == "ms":
+        value /= 1000.0
+    return minutes * 60.0 + value
+
+
 def _post_json(
     url: str,
     headers: dict[str, str],
@@ -74,9 +90,7 @@ def _post_json(
             except ValueError:
                 pass
         if retry_after is None:
-            match = re.search(r"try again in ([0-9.]+)s", body, re.IGNORECASE)
-            if match:
-                retry_after = float(match.group(1))
+            retry_after = _retry_after_seconds_from_text(body)
         raise GroqError(
             f"Groq returned HTTP {error.code}: {body}",
             status_code=error.code,
@@ -101,7 +115,7 @@ class GroqClient:
         timeout_seconds: float = 60.0,
         post_json: PostJson = _post_json,
         sleep: Sleep = time.sleep,
-        max_rate_limit_retries: int = 2,
+        max_rate_limit_retries: int = 6,
     ) -> None:
         if not api_key.strip():
             raise ValueError("api_key must not be empty")

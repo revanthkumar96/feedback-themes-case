@@ -3,6 +3,12 @@ name = "feedback-themes"
 version = "0.1.0"
 description = "Evidence-backed customer feedback theme extraction"
 requires-python = ">=3.11"
+dependencies = []
+
+[project.optional-dependencies]
+hybrid = [
+    "fastembed==0.8.0",
+]
 
 [project.scripts]
 feedback-themes = "feedback_themes.__main__:main"

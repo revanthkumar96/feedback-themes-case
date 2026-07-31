@@ -9,6 +9,7 @@ authored.py
 out/*
 !out/results.json
 !out/flat.json
+!out/evaluation.json
 __pycache__/
 *.pyc
 .venv/

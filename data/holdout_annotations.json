@@ -1,0 +1,810 @@
+{
+  "purpose": "Human reference annotations for semantic evaluation. Replace each null specific_theme_ids with the complete list of supported leaf IDs; use an empty list for a correct abstention.",
+  "taxonomy_version": "v1",
+  "taxonomy_hash": "7bb3da4cef9da83d0d0006df5a7a2b40e62655058ad526d3e8d1eb2481716c4d",
+  "theme_reference": [
+    {
+      "specific_theme_id": "application_requirements",
+      "path": "Financing lifecycle > Application and decisions > Application requirements",
+      "definition": "The documents, business history, and information required to apply."
+    },
+    {
+      "specific_theme_id": "decision_turnaround",
+      "path": "Financing lifecycle > Application and decisions > Decision turnaround",
+      "definition": "The time between submitting an application and receiving an approval or rejection."
+    },
+    {
+      "specific_theme_id": "decision_transparency",
+      "path": "Financing lifecycle > Application and decisions > Decision transparency",
+      "definition": "How clearly an application status, outcome, and reasons for the decision are communicated."
+    },
+    {
+      "specific_theme_id": "payout_timing",
+      "path": "Financing lifecycle > Funding and invoices > Payout timing",
+      "definition": "The elapsed time between invoice approval or submission and payout."
+    },
+    {
+      "specific_theme_id": "invoice_administration",
+      "path": "Financing lifecycle > Funding and invoices > Invoice administration",
+      "definition": "Creating, changing, automating, or otherwise managing invoices in the financing service."
+    },
+    {
+      "specific_theme_id": "product_suitability",
+      "path": "Financing lifecycle > Product fit and flexibility > Product suitability",
+      "definition": "How well a financing or banking product fits the company's size, situation, and needs."
+    },
+    {
+      "specific_theme_id": "credit_line_flexibility",
+      "path": "Financing lifecycle > Product fit and flexibility > Credit line flexibility",
+      "definition": "The ability to adjust, renew, or end a credit line without unnecessary reapplication or delay."
+    },
+    {
+      "specific_theme_id": "repayment_flexibility",
+      "path": "Financing lifecycle > Repayment and collections > Repayment flexibility",
+      "definition": "The availability of adapted repayment plans, payment deferrals, or seasonal arrangements."
+    },
+    {
+      "specific_theme_id": "collections_handling",
+      "path": "Financing lifecycle > Repayment and collections > Collections handling",
+      "definition": "How the company communicates and acts before or during debt collection."
+    },
+    {
+      "specific_theme_id": "fee_level",
+      "path": "Pricing and terms > Fees > Fee level",
+      "definition": "The overall amount or cumulative burden of fees charged."
+    },
+    {
+      "specific_theme_id": "fee_transparency",
+      "path": "Pricing and terms > Fees > Fee transparency",
+      "definition": "How clearly individual fees, their purpose, and their inclusion in an offer are disclosed."
+    },
+    {
+      "specific_theme_id": "interest_rate_level",
+      "path": "Pricing and terms > Interest rates > Interest rate level",
+      "definition": "The competitiveness or affordability of the interest rate offered."
+    },
+    {
+      "specific_theme_id": "interest_calculation",
+      "path": "Pricing and terms > Interest rates > Interest calculation",
+      "definition": "How clearly and accurately interest or effective rates are calculated and explained."
+    },
+    {
+      "specific_theme_id": "rate_change_communication",
+      "path": "Pricing and terms > Interest rates > Rate change communication",
+      "definition": "How interest-rate changes are announced and reflected in the product."
+    },
+    {
+      "specific_theme_id": "terms_clarity",
+      "path": "Pricing and terms > Contractual terms > Terms clarity",
+      "definition": "How easy the agreement, eligibility rules, and product conditions are to find and understand."
+    },
+    {
+      "specific_theme_id": "term_changes",
+      "path": "Pricing and terms > Contractual terms > Term changes",
+      "definition": "Changes to agreed product conditions and how those changes affect the customer."
+    },
+    {
+      "specific_theme_id": "response_timeliness",
+      "path": "Service and communication > Support delivery > Response timeliness",
+      "definition": "How quickly and reliably support responds across phone, email, chat, or messaging."
+    },
+    {
+      "specific_theme_id": "follow_up_and_ownership",
+      "path": "Service and communication > Support delivery > Follow-up and ownership",
+      "definition": "Whether staff take responsibility, keep promises, and follow an issue through to completion."
+    },
+    {
+      "specific_theme_id": "support_channel_navigation",
+      "path": "Service and communication > Support delivery > Support channel navigation",
+      "definition": "The ability to reach the right help, move beyond automated support, and avoid channel loops."
+    },
+    {
+      "specific_theme_id": "advisor_expertise",
+      "path": "Service and communication > Advisor relationship > Advisor expertise",
+      "definition": "The advisor's knowledge of products, rules, and the customer's business situation."
+    },
+    {
+      "specific_theme_id": "staff_conduct",
+      "path": "Service and communication > Advisor relationship > Staff conduct",
+      "definition": "How courteous, respectful, and constructive staff are when dealing with customers."
+    },
+    {
+      "specific_theme_id": "relationship_continuity",
+      "path": "Service and communication > Advisor relationship > Relationship continuity",
+      "definition": "The availability of a consistent contact person and continuity when staff change."
+    },
+    {
+      "specific_theme_id": "cross_channel_consistency",
+      "path": "Service and communication > Information trust > Cross-channel consistency",
+      "definition": "Whether the portal, website, chatbot, email, and staff provide compatible information."
+    },
+    {
+      "specific_theme_id": "institutional_credibility",
+      "path": "Service and communication > Information trust > Institutional credibility",
+      "definition": "Signals that affect trust in the company, including the perceived authenticity of public reviews."
+    },
+    {
+      "specific_theme_id": "portal_access",
+      "path": "Digital experience and data > Online portal > Portal access",
+      "definition": "The ability to authenticate and log in to the portal reliably."
+    },
+    {
+      "specific_theme_id": "portal_usability",
+      "path": "Digital experience and data > Online portal > Portal usability",
+      "definition": "How clear, modern, and easy the portal is to navigate."
+    },
+    {
+      "specific_theme_id": "portal_performance",
+      "path": "Digital experience and data > Online portal > Portal performance",
+      "definition": "The speed, responsiveness, and technical stability of the portal."
+    },
+    {
+      "specific_theme_id": "mobile_app",
+      "path": "Digital experience and data > Mobile banking > Mobile app",
+      "definition": "The availability and practical functionality of the mobile application."
+    },
+    {
+      "specific_theme_id": "accounting_integration_reliability",
+      "path": "Digital experience and data > External integrations > Accounting integration reliability",
+      "definition": "How consistently and accurately accounting-system integrations exchange data."
+    },
+    {
+      "specific_theme_id": "reporting_and_export_access",
+      "path": "Digital experience and data > Reporting and data > Reporting and export access",
+      "definition": "The availability, history, completeness, and exportability of statements and reports."
+    },
+    {
+      "specific_theme_id": "financial_data_accuracy",
+      "path": "Digital experience and data > Reporting and data > Financial data accuracy",
+      "definition": "The correctness of balances, transactions, invoices, and other financial figures displayed."
+    }
+  ],
+  "annotations": [
+    {
+      "review_id": "rev-f04f75b142cc",
+      "rating": 5,
+      "title": "",
+      "content_en": "We have recommended them to four other companies in the industry.",
+      "seen_during_discovery": false,
+      "reference": {
+        "specific_theme_ids": [],
+        "notes": "Endorsement only; no subject discussed."
+      }
+    },
+    {
+      "review_id": "rev-639e1e30f2a5",
+      "rating": 1,
+      "title": "",
+      "content_en": "Sent the case to collections over 900 kroner without calling first.",
+      "seen_during_discovery": false,
+      "reference": {
+        "specific_theme_ids": [
+          "collections_handling"
+        ],
+        "notes": ""
+      }
+    },
+    {
+      "review_id": "rev-de2234910a3f",
+      "rating": 5,
+      "title": "",
+      "content_en": "Payout the same hour the invoice was approved.",
+      "seen_during_discovery": false,
+      "reference": {
+        "specific_theme_ids": [
+          "payout_timing"
+        ],
+        "notes": ""
+      }
+    },
+    {
+      "review_id": "rev-b6fda0d585e6",
+      "rating": 5,
+      "title": "",
+      "content_en": "The portal is the best I have used in a bank. Full stop.",
+      "seen_during_discovery": false,
+      "reference": {
+        "specific_theme_ids": [
+          "portal_usability"
+        ],
+        "notes": "General portal praise; usability is the closest leaf."
+      }
+    },
+    {
+      "review_id": "rev-770b5357ee54",
+      "rating": 2,
+      "title": "Får ikke svar på et enkelt spørsmål",
+      "content_en": "I have asked three times what the establishment fee actually covers. Nobody can answer. The chatbot sends me in circles and the email goes unanswered.",
+      "seen_during_discovery": false,
+      "reference": {
+        "specific_theme_ids": [
+          "fee_transparency",
+          "support_channel_navigation",
+          "response_timeliness"
+        ],
+        "notes": "Unexplained establishment fee, chatbot loop, unanswered email."
+      }
+    },
+    {
+      "review_id": "rev-2f4968e59d9e",
+      "rating": 5,
+      "title": "",
+      "content_en": "🙌🙌",
+      "seen_during_discovery": false,
+      "reference": {
+        "specific_theme_ids": [],
+        "notes": "Emoji only."
+      }
+    },
+    {
+      "review_id": "rev-97b69d945e5b",
+      "rating": 1,
+      "title": "Gebyrer overalt",
+      "content_en": "Fee to open, fee to change, fee to close. In the end the fees ate up the entire saving.",
+      "seen_during_discovery": false,
+      "reference": {
+        "specific_theme_ids": [
+          "fee_level"
+        ],
+        "notes": ""
+      }
+    },
+    {
+      "review_id": "rev-ea3121b09e0d",
+      "rating": 3,
+      "title": "",
+      "content_en": "Is the interest rate floating or fixed? Nothing about it is stated in the agreement I received.",
+      "seen_during_discovery": true,
+      "reference": {
+        "specific_theme_ids": [
+          "terms_clarity"
+        ],
+        "notes": "Missing floating/fixed statement in the agreement; arguably also interest_calculation."
+      }
+    },
+    {
+      "review_id": "rev-64b0877f861d",
+      "rating": 1,
+      "title": "",
+      "content_en": "The portal said \"approved\", the email said \"rejected\". Which one should I believe?",
+      "seen_during_discovery": false,
+      "reference": {
+        "specific_theme_ids": [
+          "cross_channel_consistency",
+          "decision_transparency"
+        ],
+        "notes": "Portal and email contradict on the application outcome."
+      }
+    },
+    {
+      "review_id": "rev-ea4cc280e9cf",
+      "rating": 5,
+      "title": "",
+      "content_en": "Always calls back when they say they will.",
+      "seen_during_discovery": false,
+      "reference": {
+        "specific_theme_ids": [
+          "follow_up_and_ownership"
+        ],
+        "notes": ""
+      }
+    },
+    {
+      "review_id": "rev-706ecdc3768f",
+      "rating": 1,
+      "title": "",
+      "content_en": "Credit-checked me four times in two weeks. That hits my score.",
+      "seen_during_discovery": false,
+      "reference": {
+        "specific_theme_ids": [],
+        "notes": "Repeated credit checks harming credit score; no leaf covers credit enquiries (known coverage gap)."
+      }
+    },
+    {
+      "review_id": "rev-5d91e7d0b839",
+      "rating": 5,
+      "title": "God opplevelse",
+      "content_en": "Good experience from start to finish.",
+      "seen_during_discovery": false,
+      "reference": {
+        "specific_theme_ids": [],
+        "notes": "Pure sentiment."
+      }
+    },
+    {
+      "review_id": "rev-656bcbc11f28",
+      "rating": 5,
+      "title": "",
+      "content_en": "Switched from a big bank last year. Faster, friendlier, cheaper. No regrets.",
+      "seen_during_discovery": false,
+      "reference": {
+        "specific_theme_ids": [
+          "staff_conduct"
+        ],
+        "notes": "'Friendlier' supports staff_conduct; 'faster' and 'cheaper' too unspecific to pin to a leaf."
+      }
+    },
+    {
+      "review_id": "rev-791c08f22ece",
+      "rating": 2,
+      "title": "",
+      "content_en": "The price quoted on the phone was not the price in the agreement. Two percentage points higher.",
+      "seen_during_discovery": false,
+      "reference": {
+        "specific_theme_ids": [
+          "cross_channel_consistency"
+        ],
+        "notes": "Phone quote incompatible with the agreement; arguably also interest_calculation."
+      }
+    },
+    {
+      "review_id": "rev-5ce37c250947",
+      "rating": 3,
+      "title": "",
+      "content_en": "Okay bank for short-term needs. Wouldn't use them for anything long-term.",
+      "seen_during_discovery": true,
+      "reference": {
+        "specific_theme_ids": [
+          "product_suitability"
+        ],
+        "notes": ""
+      }
+    },
+    {
+      "review_id": "rev-ed71ae20b459",
+      "rating": 5,
+      "title": "",
+      "content_en": "Tax loan approved in an hour in December. Saved the quarter.",
+      "seen_during_discovery": false,
+      "reference": {
+        "specific_theme_ids": [
+          "decision_turnaround"
+        ],
+        "notes": ""
+      }
+    },
+    {
+      "review_id": "rev-4d03805dfb1e",
+      "rating": 1,
+      "title": "",
+      "content_en": "The money was supposed to be in the account on Friday. It arrived the following Wednesday. By then I had already paid the supplier out of my own pocket.",
+      "seen_during_discovery": false,
+      "reference": {
+        "specific_theme_ids": [
+          "payout_timing"
+        ],
+        "notes": ""
+      }
+    },
+    {
+      "review_id": "rev-c59f0ee4ca75",
+      "rating": 1,
+      "title": "",
+      "content_en": "Unprofessional from start to finish.",
+      "seen_during_discovery": false,
+      "reference": {
+        "specific_theme_ids": [],
+        "notes": "Pure sentiment; 'unprofessional' names no subject."
+      }
+    },
+    {
+      "review_id": "rev-03e188209ff0",
+      "rating": 5,
+      "title": "",
+      "content_en": "The invoice financing has saved our liquidity through a hard winter. No longer having to wait 60 days for customers to pay.",
+      "seen_during_discovery": false,
+      "reference": {
+        "specific_theme_ids": [
+          "product_suitability"
+        ],
+        "notes": "Invoice financing fits their liquidity need; 60-day wait refers to their customers, not Kvist payouts."
+      }
+    },
+    {
+      "review_id": "rev-b78ef3095a72",
+      "rating": 1,
+      "title": "",
+      "content_en": "We are a sole proprietorship and evidently don't qualify. Fine, but it says nothing about that anywhere.",
+      "seen_during_discovery": false,
+      "reference": {
+        "specific_theme_ids": [
+          "terms_clarity"
+        ],
+        "notes": "Eligibility rules (sole proprietorship) not disclosed anywhere."
+      }
+    },
+    {
+      "review_id": "rev-5a7171b6289b",
+      "rating": 4,
+      "title": "",
+      "content_en": "Good follow-up throughout the application. Docking a little for a slow system.",
+      "seen_during_discovery": true,
+      "reference": {
+        "specific_theme_ids": [
+          "follow_up_and_ownership",
+          "portal_performance"
+        ],
+        "notes": "'Slow system' read as the digital system."
+      }
+    },
+    {
+      "review_id": "rev-905ddbd723bc",
+      "rating": 5,
+      "title": "",
+      "content_en": "The direct debit takes the right amount on the right day, every month.",
+      "seen_during_discovery": false,
+      "reference": {
+        "specific_theme_ids": [
+          "financial_data_accuracy"
+        ],
+        "notes": "Direct debit takes correct amount; nearest leaf is transaction correctness, though definition says 'displayed'."
+      }
+    },
+    {
+      "review_id": "rev-2324c08e3ac1",
+      "rating": 5,
+      "title": "Skjønte hva vi trengte",
+      "content_en": "The advisor understood our business model immediately and suggested an overdraft facility instead of the loan we had applied for. That was the right advice.",
+      "seen_during_discovery": false,
+      "reference": {
+        "specific_theme_ids": [
+          "advisor_expertise",
+          "product_suitability"
+        ],
+        "notes": "Advisor knowledge plus recommending the better-fitting product."
+      }
+    },
+    {
+      "review_id": "rev-1f58552c5cb5",
+      "rating": 1,
+      "title": "",
+      "content_en": "The app exists but can't do anything other than show the balance.",
+      "seen_during_discovery": false,
+      "reference": {
+        "specific_theme_ids": [
+          "mobile_app"
+        ],
+        "notes": ""
+      }
+    },
+    {
+      "review_id": "rev-e1e288b2122a",
+      "rating": 1,
+      "title": "Advarsel til andre gründere",
+      "content_en": "We started in 2024 and needed liquidity. The advert promised financing for start-ups. After two weeks and four rounds of documents we were rejected on the grounds of \"too short a track record\". They could have said that in the form on day one. We lost three weeks and a supplier agreement.",
+      "seen_during_discovery": false,
+      "reference": {
+        "specific_theme_ids": [
+          "application_requirements",
+          "decision_turnaround",
+          "terms_clarity"
+        ],
+        "notes": "Four document rounds, two weeks, eligibility (track record) not disclosed upfront; decision_transparency defensible too."
+      }
+    },
+    {
+      "review_id": "rev-855cf7fb495c",
+      "rating": 5,
+      "title": "",
+      "content_en": "Happy customer since 2021.",
+      "seen_during_discovery": false,
+      "reference": {
+        "specific_theme_ids": [],
+        "notes": "Pure sentiment."
+      }
+    },
+    {
+      "review_id": "rev-f8ed3a0e48d8",
+      "rating": 1,
+      "title": "Truende inkassopraksis",
+      "content_en": "Was two days late with one instalment. Got a collections notice and a reminder fee of 350 kroner before anyone had even called. When I asked for a payment plan I was told it wasn't possible.",
+      "seen_during_discovery": false,
+      "reference": {
+        "specific_theme_ids": [
+          "collections_handling",
+          "repayment_flexibility"
+        ],
+        "notes": "Collections notice before contact; payment plan refused. The 350 kr reminder fee arguably also fee_level."
+      }
+    },
+    {
+      "review_id": "rev-1e836db51c9d",
+      "rating": 4,
+      "title": "",
+      "content_en": "Quite a lot of documentation, but they explained why they needed each piece.",
+      "seen_during_discovery": false,
+      "reference": {
+        "specific_theme_ids": [
+          "application_requirements"
+        ],
+        "notes": ""
+      }
+    },
+    {
+      "review_id": "rev-9326017b404c",
+      "rating": 1,
+      "title": "Ikke som annonsert",
+      "content_en": "There is no 3.9% interest rate. The effective rate turned out to be 38% per year when I read the terms properly.",
+      "seen_during_discovery": false,
+      "reference": {
+        "specific_theme_ids": [
+          "interest_calculation"
+        ],
+        "notes": "Advertised nominal vs 38% effective rate; terms_clarity is a defensible secondary."
+      }
+    },
+    {
+      "review_id": "rev-2fed72e83b33",
+      "rating": 4,
+      "title": "Bra men dyrt",
+      "content_en": "Fast and simple application, but compared to our local bank they are expensive. You pay for the speed.",
+      "seen_during_discovery": false,
+      "reference": {
+        "specific_theme_ids": [
+          "decision_turnaround"
+        ],
+        "notes": "'Fast and simple application'; 'expensive' too unspecific to pick fee vs rate leaf."
+      }
+    },
+    {
+      "review_id": "rev-8c6e6cf270f9",
+      "rating": 5,
+      "title": "",
+      "content_en": "Finally a bank where I don't have to meet anyone in person to sign.",
+      "seen_during_discovery": false,
+      "reference": {
+        "specific_theme_ids": [],
+        "notes": "Digital signing without in-person meeting; no matching leaf. Borderline application_requirements."
+      }
+    },
+    {
+      "review_id": "rev-ed219d9064c3",
+      "rating": 1,
+      "title": "",
+      "content_en": "Closed the account. Got an invoice two months later.",
+      "seen_during_discovery": false,
+      "reference": {
+        "specific_theme_ids": [
+          "financial_data_accuracy"
+        ],
+        "notes": "Invoice issued after account closure treated as incorrect invoice; account administration is a coverage gap."
+      }
+    },
+    {
+      "review_id": "rev-2883e5932538",
+      "rating": 1,
+      "title": "",
+      "content_en": "Tried to close in January. It is now April.",
+      "seen_during_discovery": false,
+      "reference": {
+        "specific_theme_ids": [
+          "credit_line_flexibility"
+        ],
+        "notes": "Account closure delayed for months; 'end without delay' is the nearest leaf."
+      }
+    },
+    {
+      "review_id": "rev-fa4952b46905",
+      "rating": 5,
+      "title": "",
+      "content_en": "Absolutely splendid to sit in a phone queue for 55 minutes to be told they can't help.",
+      "seen_during_discovery": false,
+      "reference": {
+        "specific_theme_ids": [
+          "response_timeliness"
+        ],
+        "notes": "Sarcastic five-star; 55-minute queue. 'Told they can't help' could also support support_channel_navigation."
+      }
+    },
+    {
+      "review_id": "rev-9323d2bf76cb",
+      "rating": 5,
+      "title": "",
+      "content_en": "No fees, clear price, fast help. Nothing more to say.",
+      "seen_during_discovery": false,
+      "reference": {
+        "specific_theme_ids": [
+          "fee_level",
+          "fee_transparency",
+          "response_timeliness"
+        ],
+        "notes": "'No fees', 'clear price', 'fast help'."
+      }
+    },
+    {
+      "review_id": "rev-3178d2b84479",
+      "rating": 3,
+      "title": "",
+      "content_en": "It works, but nothing more than that.",
+      "seen_during_discovery": true,
+      "reference": {
+        "specific_theme_ids": [],
+        "notes": "Pure sentiment."
+      }
+    },
+    {
+      "review_id": "rev-978939a63827",
+      "rating": 1,
+      "title": "",
+      "content_en": "No way to give the accountant access. Have to send everything manually.",
+      "seen_during_discovery": false,
+      "reference": {
+        "specific_theme_ids": [],
+        "notes": "Cannot grant accountant access; user-role management is a known coverage gap."
+      }
+    },
+    {
+      "review_id": "rev-35d7d7f97866",
+      "rating": 1,
+      "title": "",
+      "content_en": "Never again.",
+      "seen_during_discovery": false,
+      "reference": {
+        "specific_theme_ids": [],
+        "notes": "Pure sentiment."
+      }
+    },
+    {
+      "review_id": "rev-d88e745c52c8",
+      "rating": 5,
+      "title": "",
+      "content_en": "They changed the repayment plan three times without blinking when our project was postponed.",
+      "seen_during_discovery": false,
+      "reference": {
+        "specific_theme_ids": [
+          "repayment_flexibility"
+        ],
+        "notes": ""
+      }
+    },
+    {
+      "review_id": "rev-56fb7df7bfe5",
+      "rating": 2,
+      "title": "Dyrt",
+      "content_en": "Paying almost 19% effective. That is a lot for a company with a good track record.",
+      "seen_during_discovery": false,
+      "reference": {
+        "specific_theme_ids": [
+          "interest_rate_level"
+        ],
+        "notes": ""
+      }
+    },
+    {
+      "review_id": "rev-600acf0222a3",
+      "rating": 1,
+      "title": "",
+      "content_en": "They called and sold me a product I didn't need. Classic.",
+      "seen_during_discovery": false,
+      "reference": {
+        "specific_theme_ids": [
+          "product_suitability"
+        ],
+        "notes": "Sold a product they did not need; unsolicited sales calls are a coverage gap."
+      }
+    },
+    {
+      "review_id": "rev-8c49d85c1f70",
+      "rating": 3,
+      "title": "Delte erfaringer",
+      "content_en": "The product itself is good and the money came quickly. But when I needed help with an incorrectly posted invoice it took nine days before anyone replied, and then I got two different answers from two different people.",
+      "seen_during_discovery": true,
+      "reference": {
+        "specific_theme_ids": [
+          "product_suitability",
+          "payout_timing",
+          "financial_data_accuracy",
+          "response_timeliness",
+          "cross_channel_consistency"
+        ],
+        "notes": "Good product, fast money, wrongly posted invoice, nine-day wait, two conflicting answers."
+      }
+    },
+    {
+      "review_id": "rev-b09e5dee945e",
+      "rating": 5,
+      "title": "",
+      "content_en": "The nicest bank people I have spoken to. No sales patter.",
+      "seen_during_discovery": false,
+      "reference": {
+        "specific_theme_ids": [
+          "staff_conduct"
+        ],
+        "notes": ""
+      }
+    },
+    {
+      "review_id": "rev-aa78098b5220",
+      "rating": 1,
+      "title": "",
+      "content_en": "Your reply below is not correct. We never received the email they claim to have sent, and the support case is still open.",
+      "seen_during_discovery": false,
+      "reference": {
+        "specific_theme_ids": [
+          "follow_up_and_ownership"
+        ],
+        "notes": "Disputed company reply, unreceived email, case still open."
+      }
+    },
+    {
+      "review_id": "rev-0572bcf24ec2",
+      "rating": 2,
+      "title": "",
+      "content_en": "The maximum loan amount is too low for a company of our size.",
+      "seen_during_discovery": false,
+      "reference": {
+        "specific_theme_ids": [
+          "product_suitability"
+        ],
+        "notes": ""
+      }
+    },
+    {
+      "review_id": "rev-1440fb510a12",
+      "rating": 4,
+      "title": "",
+      "content_en": "A bit expensive, but they deliver on what they promise.",
+      "seen_during_discovery": false,
+      "reference": {
+        "specific_theme_ids": [],
+        "notes": "'A bit expensive' too unspecific to pick fee vs rate leaf; 'deliver on promise' is generic praise."
+      }
+    },
+    {
+      "review_id": "rev-3e024af70da7",
+      "rating": 2,
+      "title": "",
+      "content_en": "The invoice overview shows the wrong due date. Have reported it three times.",
+      "seen_during_discovery": false,
+      "reference": {
+        "specific_theme_ids": [
+          "financial_data_accuracy",
+          "follow_up_and_ownership"
+        ],
+        "notes": "Wrong due date displayed; reported three times without resolution."
+      }
+    },
+    {
+      "review_id": "rev-153d7a7b52ea",
+      "rating": 1,
+      "title": "",
+      "content_en": "They changed our terms and informed us afterwards. That is not an agreement, it is a dictate.",
+      "seen_during_discovery": false,
+      "reference": {
+        "specific_theme_ids": [
+          "term_changes"
+        ],
+        "notes": ""
+      }
+    },
+    {
+      "review_id": "rev-7512fcdad348",
+      "rating": 5,
+      "title": "",
+      "content_en": "They called and asked if we needed help when they saw the instalment was late. No other bank has done that.",
+      "seen_during_discovery": false,
+      "reference": {
+        "specific_theme_ids": [
+          "collections_handling"
+        ],
+        "notes": "Proactive call about a late instalment: communication before collection, positive polarity."
+      }
+    },
+    {
+      "review_id": "rev-5354c4c196db",
+      "rating": 5,
+      "title": "Fra skeptisk til fan",
+      "content_en": "I was sceptical about a digital bank with no branch. But the application took minutes, the money arrived the same day, and when I needed to speak to someone I got a person on the line who actually knew our case. The rate is higher than the big bank, but we save so much time that it doesn't matter.",
+      "seen_during_discovery": false,
+      "reference": {
+        "specific_theme_ids": [
+          "decision_turnaround",
+          "payout_timing",
+          "advisor_expertise",
+          "interest_rate_level"
+        ],
+        "notes": "Minutes-long application, same-day money, knowledgeable contact, higher rate than the big bank."
+      }
+    }
+  ]
+}
