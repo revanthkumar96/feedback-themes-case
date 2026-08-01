@@ -181,7 +181,7 @@ recall the 120B model wins on — that is why it is off by default.
 | `out/flat.json`                 | Deterministic lossy projection for `score.py`                                             |
 | `out/evaluation.json`           | Holdout metrics for the current `out/results.json`                                        |
 | `out/cmp-*/`                    | Holdout comparison runs backing the NOTES quality table                                   |
-| `out/viz/`                      | Taxonomy tree and flat-projection charts (`make_viz.py` in the parent folder regenerates) |
+| `out/viz/`                      | Taxonomy tree and flat-projection charts, PNG + SVG (`python make_viz.py` regenerates them and re-injects the SVGs into `NOTES.html`) |
 | `data/holdout_annotations.json` | Human-annotated 50-review holdout (references frozen taxonomy by hash)                    |
 | `artifacts/`                    | Taxonomy-discovery candidates and run metadata, kept for inspection                       |
 | `NOTES.html`                    | Design decisions, measured numbers, and known failures                                    |

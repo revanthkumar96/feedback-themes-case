@@ -12,5 +12,6 @@ out/*
 !out/evaluation.json
 __pycache__/
 *.pyc
+.pytest_cache/
 .venv/
 .env

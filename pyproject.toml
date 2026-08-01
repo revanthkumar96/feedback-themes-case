@@ -9,6 +9,9 @@ dependencies = []
 hybrid = [
     "fastembed==0.8.0",
 ]
+viz = [
+    "matplotlib>=3.8",
+]
 
 [project.scripts]
 feedback-themes = "feedback_themes.__main__:main"

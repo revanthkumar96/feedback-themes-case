@@ -95,6 +95,20 @@ pip install .[hybrid]
 python -m feedback_themes run --hybrid --output-dir out/hybrid --checkpoint-dir out/checkpoints-hybrid
 ```
 
+## Regenerating the charts in NOTES.html (optional)
+
+The taxonomy tree and flat-projection charts embedded in `NOTES.html` are
+inline SVGs generated from the committed outputs. To regenerate after a new
+run:
+
+```powershell
+pip install .[viz]     # matplotlib
+python make_viz.py
+```
+
+This rewrites `out/viz/` (PNG + SVG) and re-injects the SVGs into
+`NOTES.html`, which stays a single self-contained file.
+
 ## Taxonomy-development commands
 
 The submitted classification uses the reviewed, frozen `themes.json`. The

@@ -22,22 +22,44 @@ I would choose the third approach, specifically an LLM-led hybrid rather than an
 
 The principal design decision is that the model will assign only a stable `specific_theme_id`. The midlevel and strategic themes will be resolved deterministically from the taxonomy registry. This makes an inconsistent tree impossible in the final output unless the registry itself is invalid.
 
-### Implementation result after measurement
+### As built — how the final submission differs from this plan
 
-The implemented baseline did not add a local embedding model. On 223 short
-reviews, the complete frozen-taxonomy classification cost approximately three
-cents at list price, while the observed errors were taxonomy-coverage and
-semantic-boundary mistakes rather than candidate-retrieval failures. A local
-embedding dependency would therefore add installation, latency, and evaluation
-surface without addressing the demonstrated failure modes. The lightweight
-component remains a benchmark to run only after a labelled holdout exists.
+This document is the plan as written before implementation. The pipeline that
+was actually shipped follows it closely; the deliberate deviations, all
+measured before being adopted, are:
+
+- **Taxonomy v1.1 adds a defensible catch-all branch.** Rule 8 below warns
+  against broad "other" themes. The first full run abstained on 39 reviews;
+  auditing every one showed two recurring populations (subject-free verdicts
+  and concrete out-of-scope subjects), so a fifth strategic branch, *Other
+  feedback*, was added with full three-tier depth: general sentiment
+  (positive endorsement / negative verdict / neutral remark) and out-of-scope
+  subjects (credit enquiries / account administration / marketing
+  communications / unattributed price remarks). Each leaf has a boundary
+  definition, so the catch-all is defensible in exactly the sense rule 8
+  demands. The frozen tree is 5 strategic / 16 midlevel / 38 specific.
+- **The no-theme taxonomy in section 3 was simplified.** `no_subject` and
+  `irrelevant` reviews now route to explicit Other-feedback leaves; an empty
+  assignment list remains legal for subjects even v1.1 does not cover, and
+  `classification_failed` still fails the batch loudly.
+- **The embedding-assisted hybrid was built, measured, and parked.** Candidate
+  recall at top-12 was 79.2% on the annotated holdout, which would cap the
+  recall the larger model wins on. It ships behind `--hybrid` and an optional
+  dependency extra; the submitted configuration is LLM-only.
+- **Prompts live in `feedback_themes/pipeline.py`** under a versioned
+  `PROMPT_VERSION` constant (final: `classification-v6`) rather than a
+  `prompts/` folder, and the repository is flat rather than `src/`-layout.
+- **Final measured numbers (submitted v6 full run):** 223 reviews, 317
+  assignments, 13m 57s active batch time, 85,581 input / 33,481 output
+  tokens, $0.032926 list-price estimate on GPT-OSS 120B at low reasoning.
+  Holdout: micro-F1 0.769, exact match 0.660, evidence validity 1.000.
+  The evaluation harness this plan calls for exists as
+  `python -m feedback_themes holdout` / `evaluate`.
 
 The model probe also changed the final provider configuration. GPT-OSS 20B
-remains the inexpensive baseline, but GPT-OSS 120B at low reasoning recovered
-known secondary themes that 20B at medium reasoning missed and completed the
-full corpus in 11 minutes 31 seconds for an estimated $0.028990. The production
-runner therefore uses 120B-low, while 20B-low remains the taxonomy candidate
-generator.
+remains the taxonomy candidate generator, but GPT-OSS 120B at low reasoning
+recovered known secondary themes that 20B missed, so the production runner
+uses 120B-low.
 
 ---
 
