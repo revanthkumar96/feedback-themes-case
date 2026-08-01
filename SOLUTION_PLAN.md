@@ -56,10 +56,50 @@ measured before being adopted, are:
   The evaluation harness this plan calls for exists as
   `python -m feedback_themes holdout` / `evaluate`.
 
+A post-shipping code audit surfaced further plan-versus-code differences
+that the list above did not record. Three of them have since been closed;
+the fixes are additive and do not change the submitted outputs:
+
+- **Hard cost ceiling — was missing, now built.** Section 10 promises a
+  configurable budget cap that stops the run before the projected next call
+  crosses it. The submitted run predates the guard and cleared the gate by
+  measurement alone (~$0.033 against the $6 limit). The runner now takes
+  `--max-cost-usd` (default $5.00, 0 disables): before every provider call
+  it projects the call's cost from the prompt length and the completion
+  budget, and stops with a clear error — completed batches stay
+  checkpointed for `--resume` — if the projection would cross the ceiling.
+- **Bounded concurrency — was missing, now built.** `--concurrency` (1–8,
+  default 1) classifies batches through a bounded worker pool; the default
+  remains strictly sequential, which is the submitted configuration and the
+  sensible choice on the free tier, where the per-minute token limit is the
+  real bottleneck (28 rate-limit sleeps in the submitted run).
+- **Checkpoints — were keyed on review IDs, now on review content.** The
+  checkpoint identity now includes a hash of each batch's review texts, so
+  a changed review under an unchanged ID is recomputed rather than silently
+  reused. This matches the cache-invalidation promise in section 10 and
+  intentionally invalidates checkpoints written before the change.
+- **Per-assignment `match_explanation` and `uncertain` fields were
+  dropped.** Sections 5 and 8 specify both. The shipped assignment carries
+  only the leaf ID and the verbatim evidence span. The evidence span makes
+  most explanations redundant and self-reported uncertainty is uncalibrated
+  (section 15 says as much), so the tokens were spent elsewhere — but this
+  was a deliberate simplification and should be read as one.
+- **The milestone-1 `slice1` command is retained.** It predates the full
+  runner, duplicates part of its logic without the checkpoint and retry
+  machinery, and stays in the CLI purely as an inspectable record of the
+  contract-first development sequence. It is not part of the submitted
+  workflow.
+
 The model probe also changed the final provider configuration. GPT-OSS 20B
 remains the taxonomy candidate generator, but GPT-OSS 120B at low reasoning
 recovered known secondary themes that 20B missed, so the production runner
 uses 120B-low.
+
+Section 18, added after shipping, places the design against published
+industrial systems for the same problem class (TnT-LLM, hybrid
+supervised-LLM review mining, aspect-guided extraction at Wayfair) and
+records both where the pipeline matches current practice and where it
+honestly falls short.
 
 ---
 
@@ -883,6 +923,122 @@ With additional time, I would focus on evaluation rather than adding more orches
 - investigate whether a small local classifier can replace repeated API assignment after bootstrapping labels.
 
 These improvements would make the system more measurable and maintainable without changing the core design.
+
+Two of these follow directly from the industry comparison in section 18: the
+double-reviewed gold set should be split into a tuning half and a frozen
+reporting half before any further prompt iteration, and a calibrated
+LLM-as-judge pass would let semantic quality be estimated on the full corpus
+rather than only the 50-review holdout.
+
+---
+
+## 18. How the design compares with industry practice
+
+This section was written after the pipeline shipped. It places the design
+against published industrial systems for the same class of problem —
+open-ended theme discovery followed by large-scale labelled extraction — and
+is honest about where the pipeline matches current practice, where it
+deliberately diverges, and where it falls short.
+
+### Reference points
+
+- **TnT-LLM** (Microsoft, KDD 2024): the closest published analogue. A
+  two-phase framework that first generates and iteratively refines a label
+  taxonomy from corpus minibatches with an LLM, then uses the frozen taxonomy
+  for LLM classification — and, at scale, distils the LLM's pseudo-labels
+  into a lightweight supervised classifier for cheap deployment.
+- **Hybrid supervised-LLM review mining** (EACL 2026 industry track): a
+  high-recall supervised filter feeding a controlled, instruction-tuned LLM
+  for extraction, categorisation, and clustering; hybrid beats prompt-only
+  and classifier-only baselines, and quality claims rest on human evaluation.
+- **Aspect-guided review extraction at Wayfair** (2025): per-review
+  structured-JSON aspect extraction with an LLM, capped at five aspects per
+  review, validated offline by manual review and online by A/B test.
+- **Production LLM-as-ETL discipline** (open reference implementations,
+  2025–2026): a human-annotated gold set frozen *before* prompt
+  optimisation and split so the number you tune against and the number you
+  report are different; immutable versioned prompts; resumable checkpointed
+  runs; diagnostic-only proxies for the unlabelled remainder.
+
+### Where the pipeline matches practice
+
+| Industry practice | Reference | This pipeline |
+|---|---|---|
+| Discover the taxonomy first, freeze it, then classify against fixed IDs | TnT-LLM phase 1 → phase 2 | `discover` → `consolidate` → human review → frozen `themes.json`; classification only ever emits leaf IDs |
+| Schema-constrained structured output rather than free text | Universal across the references | Groq strict JSON schema; the key never enters the payload; malformed output fails validation, not silently |
+| Ground every extraction in verbatim source text | Wayfair; grounded-attribution practice generally | Exact evidence substring required per assignment; measured evidence validity 1.000 |
+| Cap per-item extractions to bound runaway output | Wayfair caps at 5 aspects per review | Same cap: 5 assignments, stated in the prompt and enforced by the validator |
+| Human-annotated gold set as the basis of quality claims | All references | 50-review rating-stratified holdout, annotated against frozen definitions, avoiding discovery samples |
+| Measure a hybrid before adopting it | EACL 2026 hybrid pipeline | Embedding retrieval was built, measured (79.2% candidate recall at top-12), and rejected with numbers rather than assumed in or out |
+| Versioned prompts, checkpointed resumable runs, full token/cost telemetry | LLM-as-ETL discipline; general LLMOps norms | `PROMPT_VERSION` invalidates checkpoints; per-batch atomic checkpoints keyed on model + prompt + taxonomy hash; measured tokens, cost, and wall time in the run block |
+| Measure run-to-run stability, not just single-run accuracy | LLM-as-ETL discipline | `evaluate --baseline-results`: 0.80 identical assignment sets, 0.877 mean Jaccard for the submitted configuration |
+
+### Deliberate divergences
+
+- **No distillation to a lightweight classifier.** TnT-LLM's phase-2
+  distillation pays for itself when the corpus is orders of magnitude larger
+  than the annotation budget. At 223 reviews the entire corpus costs ~$0.03
+  to classify directly; training a student model would add complexity with
+  no benefit. The "another week" list already flags distillation as the
+  right move if this ran continuously in production.
+- **No supervised pre-filter.** The EACL hybrid uses a RoBERTa filter
+  because its corpora mix suggestion-bearing and irrelevant text at scale.
+  Here every review is in scope by construction, and the measured retrieval
+  experiment showed a local pre-filter would cap recall rather than save
+  meaningful cost.
+- **Human taxonomy review instead of fully automatic refinement.** TnT-LLM
+  refines the taxonomy with LLM-only update prompts. This pipeline keeps a
+  human in the consolidation loop deliberately: the brief makes taxonomy
+  design an assessed decision, and the retained candidate trees in
+  `artifacts/` document why the automatic output was not good enough on its
+  own.
+
+### Honest gaps against practice
+
+- **The holdout is both the tuning set and the reporting set.** Prompt
+  versions v1–v6 were compared on the same 50 annotated reviews that back
+  the reported micro-F1 0.769. Gold-set discipline in production systems
+  freezes a separate test split before optimisation begins; the reported
+  number here should therefore be read as a development-set figure with
+  some optimistic bias. Fixing this is the first item I would fund with
+  more time.
+- **Single annotator, no inter-annotator agreement.** All references treat
+  double annotation and an agreement statistic as the floor for trusting a
+  gold set. Section 17 already commits to this.
+- **Abstention recall is 0.0.** The two annotated abstentions (remote
+  e-signing, delegated accountant access) were both filed under the nearest
+  leaf instead. The unsupported-assignment rate of 23.6% is the same
+  failure seen from the other side. Industry systems handle this with an
+  explicit out-of-taxonomy escalation path — the production novel-subject
+  queue already proposed in section 15.
+- **No scaled second opinion.** Current practice pairs the small human gold
+  set with an LLM-as-judge pass calibrated against it, so semantic quality
+  can be estimated on the whole corpus instead of 22% of it. The evidence
+  substrings this pipeline already emits are exactly the input such a judge
+  needs; it is an evaluation extension, not a redesign.
+- **Sequential batches by default.** Section 10 planned bounded
+  concurrency; the submitted run was sequential and spent part of its
+  13m 57s waiting out 28 rate-limit retries on the free tier. A bounded
+  worker pool now exists behind `--concurrency` (closed after the audit),
+  but the default stays sequential because the free tier's per-minute token
+  limit, not batch serialization, is the real bottleneck.
+- **The budget guard arrived after the submitted run.** Section 10 promises
+  a hard cost ceiling with a pre-call projection; it now exists as
+  `--max-cost-usd` (closed after the audit), but the submitted run cleared
+  the gate by measurement alone. Production practice is to have the guard
+  before, not after, the first expensive run.
+
+### Verification status (2026-08-01)
+
+The comparison above is grounded in a full re-verification of the shipped
+artefacts from this checkout: all 66 unit tests pass without a network; the
+supplied checker reports clean `ROWS` and `TREE` (317 rows, 5/16/38 tree,
+223/223 reviews covered); every assignment in `out/results.json` references
+a known leaf in `themes.json`, every evidence string is a verbatim substring
+of its review, and `out/flat.json` is an exact projection of the rich output
+(zero mismatches); the run block confirms the published numbers (836.8 s,
+85,581 input / 33,481 output tokens, $0.032926, taxonomy hash `036cf9…`);
+and `out/evaluation.json` matches the quoted holdout metrics.
 
 ---
 

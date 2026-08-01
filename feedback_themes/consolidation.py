@@ -7,7 +7,7 @@ from pathlib import Path
 from typing import Any
 
 from .discovery import TaxonomyGenerator, taxonomy_schema, validate_discovered_taxonomy
-from .domain import ContractError, Taxonomy
+from .domain import ContractError, Taxonomy, write_json
 from .groq import Completion
 from .pipeline import estimated_cost_usd
 
@@ -66,15 +66,6 @@ def build_consolidation_prompt(candidates: list[Taxonomy]) -> str:
         ],
     }
     return json.dumps(payload, ensure_ascii=False, indent=2)
-
-
-def _write_json(path: Path, payload: Any) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    temporary = path.with_suffix(f"{path.suffix}.tmp")
-    with temporary.open("w", encoding="utf-8", newline="\n") as handle:
-        json.dump(payload, handle, ensure_ascii=False, indent=2)
-        handle.write("\n")
-    temporary.replace(path)
 
 
 def run_consolidation(
@@ -146,8 +137,8 @@ def run_consolidation(
     }
     taxonomy_path = Path(taxonomy_output)
     metadata_path = Path(metadata_output)
-    _write_json(taxonomy_path, taxonomy.source)
-    _write_json(metadata_path, metadata)
+    write_json(taxonomy_path, taxonomy.source)
+    write_json(metadata_path, metadata)
 
     strategic_count = len(taxonomy.source["strategic_themes"])
     midlevel_count = sum(

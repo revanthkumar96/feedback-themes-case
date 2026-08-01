@@ -14,7 +14,7 @@ from pathlib import Path
 from typing import Any
 
 from .discovery import load_reviews
-from .domain import ContractError, Taxonomy
+from .domain import ContractError, Taxonomy, write_json
 
 
 def load_annotations(
@@ -260,15 +260,6 @@ def compare_runs(
     }
 
 
-def _write_json(path: Path, payload: Any) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    temporary = path.with_suffix(f"{path.suffix}.tmp")
-    with temporary.open("w", encoding="utf-8", newline="\n") as handle:
-        json.dump(payload, handle, ensure_ascii=False, indent=2)
-        handle.write("\n")
-    temporary.replace(path)
-
-
 def run_evaluation(
     *,
     annotations_path: str | Path,
@@ -299,6 +290,6 @@ def run_evaluation(
     report["annotations_path"] = str(annotations_path)
     report["results_path"] = str(results_path)
     report["taxonomy_hash"] = taxonomy.content_hash
-    _write_json(Path(output_path), report)
+    write_json(Path(output_path), report)
     report["output_path"] = Path(output_path)
     return report

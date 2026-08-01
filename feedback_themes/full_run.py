@@ -1,7 +1,11 @@
 from __future__ import annotations
 
+import hashlib
 import json
+import threading
 import time
+from concurrent.futures import ThreadPoolExecutor
+from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Callable
@@ -12,12 +16,14 @@ from .domain import (
     Taxonomy,
     build_flat_projection,
     validate_model_output,
+    write_json,
 )
 from .groq import GroqError
 from .pipeline import (
     PROMPT_VERSION,
     Classifier,
     build_prompt,
+    estimated_call_cost_usd,
     estimated_cost_usd,
 )
 from .retrieval import ThemeCandidate, ThemeRetriever
@@ -25,13 +31,43 @@ from .retrieval import ThemeCandidate, ThemeRetriever
 Progress = Callable[[str], None]
 
 
-def _write_json(path: Path, payload: Any) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    temporary = path.with_suffix(f"{path.suffix}.tmp")
-    with temporary.open("w", encoding="utf-8", newline="\n") as handle:
-        json.dump(payload, handle, ensure_ascii=False, indent=2)
-        handle.write("\n")
-    temporary.replace(path)
+class BudgetError(RuntimeError):
+    """Raised when the projected next call would cross the cost ceiling."""
+
+
+class CostBudget:
+    """Thread-safe hard spend ceiling, checked before every provider call."""
+
+    def __init__(self, ceiling_usd: float) -> None:
+        if ceiling_usd <= 0:
+            raise ValueError("ceiling_usd must be positive")
+        self.ceiling_usd = ceiling_usd
+        self.spent_usd = 0.0
+        self._lock = threading.Lock()
+
+    def reserve(self, projected_usd: float | None) -> None:
+        """Fail loudly if the projected call would cross the ceiling.
+
+        A ``None`` projection (unknown model pricing) is let through; the
+        guard can only be as good as the price list.
+        """
+        if projected_usd is None:
+            return
+        with self._lock:
+            if self.spent_usd + projected_usd > self.ceiling_usd:
+                raise BudgetError(
+                    f"projected next call (~${projected_usd:.4f}) would take "
+                    f"spend past the ${self.ceiling_usd:.2f} ceiling "
+                    f"(${self.spent_usd:.4f} spent so far); completed "
+                    "batches are checkpointed, rerun with --resume and a "
+                    "higher --max-cost-usd"
+                )
+
+    def record(self, actual_usd: float | None) -> None:
+        if actual_usd is None:
+            return
+        with self._lock:
+            self.spent_usd += actual_usd
 
 
 def _add_usage(total: dict[str, int], usage: dict[str, int]) -> None:
@@ -45,6 +81,7 @@ def _classify_batch(
     taxonomy: Taxonomy,
     classifier: Classifier,
     candidate_ids_by_review: dict[str, list[str]] | None = None,
+    budget: CostBudget | None = None,
 ) -> tuple[list[dict[str, Any]], dict[str, int], int, int]:
     base_prompt = build_prompt(
         reviews,
@@ -53,9 +90,12 @@ def _classify_batch(
     )
     total_usage = {"input_tokens": 0, "output_tokens": 0, "total_tokens": 0}
     validation_error: ContractError | None = None
+    validation_retries = 0
     generation_retries = 0
 
-    for attempt in range(3):
+    # Three attempts total, shared between provider-side generation failures
+    # and deterministic contract violations.
+    for _ in range(3):
         prompt = base_prompt
         if validation_error is not None:
             prompt += (
@@ -63,6 +103,14 @@ def _classify_batch(
                 f"validation: {validation_error}. Return the complete batch "
                 "again, correcting that issue without changing supported "
                 "assignments."
+            )
+        if budget is not None:
+            budget.reserve(
+                estimated_call_cost_usd(
+                    classifier.model,
+                    prompt,
+                    getattr(classifier, "max_completion_tokens", None),
+                )
             )
         try:
             completion = classifier.classify(
@@ -73,7 +121,7 @@ def _classify_batch(
             if (
                 error.status_code == 400
                 and error.error_code == "json_validate_failed"
-                and attempt < 2
+                and validation_retries + generation_retries < 2
             ):
                 generation_retries += 1
                 validation_error = ContractError(
@@ -82,6 +130,10 @@ def _classify_batch(
                 continue
             raise
         _add_usage(total_usage, completion.usage)
+        if budget is not None:
+            budget.record(
+                estimated_cost_usd(completion.model, completion.usage)
+            )
         try:
             payload = json.loads(completion.content)
             results = validate_model_output(
@@ -89,13 +141,27 @@ def _classify_batch(
                 reviews,
                 taxonomy,
             )
-            return results, total_usage, attempt - generation_retries, generation_retries
+            return results, total_usage, validation_retries, generation_retries
         except json.JSONDecodeError:
             validation_error = ContractError("model content is not valid JSON")
         except ContractError as error:
             validation_error = error
+        validation_retries += 1
 
     raise validation_error or ContractError("batch classification failed")
+
+
+def _review_content_hash(reviews: list[dict[str, Any]]) -> str:
+    """Hash the texts the model actually sees, so a changed review under an
+    unchanged ID cannot silently reuse a stale checkpoint."""
+    canonical = json.dumps(
+        [
+            [review["id"], review.get("title") or "", review["content_en"]]
+            for review in reviews
+        ],
+        ensure_ascii=False,
+    )
+    return hashlib.sha256(canonical.encode("utf-8")).hexdigest()
 
 
 def _checkpoint_identity(
@@ -113,6 +179,7 @@ def _checkpoint_identity(
     return {
         "batch_index": batch_index,
         "review_ids": [review["id"] for review in reviews],
+        "review_content_hash": _review_content_hash(reviews),
         "taxonomy_hash": taxonomy.content_hash,
         "prompt_version": PROMPT_VERSION,
         "model": classifier.model,
@@ -126,6 +193,134 @@ def _checkpoint_identity(
         "candidate_ids_by_review": candidate_ids_by_review,
         "audit_unassigned": audit_unassigned,
     }
+
+
+@dataclass
+class _BatchOutcome:
+    """Everything one batch contributes to the run, however it was obtained."""
+
+    results: list[dict[str, Any]]
+    usage: dict[str, int]
+    validation_retries: int
+    generation_retries: int
+    rate_limit_retries: int
+    elapsed_seconds: float
+    fallback_review_ids: list[str]
+    fallback_recovered_count: int
+    resumed: bool = False
+
+
+def _load_reusable_checkpoint(
+    batch_checkpoint: Path | None,
+    identity: dict[str, Any],
+    *,
+    resume: bool,
+    progress: Progress,
+    batch_index: int,
+    batch_count: int,
+) -> dict[str, Any] | None:
+    if not resume or batch_checkpoint is None or not batch_checkpoint.exists():
+        return None
+    with batch_checkpoint.open(encoding="utf-8") as handle:
+        candidate = json.load(handle)
+    if candidate.get("identity") == identity:
+        return candidate
+    progress(
+        f"Batch {batch_index}/{batch_count}: checkpoint was "
+        "written under a different configuration; recomputing"
+    )
+    return None
+
+
+def _outcome_from_checkpoint(
+    checkpoint: dict[str, Any],
+    batch: list[dict[str, Any]],
+    taxonomy: Taxonomy,
+) -> _BatchOutcome:
+    return _BatchOutcome(
+        results=validate_model_output(
+            {"results": checkpoint["results"]}, batch, taxonomy
+        ),
+        usage=checkpoint["usage"],
+        validation_retries=checkpoint["validation_retries"],
+        generation_retries=checkpoint["generation_retries"],
+        rate_limit_retries=checkpoint["rate_limit_retries"],
+        elapsed_seconds=float(checkpoint["elapsed_seconds"]),
+        fallback_review_ids=checkpoint.get("fallback_review_ids", []),
+        fallback_recovered_count=int(
+            checkpoint.get("fallback_recovered_count", 0)
+        ),
+        resumed=True,
+    )
+
+
+def _classify_batch_with_fallback(
+    *,
+    batch: list[dict[str, Any]],
+    taxonomy: Taxonomy,
+    classifier: Classifier,
+    candidate_ids_by_review: dict[str, list[str]] | None,
+    run_fallback_audit: bool,
+    budget: CostBudget | None = None,
+) -> _BatchOutcome:
+    """Classify one batch; re-check shortlist abstentions on the full taxonomy."""
+    rate_retries_before = getattr(classifier, "rate_limit_retry_count", 0)
+    started = time.perf_counter()
+    results, usage, validation_retries, generation_retries = _classify_batch(
+        reviews=batch,
+        taxonomy=taxonomy,
+        classifier=classifier,
+        candidate_ids_by_review=candidate_ids_by_review,
+        budget=budget,
+    )
+    fallback_review_ids: list[str] = []
+    fallback_recovered_count = 0
+    if run_fallback_audit:
+        primary_by_id = {result["review_id"]: result for result in results}
+        fallback_reviews = [
+            review
+            for review in batch
+            if not primary_by_id[review["id"]]["assignments"]
+        ]
+        fallback_review_ids = [review["id"] for review in fallback_reviews]
+        if fallback_reviews:
+            (
+                fallback_results,
+                fallback_usage,
+                fallback_validation_retries,
+                fallback_generation_retries,
+            ) = _classify_batch(
+                reviews=fallback_reviews,
+                taxonomy=taxonomy,
+                classifier=classifier,
+                budget=budget,
+            )
+            _add_usage(usage, fallback_usage)
+            validation_retries += fallback_validation_retries
+            generation_retries += fallback_generation_retries
+            fallback_by_id = {
+                result["review_id"]: result for result in fallback_results
+            }
+            fallback_recovered_count = sum(
+                bool(result["assignments"]) for result in fallback_results
+            )
+            results = [
+                fallback_by_id.get(result["review_id"], result)
+                for result in results
+            ]
+    return _BatchOutcome(
+        results=results,
+        usage=usage,
+        validation_retries=validation_retries,
+        generation_retries=generation_retries,
+        rate_limit_retries=(
+            getattr(classifier, "rate_limit_retry_count", 0)
+            - rate_retries_before
+        ),
+        elapsed_seconds=round(time.perf_counter() - started, 3),
+        fallback_review_ids=fallback_review_ids,
+        fallback_recovered_count=fallback_recovered_count,
+    )
 
 
 def run_full_classification(
@@ -142,11 +337,16 @@ def run_full_classification(
     retrieval_top_k: int = 12,
     audit_unassigned: bool = True,
     review_ids: set[str] | None = None,
+    concurrency: int = 1,
+    max_cost_usd: float | None = None,
 ) -> dict[str, Any]:
     if batch_size < 1 or batch_size > 30:
         raise ValueError("batch_size must be between 1 and 30")
     if retrieval_top_k < 1:
         raise ValueError("retrieval_top_k must be positive")
+    if concurrency < 1 or concurrency > 8:
+        raise ValueError("concurrency must be between 1 and 8")
+    budget = CostBudget(max_cost_usd) if max_cost_usd is not None else None
     started = time.perf_counter()
     reviews = load_reviews(reviews_path)
     if review_ids is not None:
@@ -189,13 +389,18 @@ def run_full_classification(
     routing_by_review: dict[str, dict[str, Any]] = {}
     validation_retries = 0
     generation_retries = 0
-    rate_limit_retries = 0
     fallback_review_count = 0
     fallback_recovered_count = 0
     active_elapsed_seconds = retrieval_elapsed_seconds
     batch_count = (len(reviews) + batch_size - 1) // batch_size
     checkpoint_path = Path(checkpoint_dir) if checkpoint_dir else None
+    process_rate_retries_before = getattr(
+        classifier, "rate_limit_retry_count", 0
+    )
 
+    batch_specs: list[
+        tuple[int, list[dict[str, Any]], dict[str, list[str]] | None]
+    ] = []
     for batch_index, start in enumerate(range(0, len(reviews), batch_size), 1):
         batch = reviews[start : start + batch_size]
         candidate_ids_by_review = (
@@ -209,6 +414,12 @@ def run_full_classification(
             if candidate_rankings is not None
             else None
         )
+        batch_specs.append((batch_index, batch, candidate_ids_by_review))
+
+    def _obtain_outcome(
+        spec: tuple[int, list[dict[str, Any]], dict[str, list[str]] | None],
+    ) -> _BatchOutcome:
+        batch_index, batch, candidate_ids_by_review = spec
         identity = _checkpoint_identity(
             batch_index=batch_index,
             reviews=batch,
@@ -229,123 +440,68 @@ def run_full_classification(
             if checkpoint_path
             else None
         )
-        checkpoint: dict[str, Any] | None = None
-        if resume and batch_checkpoint and batch_checkpoint.exists():
-            with batch_checkpoint.open(encoding="utf-8") as handle:
-                candidate_checkpoint = json.load(handle)
-            if candidate_checkpoint.get("identity") == identity:
-                checkpoint = candidate_checkpoint
-            else:
-                progress(
-                    f"Batch {batch_index}/{batch_count}: checkpoint was "
-                    "written under a different configuration; recomputing"
-                )
+        checkpoint = _load_reusable_checkpoint(
+            batch_checkpoint,
+            identity,
+            resume=resume,
+            progress=progress,
+            batch_index=batch_index,
+            batch_count=batch_count,
+        )
         if checkpoint is not None:
-            results = validate_model_output(
-                {"results": checkpoint["results"]}, batch, taxonomy
-            )
-            usage = checkpoint["usage"]
-            batch_validation_retries = checkpoint["validation_retries"]
-            batch_generation_retries = checkpoint["generation_retries"]
-            batch_rate_limit_retries = checkpoint["rate_limit_retries"]
-            batch_elapsed = float(checkpoint["elapsed_seconds"])
-            fallback_review_ids = checkpoint.get("fallback_review_ids", [])
-            batch_fallback_recovered_count = int(
-                checkpoint.get("fallback_recovered_count", 0)
-            )
+            outcome = _outcome_from_checkpoint(checkpoint, batch, taxonomy)
             progress(
                 f"Batch {batch_index}/{batch_count}: resumed "
                 f"{len(batch)} reviews from checkpoint"
             )
-        else:
-            rate_retries_before = getattr(
-                classifier, "rate_limit_retry_count", 0
+            return outcome
+        outcome = _classify_batch_with_fallback(
+            batch=batch,
+            taxonomy=taxonomy,
+            classifier=classifier,
+            candidate_ids_by_review=candidate_ids_by_review,
+            run_fallback_audit=(
+                candidate_rankings is not None and audit_unassigned
+            ),
+            budget=budget,
+        )
+        if batch_checkpoint:
+            write_json(
+                batch_checkpoint,
+                {
+                    "identity": identity,
+                    "results": outcome.results,
+                    "usage": outcome.usage,
+                    "elapsed_seconds": outcome.elapsed_seconds,
+                    "validation_retries": outcome.validation_retries,
+                    "generation_retries": outcome.generation_retries,
+                    "rate_limit_retries": outcome.rate_limit_retries,
+                    "fallback_review_ids": outcome.fallback_review_ids,
+                    "fallback_recovered_count": (
+                        outcome.fallback_recovered_count
+                    ),
+                },
             )
-            batch_started = time.perf_counter()
-            (
-                results,
-                usage,
-                batch_validation_retries,
-                batch_generation_retries,
-            ) = _classify_batch(
-                reviews=batch,
-                taxonomy=taxonomy,
-                classifier=classifier,
-                candidate_ids_by_review=candidate_ids_by_review,
-            )
-            fallback_review_ids: list[str] = []
-            batch_fallback_recovered_count = 0
-            if candidate_rankings is not None and audit_unassigned:
-                primary_by_id = {
-                    result["review_id"]: result for result in results
-                }
-                fallback_reviews = [
-                    review
-                    for review in batch
-                    if not primary_by_id[review["id"]]["assignments"]
-                ]
-                fallback_review_ids = [
-                    review["id"] for review in fallback_reviews
-                ]
-                if fallback_reviews:
-                    (
-                        fallback_results,
-                        fallback_usage,
-                        fallback_validation_retries,
-                        fallback_generation_retries,
-                    ) = _classify_batch(
-                        reviews=fallback_reviews,
-                        taxonomy=taxonomy,
-                        classifier=classifier,
-                    )
-                    _add_usage(usage, fallback_usage)
-                    batch_validation_retries += fallback_validation_retries
-                    batch_generation_retries += fallback_generation_retries
-                    fallback_by_id = {
-                        result["review_id"]: result
-                        for result in fallback_results
-                    }
-                    batch_fallback_recovered_count = sum(
-                        bool(result["assignments"])
-                        for result in fallback_results
-                    )
-                    results = [
-                        fallback_by_id.get(result["review_id"], result)
-                        for result in results
-                    ]
-            batch_elapsed = round(time.perf_counter() - batch_started, 3)
-            batch_rate_limit_retries = (
-                getattr(classifier, "rate_limit_retry_count", 0)
-                - rate_retries_before
-            )
-            if batch_checkpoint:
-                _write_json(
-                    batch_checkpoint,
-                    {
-                        "identity": identity,
-                        "results": results,
-                        "usage": usage,
-                        "elapsed_seconds": batch_elapsed,
-                        "validation_retries": batch_validation_retries,
-                        "generation_retries": batch_generation_retries,
-                        "rate_limit_retries": batch_rate_limit_retries,
-                        "fallback_review_ids": fallback_review_ids,
-                        "fallback_recovered_count": (
-                            batch_fallback_recovered_count
-                        ),
-                    },
-                )
-            progress(
-                f"Batch {batch_index}/{batch_count}: {len(batch)} reviews, "
-                f"{sum(len(item['assignments']) for item in results)} "
-                f"assignments, {len(fallback_review_ids)} fallback audits, "
-                f"{batch_elapsed:.1f}s"
-            )
-        all_results.extend(results)
+        progress(
+            f"Batch {batch_index}/{batch_count}: {len(batch)} reviews, "
+            f"{sum(len(item['assignments']) for item in outcome.results)} "
+            f"assignments, {len(outcome.fallback_review_ids)} fallback "
+            f"audits, {outcome.elapsed_seconds:.1f}s"
+        )
+        return outcome
+
+    if concurrency == 1:
+        outcomes = [_obtain_outcome(spec) for spec in batch_specs]
+    else:
+        with ThreadPoolExecutor(max_workers=concurrency) as pool:
+            outcomes = list(pool.map(_obtain_outcome, batch_specs))
+
+    for (_, batch, _), outcome in zip(batch_specs, outcomes, strict=True):
+        all_results.extend(outcome.results)
         for review in batch:
             review_id = review["id"]
             route: dict[str, Any] = {
-                "fallback_used": review_id in fallback_review_ids,
+                "fallback_used": review_id in outcome.fallback_review_ids,
             }
             if candidate_rankings is not None:
                 route["semantic_candidates"] = [
@@ -353,13 +509,22 @@ def run_full_classification(
                     for candidate in candidate_rankings[review_id]
                 ]
             routing_by_review[review_id] = route
-        _add_usage(total_usage, usage)
-        validation_retries += batch_validation_retries
-        generation_retries += batch_generation_retries
-        rate_limit_retries += batch_rate_limit_retries
-        fallback_review_count += len(fallback_review_ids)
-        fallback_recovered_count += batch_fallback_recovered_count
-        active_elapsed_seconds += batch_elapsed
+        _add_usage(total_usage, outcome.usage)
+        validation_retries += outcome.validation_retries
+        generation_retries += outcome.generation_retries
+        fallback_review_count += len(outcome.fallback_review_ids)
+        fallback_recovered_count += outcome.fallback_recovered_count
+        active_elapsed_seconds += outcome.elapsed_seconds
+
+    # Resumed batches report the retries recorded in their checkpoints;
+    # fresh batches are counted from the shared client counter, which stays
+    # exact even when batches run concurrently.
+    rate_limit_retries = sum(
+        outcome.rate_limit_retries for outcome in outcomes if outcome.resumed
+    ) + (
+        getattr(classifier, "rate_limit_retry_count", 0)
+        - process_rate_retries_before
+    )
 
     process_wall_seconds = round(time.perf_counter() - started, 3)
     elapsed_seconds = round(active_elapsed_seconds, 3)
@@ -396,6 +561,8 @@ def run_full_classification(
             ),
             "batch_size": batch_size,
             "batch_count": batch_count,
+            "concurrency": concurrency,
+            "cost_ceiling_usd": max_cost_usd,
             "usage": total_usage,
             "estimated_cost_usd": cost,
             "validation_retries": validation_retries,
@@ -429,8 +596,8 @@ def run_full_classification(
     output_path = Path(output_dir)
     results_path = output_path / "results.json"
     flat_path = output_path / "flat.json"
-    _write_json(results_path, rich_output)
-    _write_json(flat_path, flat)
+    write_json(results_path, rich_output)
+    write_json(flat_path, flat)
 
     return {
         "review_count": len(all_results),

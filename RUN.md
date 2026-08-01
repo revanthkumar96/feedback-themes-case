@@ -23,7 +23,9 @@ The checked-in defaults reproduce the measured final configuration:
 - `openai/gpt-oss-120b`
 - low reasoning
 - 3,000 maximum completion tokens
-- batches of 10 reviews
+- batches of 10 reviews, classified sequentially (`--concurrency` raises this)
+- a $5.00 hard cost ceiling (`--max-cost-usd`; the run stops before a
+  projected call would cross it)
 - frozen `themes.json`
 - no local embedding retrieval
 
@@ -35,9 +37,10 @@ failure interrupts the run, use:
 python -m feedback_themes run --resume
 ```
 
-A checkpoint is reused only when its review IDs, model, reasoning setting,
-prompt version, batch size, and taxonomy hash all match the current run; a
-checkpoint written under a different configuration is reported and recomputed.
+A checkpoint is reused only when its review IDs, a hash of the review texts,
+model, reasoning setting, prompt version, batch size, and taxonomy hash all
+match the current run; a checkpoint written under a different configuration
+is reported and recomputed.
 
 ## Verification
 

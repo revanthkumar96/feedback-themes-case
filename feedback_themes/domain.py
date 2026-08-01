@@ -3,12 +3,24 @@ from __future__ import annotations
 import hashlib
 import json
 from dataclasses import dataclass
+from functools import cached_property
 from pathlib import Path
 from typing import Any
 
 
 class ContractError(ValueError):
     """Raised when taxonomy or model output violates the pipeline contract."""
+
+
+def write_json(path: str | Path, payload: Any) -> None:
+    """Write JSON atomically: to a temporary file, then rename into place."""
+    target = Path(path)
+    target.parent.mkdir(parents=True, exist_ok=True)
+    temporary = target.with_suffix(f"{target.suffix}.tmp")
+    with temporary.open("w", encoding="utf-8", newline="\n") as handle:
+        json.dump(payload, handle, ensure_ascii=False, indent=2)
+        handle.write("\n")
+    temporary.replace(target)
 
 
 def _required_text(value: Any, location: str) -> str:
@@ -137,12 +149,22 @@ class Taxonomy:
 
         return cls(version=version, source=data, leaves=leaves)
 
-    @property
+    @cached_property
     def content_hash(self) -> str:
         canonical = json.dumps(
             self.source, ensure_ascii=False, sort_keys=True, separators=(",", ":")
         )
         return hashlib.sha256(canonical.encode("utf-8")).hexdigest()
+
+    @cached_property
+    def leaf_definitions(self) -> dict[str, str]:
+        """One-line definition per specific-theme leaf ID."""
+        return {
+            specific["id"]: specific["definition"]
+            for strategic in self.source["strategic_themes"]
+            for midlevel in strategic["midlevel_themes"]
+            for specific in midlevel["specific_themes"]
+        }
 
     def model_schema(
         self,
@@ -244,6 +266,8 @@ def validate_model_output(
     for index, result in enumerate(results):
         review_id = expected_ids[index]
         assignments = result.get("assignments")
+        # The strict model schema cannot emit no_assignment_reason; this
+        # field only appears when revalidating checkpointed results.
         reason = result.get("no_assignment_reason")
         if not isinstance(assignments, list):
             raise ContractError(f"{review_id}: assignments must be a list")

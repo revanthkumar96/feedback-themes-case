@@ -9,7 +9,7 @@ from .consolidation import run_consolidation
 from .discovery import run_discovery
 from .domain import ContractError
 from .evaluation import run_evaluation
-from .full_run import run_full_classification
+from .full_run import BudgetError, run_full_classification
 from .groq import GroqClient, GroqError
 from .holdout import run_holdout_selection
 from .pipeline import run_slice1
@@ -152,6 +152,24 @@ def _parser() -> argparse.ArgumentParser:
         "--no-abstention-audit",
         action="store_true",
         help="Do not recheck shortlist abstentions against the full taxonomy",
+    )
+    run.add_argument(
+        "--concurrency",
+        type=int,
+        default=1,
+        help=(
+            "Batches classified in parallel (1-8; 1 is sequential and the "
+            "submitted configuration)"
+        ),
+    )
+    run.add_argument(
+        "--max-cost-usd",
+        type=float,
+        default=5.0,
+        help=(
+            "Hard API budget in USD; the run stops before a projected call "
+            "would cross it (0 disables the guard)"
+        ),
     )
     _add_provider_arguments(
         run,
@@ -413,10 +431,15 @@ def main() -> int:
                 review_ids=(
                     _load_subset_ids(args.subset) if args.subset else None
                 ),
+                concurrency=args.concurrency,
+                max_cost_usd=(
+                    args.max_cost_usd if args.max_cost_usd > 0 else None
+                ),
             )
         else:
             raise AssertionError(f"unhandled command: {args.command}")
     except (
+        BudgetError,
         ContractError,
         GroqError,
         OSError,

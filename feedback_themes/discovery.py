@@ -7,7 +7,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Protocol
 
-from .domain import ContractError, Taxonomy
+from .domain import ContractError, Taxonomy, write_json
 from .groq import Completion
 from .pipeline import estimated_cost_usd
 
@@ -247,15 +247,6 @@ def _all_theme_ids(taxonomy: dict[str, Any]) -> list[str]:
     return ids
 
 
-def _write_json(path: Path, payload: Any) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    temporary = path.with_suffix(f"{path.suffix}.tmp")
-    with temporary.open("w", encoding="utf-8", newline="\n") as handle:
-        json.dump(payload, handle, ensure_ascii=False, indent=2)
-        handle.write("\n")
-    temporary.replace(path)
-
-
 def run_discovery(
     *,
     reviews_path: str | Path,
@@ -325,8 +316,8 @@ def run_discovery(
         "sample_review_ids": [review["id"] for review in sample],
         "taxonomy_hash": taxonomy.content_hash,
     }
-    _write_json(taxonomy_path, taxonomy.source)
-    _write_json(metadata_path, metadata)
+    write_json(taxonomy_path, taxonomy.source)
+    write_json(metadata_path, metadata)
 
     strategic_count = len(taxonomy.source["strategic_themes"])
     midlevel_count = sum(

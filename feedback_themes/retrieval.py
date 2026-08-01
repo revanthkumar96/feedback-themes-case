@@ -161,18 +161,10 @@ class FastEmbedThemeRetriever:
 
 
 def _theme_documents(taxonomy: Taxonomy) -> tuple[list[str], list[str]]:
-    definitions: dict[str, str] = {}
-    for strategic in taxonomy.source["strategic_themes"]:
-        for midlevel in strategic["midlevel_themes"]:
-            for specific in midlevel["specific_themes"]:
-                definitions[specific["id"]] = specific["definition"]
-
     theme_ids: list[str] = []
     documents: list[str] = []
     for theme_id, path in taxonomy.leaves.items():
-        definition = definitions.get(theme_id)
-        if not isinstance(definition, str) or not definition.strip():
-            raise ContractError(f"taxonomy definition missing for {theme_id!r}")
+        definition = taxonomy.leaf_definitions[theme_id]
         theme_ids.append(theme_id)
         documents.append(
             "Feedback theme: "

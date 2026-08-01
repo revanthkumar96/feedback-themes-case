@@ -56,6 +56,8 @@ budget — see section 7 for what to do when the quota runs out mid-run.
 | Prompt                | `classification-v6` (boundary rules, 5-assignment cap, Other-feedback routing) |
 | Taxonomy              | frozen `themes.json` v1.1 (5 / 16 / 38; core subjects polarity-neutral, plus the Other-feedback branch) |
 | Retrieval             | none (hybrid mode is opt-in, experimental)                          |
+| Concurrency           | 1 (sequential; `--concurrency` up to 8 available)                   |
+| Cost ceiling          | $5.00 (`--max-cost-usd`; the run stops before a projected call would cross it, 0 disables) |
 
 
 All of these are the checked-in defaults of `python -m feedback_themes run`.
@@ -63,7 +65,7 @@ All of these are the checked-in defaults of `python -m feedback_themes run`.
 ## 4. The standard end-to-end run
 
 ```powershell
-# 1. verify the code without an API key (61 tests, no network)
+# 1. verify the code without an API key (66 tests, no network)
 python -m unittest discover -s tests
 
 # 2. classify all 223 reviews (~14 min active time on free tier)
@@ -155,11 +157,13 @@ outputs always come from a full run.
 | `Batch N: checkpoint was written under a different configuration; recomputing` | A checkpoint from an older prompt/model was found                                     | Informational; that batch is recomputed, matching batches are still reused.                                                                                                      |
 | `HTTP 403, error code: 1010` on manual API tests                               | Cloudflare rejecting the default Python user-agent                                    | Send a `User-Agent` header; the pipeline already does.                                                                                                                           |
 | Semantic validation failure after 3 attempts                                   | Model output violates the contract (unknown ID, paraphrased evidence, >5 assignments) | The batch fails loudly. Inspect the message; if the contract itself is wrong (it happened once: the undisclosed 5-cap), fix prompt/validator together and bump `PROMPT_VERSION`. |
+| `projected next call (~$…) would take spend past the $… ceiling`               | The `--max-cost-usd` budget guard stopped the run before an over-budget call          | Completed batches are checkpointed; rerun with `--resume` and a higher `--max-cost-usd` (or 0 to disable the guard).                                                             |
 
 
-A checkpoint is reused only when review IDs, taxonomy hash, prompt version,
-model, reasoning, completion limit, and batch size all match. Bumping
-`PROMPT_VERSION` intentionally invalidates old checkpoints.
+A checkpoint is reused only when review IDs, a hash of the review texts,
+taxonomy hash, prompt version, model, reasoning, completion limit, and batch
+size all match. Bumping `PROMPT_VERSION` intentionally invalidates old
+checkpoints, and so does editing a review's text under an unchanged ID.
 
 ## 8. Experimental hybrid retrieval (not submitted)
 
@@ -203,4 +207,8 @@ price) instead of the inconsistency itself.
 sometimes filed as a positive endorsement, and single-word subjects inside
 praise lists ("friendlier") are sometimes dropped in favour of the sentiment
 leaf.
+
+For how these failure modes and the overall design compare with published
+industrial practice (TnT-LLM, hybrid supervised-LLM review mining, gold-set
+discipline), see section 18 of `SOLUTION_PLAN.md`.
 

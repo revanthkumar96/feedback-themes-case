@@ -3,7 +3,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from feedback_themes.full_run import run_full_classification
+from feedback_themes.full_run import BudgetError, run_full_classification
 from feedback_themes.groq import Completion, GroqError
 from feedback_themes.retrieval import ThemeCandidate
 
@@ -296,6 +296,118 @@ class FullRunTests(unittest.TestCase):
                     classifier=PromptAwareClassifier(),
                     progress=lambda _: None,
                     review_ids={"rev-does-not-exist"},
+                )
+
+    def test_budget_guard_stops_before_the_first_over_ceiling_call(self):
+        classifier = PromptAwareClassifier()
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            with self.assertRaises(BudgetError):
+                run_full_classification(
+                    reviews_path=ROOT / "data" / "reviews.json",
+                    taxonomy_path=ROOT / "data" / "slice1_taxonomy.json",
+                    output_dir=Path(temporary_directory) / "out",
+                    batch_size=30,
+                    classifier=classifier,
+                    progress=lambda _: None,
+                    max_cost_usd=0.0000001,
+                )
+
+        self.assertEqual(0, classifier.calls)
+
+    def test_budget_guard_allows_runs_under_the_ceiling(self):
+        classifier = PromptAwareClassifier()
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            summary = run_full_classification(
+                reviews_path=ROOT / "data" / "reviews.json",
+                taxonomy_path=ROOT / "data" / "slice1_taxonomy.json",
+                output_dir=Path(temporary_directory) / "out",
+                batch_size=30,
+                classifier=classifier,
+                progress=lambda _: None,
+                max_cost_usd=5.0,
+            )
+            rich = json.loads(Path(summary["results_path"]).read_text("utf-8"))
+
+        self.assertEqual(223, summary["review_count"])
+        self.assertEqual(5.0, rich["run"]["cost_ceiling_usd"])
+
+    def test_resume_recomputes_when_review_content_hash_differs(self):
+        first_classifier = PromptAwareClassifier()
+        progress: list[str] = []
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            temporary = Path(temporary_directory)
+            arguments = {
+                "reviews_path": ROOT / "data" / "reviews.json",
+                "taxonomy_path": ROOT / "data" / "slice1_taxonomy.json",
+                "output_dir": temporary / "out",
+                "batch_size": 30,
+                "checkpoint_dir": temporary / "checkpoints",
+            }
+            run_full_classification(
+                classifier=first_classifier,
+                progress=lambda _: None,
+                **arguments,
+            )
+            stale_path = temporary / "checkpoints" / "batch-002.json"
+            stale = json.loads(stale_path.read_text("utf-8"))
+            stale["identity"]["review_content_hash"] = "edited-review-text"
+            stale_path.write_text(json.dumps(stale), "utf-8")
+
+            resumed_classifier = PromptAwareClassifier()
+            summary = run_full_classification(
+                classifier=resumed_classifier,
+                resume=True,
+                progress=progress.append,
+                **arguments,
+            )
+
+        self.assertEqual(1, resumed_classifier.calls)
+        self.assertEqual(223, summary["review_count"])
+        self.assertTrue(
+            any("recomputing" in message for message in progress)
+        )
+
+    def test_concurrent_run_matches_sequential_output(self):
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            temporary = Path(temporary_directory)
+            arguments = {
+                "reviews_path": ROOT / "data" / "reviews.json",
+                "taxonomy_path": ROOT / "data" / "slice1_taxonomy.json",
+                "batch_size": 30,
+                "progress": lambda _: None,
+            }
+            sequential = run_full_classification(
+                classifier=PromptAwareClassifier(),
+                output_dir=temporary / "sequential",
+                **arguments,
+            )
+            concurrent = run_full_classification(
+                classifier=PromptAwareClassifier(),
+                output_dir=temporary / "concurrent",
+                concurrency=4,
+                **arguments,
+            )
+            sequential_flat = json.loads(
+                Path(sequential["flat_path"]).read_text("utf-8")
+            )
+            concurrent_flat = json.loads(
+                Path(concurrent["flat_path"]).read_text("utf-8")
+            )
+
+        self.assertEqual(223, concurrent["review_count"])
+        self.assertEqual(sequential_flat, concurrent_flat)
+
+    def test_rejects_out_of_range_concurrency(self):
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            with self.assertRaises(ValueError):
+                run_full_classification(
+                    reviews_path=ROOT / "data" / "reviews.json",
+                    taxonomy_path=ROOT / "data" / "slice1_taxonomy.json",
+                    output_dir=Path(temporary_directory) / "out",
+                    batch_size=30,
+                    classifier=PromptAwareClassifier(),
+                    progress=lambda _: None,
+                    concurrency=9,
                 )
 
     def test_retries_provider_schema_generation_failure(self):

@@ -14,7 +14,7 @@ from pathlib import Path
 from typing import Any
 
 from .discovery import load_reviews
-from .domain import ContractError, Taxonomy
+from .domain import ContractError, Taxonomy, write_json
 
 RATINGS = (1, 2, 3, 4, 5)
 
@@ -170,7 +170,7 @@ def build_annotation_template(
                 f"{path.strategic_label} > {path.midlevel_label} > "
                 f"{path.specific_label}"
             ),
-            "definition": _leaf_definition(taxonomy, leaf_id),
+            "definition": taxonomy.leaf_definitions[leaf_id],
         }
         for leaf_id, path in taxonomy.leaves.items()
     ]
@@ -202,24 +202,6 @@ def build_annotation_template(
     }
 
 
-def _leaf_definition(taxonomy: Taxonomy, leaf_id: str) -> str:
-    for strategic in taxonomy.source["strategic_themes"]:
-        for midlevel in strategic["midlevel_themes"]:
-            for specific in midlevel["specific_themes"]:
-                if specific["id"] == leaf_id:
-                    return specific["definition"]
-    raise ContractError(f"taxonomy definition missing for {leaf_id!r}")
-
-
-def _write_json(path: Path, payload: Any) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    temporary = path.with_suffix(f"{path.suffix}.tmp")
-    with temporary.open("w", encoding="utf-8", newline="\n") as handle:
-        json.dump(payload, handle, ensure_ascii=False, indent=2)
-        handle.write("\n")
-    temporary.replace(path)
-
-
 def run_holdout_selection(
     *,
     reviews_path: str | Path,
@@ -243,7 +225,7 @@ def run_holdout_selection(
     template = build_annotation_template(
         holdout, taxonomy, discovery_seen_ids=excluded_ids
     )
-    _write_json(output, template)
+    write_json(output, template)
 
     discovery_overlap = [
         review["id"] for review in holdout if review["id"] in excluded_ids
@@ -266,7 +248,7 @@ def run_holdout_selection(
         "taxonomy_hash": taxonomy.content_hash,
         "holdout_review_ids": [review["id"] for review in holdout],
     }
-    _write_json(Path(metadata_output), metadata)
+    write_json(Path(metadata_output), metadata)
     return {
         "holdout_size": len(holdout),
         "output_path": output,

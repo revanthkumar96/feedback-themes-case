@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import re
+import threading
 import time
 import urllib.error
 import urllib.request
@@ -138,6 +139,7 @@ class GroqClient:
         self._post_json = post_json
         self._sleep = sleep
         self._max_rate_limit_retries = max_rate_limit_retries
+        self._retry_count_lock = threading.Lock()
         self.rate_limit_retry_count = 0
 
     def classify(self, prompt: str, schema: dict[str, Any]) -> Completion:
@@ -188,7 +190,8 @@ class GroqClient:
                     max((error.retry_after_seconds or 1.0) + 0.5, 0.5),
                     60.0,
                 )
-                self.rate_limit_retry_count += 1
+                with self._retry_count_lock:
+                    self.rate_limit_retry_count += 1
                 self._sleep(wait_seconds)
         try:
             message = response["choices"][0]["message"]

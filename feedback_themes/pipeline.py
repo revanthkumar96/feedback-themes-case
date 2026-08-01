@@ -11,6 +11,7 @@ from .domain import (
     Taxonomy,
     build_flat_projection,
     validate_model_output,
+    write_json,
 )
 from .groq import Completion
 
@@ -49,7 +50,7 @@ def build_prompt(
 
     taxonomy_for_model = []
     for leaf_id, path in taxonomy.leaves.items():
-        definition = _find_leaf_definition(taxonomy.source, leaf_id)
+        definition = taxonomy.leaf_definitions[leaf_id]
         taxonomy_for_model.append(
             {
                 "specific_theme_id": leaf_id,
@@ -108,15 +109,6 @@ def build_prompt(
     return json.dumps(instructions, ensure_ascii=False, indent=2)
 
 
-def _find_leaf_definition(taxonomy: dict[str, Any], leaf_id: str) -> str:
-    for strategic in taxonomy["strategic_themes"]:
-        for midlevel in strategic["midlevel_themes"]:
-            for specific in midlevel["specific_themes"]:
-                if specific["id"] == leaf_id:
-                    return specific["definition"]
-    raise ContractError(f"taxonomy definition missing for {leaf_id!r}")
-
-
 def _load_reviews(path: str | Path, limit: int) -> list[dict[str, Any]]:
     if limit < 1:
         raise ValueError("limit must be positive")
@@ -144,6 +136,31 @@ def _load_reviews(path: str | Path, limit: int) -> list[dict[str, Any]]:
     return selected
 
 
+# Fixed allowance for chat framing and the system message.
+PROMPT_TOKEN_OVERHEAD = 80
+
+
+def estimated_call_cost_usd(
+    model: str,
+    prompt: str,
+    max_completion_tokens: int | None,
+) -> float | None:
+    """Conservative pre-call cost projection for the budget guard.
+
+    Input tokens are approximated at four characters per token; output is
+    charged at the full completion budget, so the projection is an upper
+    bound for models with known pricing.
+    """
+    pricing = MODEL_PRICING_USD_PER_MILLION.get(model)
+    if pricing is None:
+        return None
+    input_tokens = len(prompt) // 4 + PROMPT_TOKEN_OVERHEAD
+    output_tokens = max_completion_tokens or 0
+    return (
+        input_tokens * pricing["input"] + output_tokens * pricing["output"]
+    ) / 1_000_000
+
+
 def estimated_cost_usd(model: str, usage: dict[str, int]) -> float | None:
     pricing = MODEL_PRICING_USD_PER_MILLION.get(model)
     if pricing is None:
@@ -156,15 +173,6 @@ def estimated_cost_usd(model: str, usage: dict[str, int]) -> float | None:
         / 1_000_000,
         6,
     )
-
-
-def _write_json(path: Path, payload: Any) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    temporary_path = path.with_suffix(f"{path.suffix}.tmp")
-    with temporary_path.open("w", encoding="utf-8", newline="\n") as handle:
-        json.dump(payload, handle, ensure_ascii=False, indent=2)
-        handle.write("\n")
-    temporary_path.replace(path)
 
 
 def run_slice1(
@@ -210,8 +218,8 @@ def run_slice1(
     }
 
     output_path = Path(output_dir)
-    _write_json(output_path / "results.json", rich_output)
-    _write_json(output_path / "flat.json", flat)
+    write_json(output_path / "results.json", rich_output)
+    write_json(output_path / "flat.json", flat)
     return {
         "review_count": len(results),
         "assignment_count": len(flat),
