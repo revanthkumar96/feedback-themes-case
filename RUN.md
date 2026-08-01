@@ -112,6 +112,19 @@ python make_viz.py
 This rewrites `out/viz/` (PNG + SVG) and re-injects the SVGs into
 `NOTES.html`, which stays a single self-contained file.
 
+## Browsing the results (optional)
+
+`lookup.html` is a self-contained, offline review browser: every review with
+its assignments and highlighted verbatim evidence, filterable by assignment
+count (none / single / multiple), by any taxonomy level (strategic ›
+mid-level › specific, with per-node assignment counts), by rating, and by
+free-text search. Open it directly in a browser — no server or dependencies.
+To regenerate after a new run:
+
+```powershell
+python make_lookup.py
+```
+
 ## Taxonomy-development commands
 
 The submitted classification uses the reviewed, frozen `themes.json`. The
