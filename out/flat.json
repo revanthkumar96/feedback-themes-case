@@ -6,6 +6,12 @@
     "specific_theme": "Institutional credibility"
   },
   {
+    "review_id": "rev-f04f75b142cc",
+    "strategic_theme": "Other feedback",
+    "midlevel_theme": "General sentiment",
+    "specific_theme": "Positive endorsement"
+  },
+  {
     "review_id": "rev-639e1e30f2a5",
     "strategic_theme": "Financing lifecycle",
     "midlevel_theme": "Repayment and collections",
@@ -84,6 +90,12 @@
     "specific_theme": "Reporting and export access"
   },
   {
+    "review_id": "rev-2f4968e59d9e",
+    "strategic_theme": "Other feedback",
+    "midlevel_theme": "General sentiment",
+    "specific_theme": "Positive endorsement"
+  },
+  {
     "review_id": "rev-be44695beb61",
     "strategic_theme": "Financing lifecycle",
     "midlevel_theme": "Product fit and flexibility",
@@ -94,6 +106,12 @@
     "strategic_theme": "Service and communication",
     "midlevel_theme": "Support delivery",
     "specific_theme": "Response timeliness"
+  },
+  {
+    "review_id": "rev-be44695beb61",
+    "strategic_theme": "Other feedback",
+    "midlevel_theme": "Out-of-scope subjects",
+    "specific_theme": "Unattributed price remarks"
   },
   {
     "review_id": "rev-be44695beb61",
@@ -108,10 +126,10 @@
     "specific_theme": "Fee transparency"
   },
   {
-    "review_id": "rev-6cc04997a711",
-    "strategic_theme": "Pricing and terms",
-    "midlevel_theme": "Fees",
-    "specific_theme": "Fee level"
+    "review_id": "rev-ac14589c4894",
+    "strategic_theme": "Other feedback",
+    "midlevel_theme": "General sentiment",
+    "specific_theme": "Negative verdict"
   },
   {
     "review_id": "rev-813602e7e748",
@@ -163,9 +181,15 @@
   },
   {
     "review_id": "rev-eb5ea855fe49",
-    "strategic_theme": "Financing lifecycle",
-    "midlevel_theme": "Application and decisions",
-    "specific_theme": "Decision turnaround"
+    "strategic_theme": "Other feedback",
+    "midlevel_theme": "General sentiment",
+    "specific_theme": "Negative verdict"
+  },
+  {
+    "review_id": "rev-e213b6681da5",
+    "strategic_theme": "Other feedback",
+    "midlevel_theme": "General sentiment",
+    "specific_theme": "Neutral remark"
   },
   {
     "review_id": "rev-64b0877f861d",
@@ -217,21 +241,21 @@
   },
   {
     "review_id": "rev-ff00c2ae9405",
+    "strategic_theme": "Digital experience and data",
+    "midlevel_theme": "Online portal",
+    "specific_theme": "Portal usability"
+  },
+  {
+    "review_id": "rev-ff00c2ae9405",
+    "strategic_theme": "Financing lifecycle",
+    "midlevel_theme": "Application and decisions",
+    "specific_theme": "Decision transparency"
+  },
+  {
+    "review_id": "rev-ff00c2ae9405",
     "strategic_theme": "Pricing and terms",
-    "midlevel_theme": "Fees",
-    "specific_theme": "Fee transparency"
-  },
-  {
-    "review_id": "rev-ff00c2ae9405",
-    "strategic_theme": "Service and communication",
-    "midlevel_theme": "Support delivery",
-    "specific_theme": "Support channel navigation"
-  },
-  {
-    "review_id": "rev-ff00c2ae9405",
-    "strategic_theme": "Service and communication",
-    "midlevel_theme": "Support delivery",
-    "specific_theme": "Response timeliness"
+    "midlevel_theme": "Contractual terms",
+    "specific_theme": "Term changes"
   },
   {
     "review_id": "rev-ea4cc280e9cf",
@@ -271,6 +295,12 @@
   },
   {
     "review_id": "rev-064204a3ec72",
+    "strategic_theme": "Pricing and terms",
+    "midlevel_theme": "Contractual terms",
+    "specific_theme": "Terms clarity"
+  },
+  {
+    "review_id": "rev-064204a3ec72",
     "strategic_theme": "Service and communication",
     "midlevel_theme": "Information trust",
     "specific_theme": "Institutional credibility"
@@ -282,6 +312,18 @@
     "specific_theme": "Financial data accuracy"
   },
   {
+    "review_id": "rev-706ecdc3768f",
+    "strategic_theme": "Other feedback",
+    "midlevel_theme": "Out-of-scope subjects",
+    "specific_theme": "Credit enquiries"
+  },
+  {
+    "review_id": "rev-5d91e7d0b839",
+    "strategic_theme": "Other feedback",
+    "midlevel_theme": "General sentiment",
+    "specific_theme": "Positive endorsement"
+  },
+  {
     "review_id": "rev-ac5672b8626c",
     "strategic_theme": "Financing lifecycle",
     "midlevel_theme": "Product fit and flexibility",
@@ -290,8 +332,8 @@
   {
     "review_id": "rev-2594378ac75b",
     "strategic_theme": "Financing lifecycle",
-    "midlevel_theme": "Product fit and flexibility",
-    "specific_theme": "Product suitability"
+    "midlevel_theme": "Funding and invoices",
+    "specific_theme": "Invoice administration"
   },
   {
     "review_id": "rev-0cc6ffebee43",
@@ -306,10 +348,34 @@
     "specific_theme": "Staff conduct"
   },
   {
+    "review_id": "rev-abaa9b8ef682",
+    "strategic_theme": "Other feedback",
+    "midlevel_theme": "General sentiment",
+    "specific_theme": "Positive endorsement"
+  },
+  {
+    "review_id": "rev-c1a8a1149135",
+    "strategic_theme": "Other feedback",
+    "midlevel_theme": "Out-of-scope subjects",
+    "specific_theme": "Marketing communications"
+  },
+  {
+    "review_id": "rev-a7ba7b47d684",
+    "strategic_theme": "Other feedback",
+    "midlevel_theme": "Out-of-scope subjects",
+    "specific_theme": "Marketing communications"
+  },
+  {
     "review_id": "rev-b71ef45aef23",
     "strategic_theme": "Financing lifecycle",
     "midlevel_theme": "Product fit and flexibility",
     "specific_theme": "Product suitability"
+  },
+  {
+    "review_id": "rev-656bcbc11f28",
+    "strategic_theme": "Other feedback",
+    "midlevel_theme": "General sentiment",
+    "specific_theme": "Positive endorsement"
   },
   {
     "review_id": "rev-35e4632026e8",
@@ -326,20 +392,20 @@
   {
     "review_id": "rev-d22d3fd856cf",
     "strategic_theme": "Service and communication",
-    "midlevel_theme": "Support delivery",
-    "specific_theme": "Support channel navigation"
+    "midlevel_theme": "Information trust",
+    "specific_theme": "Cross-channel consistency"
   },
   {
-    "review_id": "rev-791c08f22ece",
-    "strategic_theme": "Pricing and terms",
-    "midlevel_theme": "Fees",
-    "specific_theme": "Fee transparency"
-  },
-  {
-    "review_id": "rev-791c08f22ece",
+    "review_id": "rev-ef06ffe6226e",
     "strategic_theme": "Pricing and terms",
     "midlevel_theme": "Fees",
     "specific_theme": "Fee level"
+  },
+  {
+    "review_id": "rev-791c08f22ece",
+    "strategic_theme": "Other feedback",
+    "midlevel_theme": "Out-of-scope subjects",
+    "specific_theme": "Unattributed price remarks"
   },
   {
     "review_id": "rev-5ce37c250947",
@@ -358,6 +424,12 @@
     "strategic_theme": "Service and communication",
     "midlevel_theme": "Support delivery",
     "specific_theme": "Support channel navigation"
+  },
+  {
+    "review_id": "rev-dfee5e1d8e0d",
+    "strategic_theme": "Other feedback",
+    "midlevel_theme": "General sentiment",
+    "specific_theme": "Positive endorsement"
   },
   {
     "review_id": "rev-6ad01cdd3eb3",
@@ -387,7 +459,7 @@
     "review_id": "rev-cf52481f7553",
     "strategic_theme": "Financing lifecycle",
     "midlevel_theme": "Application and decisions",
-    "specific_theme": "Application requirements"
+    "specific_theme": "Decision transparency"
   },
   {
     "review_id": "rev-1ccd2042a6e7",
@@ -400,6 +472,12 @@
     "strategic_theme": "Digital experience and data",
     "midlevel_theme": "Online portal",
     "specific_theme": "Portal performance"
+  },
+  {
+    "review_id": "rev-56a3968e66a7",
+    "strategic_theme": "Other feedback",
+    "midlevel_theme": "General sentiment",
+    "specific_theme": "Positive endorsement"
   },
   {
     "review_id": "rev-6d35d82a9188",
@@ -426,6 +504,12 @@
     "specific_theme": "Repayment flexibility"
   },
   {
+    "review_id": "rev-50bb05811c71",
+    "strategic_theme": "Other feedback",
+    "midlevel_theme": "General sentiment",
+    "specific_theme": "Positive endorsement"
+  },
+  {
     "review_id": "rev-d84c2823d8b4",
     "strategic_theme": "Pricing and terms",
     "midlevel_theme": "Contractual terms",
@@ -438,10 +522,16 @@
     "specific_theme": "Mobile app"
   },
   {
+    "review_id": "rev-30726de0f472",
+    "strategic_theme": "Other feedback",
+    "midlevel_theme": "Out-of-scope subjects",
+    "specific_theme": "Unattributed price remarks"
+  },
+  {
     "review_id": "rev-c59f0ee4ca75",
-    "strategic_theme": "Service and communication",
-    "midlevel_theme": "Advisor relationship",
-    "specific_theme": "Staff conduct"
+    "strategic_theme": "Other feedback",
+    "midlevel_theme": "General sentiment",
+    "specific_theme": "Negative verdict"
   },
   {
     "review_id": "rev-03e188209ff0",
@@ -450,22 +540,34 @@
     "specific_theme": "Payout timing"
   },
   {
+    "review_id": "rev-03e188209ff0",
+    "strategic_theme": "Financing lifecycle",
+    "midlevel_theme": "Product fit and flexibility",
+    "specific_theme": "Product suitability"
+  },
+  {
     "review_id": "rev-b78ef3095a72",
     "strategic_theme": "Financing lifecycle",
     "midlevel_theme": "Application and decisions",
     "specific_theme": "Application requirements"
   },
   {
+    "review_id": "rev-b78ef3095a72",
+    "strategic_theme": "Financing lifecycle",
+    "midlevel_theme": "Application and decisions",
+    "specific_theme": "Decision transparency"
+  },
+  {
+    "review_id": "rev-eb742f5a177c",
+    "strategic_theme": "Other feedback",
+    "midlevel_theme": "Out-of-scope subjects",
+    "specific_theme": "Account administration"
+  },
+  {
     "review_id": "rev-9e2ccd454d88",
     "strategic_theme": "Pricing and terms",
     "midlevel_theme": "Interest rates",
     "specific_theme": "Interest calculation"
-  },
-  {
-    "review_id": "rev-9e2ccd454d88",
-    "strategic_theme": "Digital experience and data",
-    "midlevel_theme": "Reporting and data",
-    "specific_theme": "Financial data accuracy"
   },
   {
     "review_id": "rev-9cc853b7c246",
@@ -486,10 +588,16 @@
     "specific_theme": "Portal usability"
   },
   {
+    "review_id": "rev-d351246d1d7b",
+    "strategic_theme": "Other feedback",
+    "midlevel_theme": "General sentiment",
+    "specific_theme": "Positive endorsement"
+  },
+  {
     "review_id": "rev-80feb11841e7",
-    "strategic_theme": "Financing lifecycle",
-    "midlevel_theme": "Product fit and flexibility",
-    "specific_theme": "Product suitability"
+    "strategic_theme": "Other feedback",
+    "midlevel_theme": "General sentiment",
+    "specific_theme": "Positive endorsement"
   },
   {
     "review_id": "rev-c0b01902ac5b",
@@ -505,17 +613,17 @@
   },
   {
     "review_id": "rev-187597d74b69",
-    "strategic_theme": "Service and communication",
-    "midlevel_theme": "Support delivery",
-    "specific_theme": "Follow-up and ownership"
-  },
-  {
-    "review_id": "rev-187597d74b69",
     "strategic_theme": "Financing lifecycle",
     "midlevel_theme": "Application and decisions",
     "specific_theme": "Decision transparency"
   },
   {
+    "review_id": "rev-187597d74b69",
+    "strategic_theme": "Service and communication",
+    "midlevel_theme": "Support delivery",
+    "specific_theme": "Follow-up and ownership"
+  },
+  {
     "review_id": "rev-5a7171b6289b",
     "strategic_theme": "Service and communication",
     "midlevel_theme": "Support delivery",
@@ -523,21 +631,39 @@
   },
   {
     "review_id": "rev-5a7171b6289b",
-    "strategic_theme": "Digital experience and data",
-    "midlevel_theme": "Online portal",
-    "specific_theme": "Portal performance"
+    "strategic_theme": "Service and communication",
+    "midlevel_theme": "Support delivery",
+    "specific_theme": "Response timeliness"
   },
   {
     "review_id": "rev-30b3d910c05a",
-    "strategic_theme": "Service and communication",
-    "midlevel_theme": "Support delivery",
-    "specific_theme": "Support channel navigation"
+    "strategic_theme": "Other feedback",
+    "midlevel_theme": "Out-of-scope subjects",
+    "specific_theme": "Account administration"
   },
   {
     "review_id": "rev-97a2b3f350ff",
     "strategic_theme": "Digital experience and data",
     "midlevel_theme": "External integrations",
     "specific_theme": "Accounting integration reliability"
+  },
+  {
+    "review_id": "rev-97a2b3f350ff",
+    "strategic_theme": "Financing lifecycle",
+    "midlevel_theme": "Funding and invoices",
+    "specific_theme": "Invoice administration"
+  },
+  {
+    "review_id": "rev-905ddbd723bc",
+    "strategic_theme": "Other feedback",
+    "midlevel_theme": "General sentiment",
+    "specific_theme": "Positive endorsement"
+  },
+  {
+    "review_id": "rev-31150867dd30",
+    "strategic_theme": "Other feedback",
+    "midlevel_theme": "General sentiment",
+    "specific_theme": "Positive endorsement"
   },
   {
     "review_id": "rev-0e542f157238",
@@ -576,12 +702,6 @@
     "specific_theme": "Product suitability"
   },
   {
-    "review_id": "rev-2324c08e3ac1",
-    "strategic_theme": "Financing lifecycle",
-    "midlevel_theme": "Product fit and flexibility",
-    "specific_theme": "Credit line flexibility"
-  },
-  {
     "review_id": "rev-55b96506cde8",
     "strategic_theme": "Digital experience and data",
     "midlevel_theme": "Reporting and data",
@@ -609,12 +729,6 @@
     "review_id": "rev-e1e288b2122a",
     "strategic_theme": "Financing lifecycle",
     "midlevel_theme": "Application and decisions",
-    "specific_theme": "Application requirements"
-  },
-  {
-    "review_id": "rev-e1e288b2122a",
-    "strategic_theme": "Financing lifecycle",
-    "midlevel_theme": "Application and decisions",
     "specific_theme": "Decision transparency"
   },
   {
@@ -631,15 +745,21 @@
   },
   {
     "review_id": "rev-bd0f4ecfcb6e",
-    "strategic_theme": "Financing lifecycle",
-    "midlevel_theme": "Application and decisions",
-    "specific_theme": "Application requirements"
+    "strategic_theme": "Service and communication",
+    "midlevel_theme": "Support delivery",
+    "specific_theme": "Follow-up and ownership"
   },
   {
-    "review_id": "rev-bd0f4ecfcb6e",
-    "strategic_theme": "Financing lifecycle",
-    "midlevel_theme": "Application and decisions",
-    "specific_theme": "Decision turnaround"
+    "review_id": "rev-855cf7fb495c",
+    "strategic_theme": "Other feedback",
+    "midlevel_theme": "General sentiment",
+    "specific_theme": "Positive endorsement"
+  },
+  {
+    "review_id": "rev-b74a731add88",
+    "strategic_theme": "Other feedback",
+    "midlevel_theme": "General sentiment",
+    "specific_theme": "Negative verdict"
   },
   {
     "review_id": "rev-3922e1f0cbf7",
@@ -673,21 +793,27 @@
   },
   {
     "review_id": "rev-f8ed3a0e48d8",
+    "strategic_theme": "Pricing and terms",
+    "midlevel_theme": "Fees",
+    "specific_theme": "Fee level"
+  },
+  {
+    "review_id": "rev-f8ed3a0e48d8",
     "strategic_theme": "Financing lifecycle",
     "midlevel_theme": "Repayment and collections",
     "specific_theme": "Repayment flexibility"
   },
   {
-    "review_id": "rev-f8ed3a0e48d8",
-    "strategic_theme": "Service and communication",
-    "midlevel_theme": "Support delivery",
-    "specific_theme": "Response timeliness"
-  },
-  {
     "review_id": "rev-0d4d3326d84f",
     "strategic_theme": "Financing lifecycle",
     "midlevel_theme": "Product fit and flexibility",
-    "specific_theme": "Product suitability"
+    "specific_theme": "Credit line flexibility"
+  },
+  {
+    "review_id": "rev-0d4d3326d84f",
+    "strategic_theme": "Service and communication",
+    "midlevel_theme": "Advisor relationship",
+    "specific_theme": "Advisor expertise"
   },
   {
     "review_id": "rev-0d4d3326d84f",
@@ -698,14 +824,20 @@
   {
     "review_id": "rev-0d4d3326d84f",
     "strategic_theme": "Digital experience and data",
+    "midlevel_theme": "Reporting and data",
+    "specific_theme": "Reporting and export access"
+  },
+  {
+    "review_id": "rev-0d4d3326d84f",
+    "strategic_theme": "Digital experience and data",
     "midlevel_theme": "Mobile banking",
     "specific_theme": "Mobile app"
   },
   {
     "review_id": "rev-5be2b33a91fe",
     "strategic_theme": "Financing lifecycle",
-    "midlevel_theme": "Product fit and flexibility",
-    "specific_theme": "Product suitability"
+    "midlevel_theme": "Application and decisions",
+    "specific_theme": "Application requirements"
   },
   {
     "review_id": "rev-b9d27d67f70d",
@@ -715,9 +847,9 @@
   },
   {
     "review_id": "rev-b9d27d67f70d",
-    "strategic_theme": "Pricing and terms",
-    "midlevel_theme": "Contractual terms",
-    "specific_theme": "Terms clarity"
+    "strategic_theme": "Other feedback",
+    "midlevel_theme": "Out-of-scope subjects",
+    "specific_theme": "Marketing communications"
   },
   {
     "review_id": "rev-f3178e0ab94b",
@@ -744,10 +876,28 @@
     "specific_theme": "Advisor expertise"
   },
   {
+    "review_id": "rev-b4d0ead5dc0a",
+    "strategic_theme": "Other feedback",
+    "midlevel_theme": "General sentiment",
+    "specific_theme": "Positive endorsement"
+  },
+  {
+    "review_id": "rev-9326017b404c",
+    "strategic_theme": "Pricing and terms",
+    "midlevel_theme": "Interest rates",
+    "specific_theme": "Interest rate level"
+  },
+  {
     "review_id": "rev-9326017b404c",
     "strategic_theme": "Pricing and terms",
     "midlevel_theme": "Interest rates",
     "specific_theme": "Interest calculation"
+  },
+  {
+    "review_id": "rev-222b3a70633d",
+    "strategic_theme": "Other feedback",
+    "midlevel_theme": "General sentiment",
+    "specific_theme": "Positive endorsement"
   },
   {
     "review_id": "rev-29c446ed04cb",
@@ -760,6 +910,12 @@
     "strategic_theme": "Financing lifecycle",
     "midlevel_theme": "Application and decisions",
     "specific_theme": "Decision turnaround"
+  },
+  {
+    "review_id": "rev-2fed72e83b33",
+    "strategic_theme": "Other feedback",
+    "midlevel_theme": "Out-of-scope subjects",
+    "specific_theme": "Unattributed price remarks"
   },
   {
     "review_id": "rev-9b5925d94244",
@@ -782,8 +938,20 @@
   {
     "review_id": "rev-7765bb085b22",
     "strategic_theme": "Digital experience and data",
-    "midlevel_theme": "External integrations",
-    "specific_theme": "Accounting integration reliability"
+    "midlevel_theme": "Online portal",
+    "specific_theme": "Portal usability"
+  },
+  {
+    "review_id": "rev-8c6e6cf270f9",
+    "strategic_theme": "Other feedback",
+    "midlevel_theme": "General sentiment",
+    "specific_theme": "Positive endorsement"
+  },
+  {
+    "review_id": "rev-05e2a5f08c76",
+    "strategic_theme": "Other feedback",
+    "midlevel_theme": "General sentiment",
+    "specific_theme": "Positive endorsement"
   },
   {
     "review_id": "rev-0cff33b4221a",
@@ -794,8 +962,14 @@
   {
     "review_id": "rev-0cff33b4221a",
     "strategic_theme": "Financing lifecycle",
-    "midlevel_theme": "Product fit and flexibility",
-    "specific_theme": "Product suitability"
+    "midlevel_theme": "Funding and invoices",
+    "specific_theme": "Payout timing"
+  },
+  {
+    "review_id": "rev-ed219d9064c3",
+    "strategic_theme": "Other feedback",
+    "midlevel_theme": "Out-of-scope subjects",
+    "specific_theme": "Account administration"
   },
   {
     "review_id": "rev-ed219d9064c3",
@@ -804,22 +978,28 @@
     "specific_theme": "Invoice administration"
   },
   {
+    "review_id": "rev-e0a9b4470ec3",
+    "strategic_theme": "Other feedback",
+    "midlevel_theme": "General sentiment",
+    "specific_theme": "Negative verdict"
+  },
+  {
     "review_id": "rev-1b69c895034e",
-    "strategic_theme": "Service and communication",
-    "midlevel_theme": "Advisor relationship",
-    "specific_theme": "Staff conduct"
+    "strategic_theme": "Other feedback",
+    "midlevel_theme": "General sentiment",
+    "specific_theme": "Positive endorsement"
+  },
+  {
+    "review_id": "rev-2883e5932538",
+    "strategic_theme": "Other feedback",
+    "midlevel_theme": "Out-of-scope subjects",
+    "specific_theme": "Account administration"
   },
   {
     "review_id": "rev-dca96d2b719c",
     "strategic_theme": "Financing lifecycle",
     "midlevel_theme": "Product fit and flexibility",
     "specific_theme": "Credit line flexibility"
-  },
-  {
-    "review_id": "rev-dca96d2b719c",
-    "strategic_theme": "Pricing and terms",
-    "midlevel_theme": "Contractual terms",
-    "specific_theme": "Term changes"
   },
   {
     "review_id": "rev-d312ea251b29",
@@ -829,15 +1009,9 @@
   },
   {
     "review_id": "rev-40c491735c6b",
-    "strategic_theme": "Pricing and terms",
-    "midlevel_theme": "Fees",
-    "specific_theme": "Fee transparency"
-  },
-  {
-    "review_id": "rev-40c491735c6b",
-    "strategic_theme": "Pricing and terms",
-    "midlevel_theme": "Fees",
-    "specific_theme": "Fee level"
+    "strategic_theme": "Other feedback",
+    "midlevel_theme": "Out-of-scope subjects",
+    "specific_theme": "Unattributed price remarks"
   },
   {
     "review_id": "rev-40c491735c6b",
@@ -853,9 +1027,21 @@
   },
   {
     "review_id": "rev-18d47a0ae41c",
-    "strategic_theme": "Financing lifecycle",
-    "midlevel_theme": "Application and decisions",
-    "specific_theme": "Decision turnaround"
+    "strategic_theme": "Service and communication",
+    "midlevel_theme": "Advisor relationship",
+    "specific_theme": "Relationship continuity"
+  },
+  {
+    "review_id": "rev-18d47a0ae41c",
+    "strategic_theme": "Service and communication",
+    "midlevel_theme": "Support delivery",
+    "specific_theme": "Follow-up and ownership"
+  },
+  {
+    "review_id": "rev-18d47a0ae41c",
+    "strategic_theme": "Other feedback",
+    "midlevel_theme": "Out-of-scope subjects",
+    "specific_theme": "Account administration"
   },
   {
     "review_id": "rev-18d47a0ae41c",
@@ -864,16 +1050,10 @@
     "specific_theme": "Portal usability"
   },
   {
-    "review_id": "rev-18d47a0ae41c",
-    "strategic_theme": "Service and communication",
-    "midlevel_theme": "Advisor relationship",
-    "specific_theme": "Advisor expertise"
-  },
-  {
-    "review_id": "rev-18d47a0ae41c",
-    "strategic_theme": "Service and communication",
-    "midlevel_theme": "Support delivery",
-    "specific_theme": "Follow-up and ownership"
+    "review_id": "rev-1ecc4c82dc14",
+    "strategic_theme": "Other feedback",
+    "midlevel_theme": "Out-of-scope subjects",
+    "specific_theme": "Account administration"
   },
   {
     "review_id": "rev-1ecc4c82dc14",
@@ -897,19 +1077,25 @@
     "review_id": "rev-b8ab7985f6f8",
     "strategic_theme": "Financing lifecycle",
     "midlevel_theme": "Product fit and flexibility",
+    "specific_theme": "Product suitability"
+  },
+  {
+    "review_id": "rev-b8ab7985f6f8",
+    "strategic_theme": "Financing lifecycle",
+    "midlevel_theme": "Product fit and flexibility",
     "specific_theme": "Credit line flexibility"
   },
   {
     "review_id": "rev-d8ae754d7571",
     "strategic_theme": "Financing lifecycle",
-    "midlevel_theme": "Application and decisions",
-    "specific_theme": "Decision turnaround"
+    "midlevel_theme": "Funding and invoices",
+    "specific_theme": "Payout timing"
   },
   {
-    "review_id": "rev-d8ae754d7571",
-    "strategic_theme": "Financing lifecycle",
-    "midlevel_theme": "Application and decisions",
-    "specific_theme": "Application requirements"
+    "review_id": "rev-dba8c8ddbded",
+    "strategic_theme": "Other feedback",
+    "midlevel_theme": "General sentiment",
+    "specific_theme": "Negative verdict"
   },
   {
     "review_id": "rev-330369fb041f",
@@ -922,6 +1108,12 @@
     "strategic_theme": "Financing lifecycle",
     "midlevel_theme": "Application and decisions",
     "specific_theme": "Decision turnaround"
+  },
+  {
+    "review_id": "rev-dc4f275c9215",
+    "strategic_theme": "Other feedback",
+    "midlevel_theme": "General sentiment",
+    "specific_theme": "Positive endorsement"
   },
   {
     "review_id": "rev-0da14c238e68",
@@ -949,9 +1141,9 @@
   },
   {
     "review_id": "rev-67124654d676",
-    "strategic_theme": "Pricing and terms",
-    "midlevel_theme": "Interest rates",
-    "specific_theme": "Interest rate level"
+    "strategic_theme": "Service and communication",
+    "midlevel_theme": "Information trust",
+    "specific_theme": "Cross-channel consistency"
   },
   {
     "review_id": "rev-67124654d676",
@@ -985,21 +1177,21 @@
   },
   {
     "review_id": "rev-1fd8954c6851",
-    "strategic_theme": "Service and communication",
-    "midlevel_theme": "Advisor relationship",
-    "specific_theme": "Staff conduct"
-  },
-  {
-    "review_id": "rev-e5c8b97a4003",
-    "strategic_theme": "Service and communication",
-    "midlevel_theme": "Support delivery",
-    "specific_theme": "Support channel navigation"
+    "strategic_theme": "Other feedback",
+    "midlevel_theme": "General sentiment",
+    "specific_theme": "Positive endorsement"
   },
   {
     "review_id": "rev-e5c8b97a4003",
     "strategic_theme": "Digital experience and data",
     "midlevel_theme": "Online portal",
     "specific_theme": "Portal usability"
+  },
+  {
+    "review_id": "rev-c358dd363166",
+    "strategic_theme": "Financing lifecycle",
+    "midlevel_theme": "Product fit and flexibility",
+    "specific_theme": "Product suitability"
   },
   {
     "review_id": "rev-c358dd363166",
@@ -1010,20 +1202,20 @@
   {
     "review_id": "rev-c358dd363166",
     "strategic_theme": "Service and communication",
-    "midlevel_theme": "Advisor relationship",
-    "specific_theme": "Relationship continuity"
-  },
-  {
-    "review_id": "rev-c358dd363166",
-    "strategic_theme": "Service and communication",
     "midlevel_theme": "Information trust",
     "specific_theme": "Cross-channel consistency"
   },
   {
     "review_id": "rev-c358dd363166",
-    "strategic_theme": "Financing lifecycle",
-    "midlevel_theme": "Product fit and flexibility",
-    "specific_theme": "Product suitability"
+    "strategic_theme": "Service and communication",
+    "midlevel_theme": "Advisor relationship",
+    "specific_theme": "Relationship continuity"
+  },
+  {
+    "review_id": "rev-3178d2b84479",
+    "strategic_theme": "Other feedback",
+    "midlevel_theme": "General sentiment",
+    "specific_theme": "Neutral remark"
   },
   {
     "review_id": "rev-5e7ccc2378ef",
@@ -1039,12 +1231,6 @@
   },
   {
     "review_id": "rev-d336cd7582c7",
-    "strategic_theme": "Financing lifecycle",
-    "midlevel_theme": "Repayment and collections",
-    "specific_theme": "Repayment flexibility"
-  },
-  {
-    "review_id": "rev-d2b247072230",
     "strategic_theme": "Financing lifecycle",
     "midlevel_theme": "Repayment and collections",
     "specific_theme": "Repayment flexibility"
@@ -1086,6 +1272,12 @@
     "specific_theme": "Response timeliness"
   },
   {
+    "review_id": "rev-35d7d7f97866",
+    "strategic_theme": "Other feedback",
+    "midlevel_theme": "General sentiment",
+    "specific_theme": "Negative verdict"
+  },
+  {
     "review_id": "rev-73b4ab9db41f",
     "strategic_theme": "Digital experience and data",
     "midlevel_theme": "External integrations",
@@ -1093,9 +1285,9 @@
   },
   {
     "review_id": "rev-d88e745c52c8",
-    "strategic_theme": "Pricing and terms",
-    "midlevel_theme": "Contractual terms",
-    "specific_theme": "Term changes"
+    "strategic_theme": "Financing lifecycle",
+    "midlevel_theme": "Repayment and collections",
+    "specific_theme": "Repayment flexibility"
   },
   {
     "review_id": "rev-285e4562bdaa",
@@ -1128,6 +1320,12 @@
     "specific_theme": "Fee level"
   },
   {
+    "review_id": "rev-aefd165ea585",
+    "strategic_theme": "Other feedback",
+    "midlevel_theme": "General sentiment",
+    "specific_theme": "Positive endorsement"
+  },
+  {
     "review_id": "rev-067c12bb90eb",
     "strategic_theme": "Financing lifecycle",
     "midlevel_theme": "Application and decisions",
@@ -1146,10 +1344,16 @@
     "specific_theme": "Application requirements"
   },
   {
+    "review_id": "rev-824375a933e6",
+    "strategic_theme": "Other feedback",
+    "midlevel_theme": "General sentiment",
+    "specific_theme": "Negative verdict"
+  },
+  {
     "review_id": "rev-80da4e33302c",
-    "strategic_theme": "Pricing and terms",
-    "midlevel_theme": "Fees",
-    "specific_theme": "Fee transparency"
+    "strategic_theme": "Other feedback",
+    "midlevel_theme": "Out-of-scope subjects",
+    "specific_theme": "Unattributed price remarks"
   },
   {
     "review_id": "rev-0eed1ff3aeca",
@@ -1184,12 +1388,6 @@
   {
     "review_id": "rev-174fd2a981c0",
     "strategic_theme": "Service and communication",
-    "midlevel_theme": "Advisor relationship",
-    "specific_theme": "Advisor expertise"
-  },
-  {
-    "review_id": "rev-174fd2a981c0",
-    "strategic_theme": "Service and communication",
     "midlevel_theme": "Support delivery",
     "specific_theme": "Follow-up and ownership"
   },
@@ -1207,15 +1405,9 @@
   },
   {
     "review_id": "rev-83833ecb43d3",
-    "strategic_theme": "Pricing and terms",
-    "midlevel_theme": "Contractual terms",
-    "specific_theme": "Terms clarity"
-  },
-  {
-    "review_id": "rev-83833ecb43d3",
-    "strategic_theme": "Pricing and terms",
-    "midlevel_theme": "Interest rates",
-    "specific_theme": "Interest rate level"
+    "strategic_theme": "Other feedback",
+    "midlevel_theme": "Out-of-scope subjects",
+    "specific_theme": "Marketing communications"
   },
   {
     "review_id": "rev-a2bcc806d8b2",
@@ -1225,15 +1417,21 @@
   },
   {
     "review_id": "rev-c4a71cb33578",
-    "strategic_theme": "Digital experience and data",
-    "midlevel_theme": "Online portal",
-    "specific_theme": "Portal usability"
+    "strategic_theme": "Other feedback",
+    "midlevel_theme": "Out-of-scope subjects",
+    "specific_theme": "Account administration"
   },
   {
     "review_id": "rev-8c49d85c1f70",
     "strategic_theme": "Financing lifecycle",
     "midlevel_theme": "Funding and invoices",
     "specific_theme": "Payout timing"
+  },
+  {
+    "review_id": "rev-8c49d85c1f70",
+    "strategic_theme": "Financing lifecycle",
+    "midlevel_theme": "Funding and invoices",
+    "specific_theme": "Invoice administration"
   },
   {
     "review_id": "rev-8c49d85c1f70",
@@ -1246,12 +1444,6 @@
     "strategic_theme": "Service and communication",
     "midlevel_theme": "Support delivery",
     "specific_theme": "Follow-up and ownership"
-  },
-  {
-    "review_id": "rev-8c49d85c1f70",
-    "strategic_theme": "Financing lifecycle",
-    "midlevel_theme": "Funding and invoices",
-    "specific_theme": "Invoice administration"
   },
   {
     "review_id": "rev-b09e5dee945e",
@@ -1281,7 +1473,7 @@
     "review_id": "rev-cf4662dbabcb",
     "strategic_theme": "Service and communication",
     "midlevel_theme": "Support delivery",
-    "specific_theme": "Support channel navigation"
+    "specific_theme": "Follow-up and ownership"
   },
   {
     "review_id": "rev-2bd9709a44c8",
@@ -1294,6 +1486,36 @@
     "strategic_theme": "Financing lifecycle",
     "midlevel_theme": "Funding and invoices",
     "specific_theme": "Invoice administration"
+  },
+  {
+    "review_id": "rev-924c64d7715b",
+    "strategic_theme": "Other feedback",
+    "midlevel_theme": "General sentiment",
+    "specific_theme": "Positive endorsement"
+  },
+  {
+    "review_id": "rev-a02bbf85613d",
+    "strategic_theme": "Financing lifecycle",
+    "midlevel_theme": "Funding and invoices",
+    "specific_theme": "Invoice administration"
+  },
+  {
+    "review_id": "rev-a02bbf85613d",
+    "strategic_theme": "Financing lifecycle",
+    "midlevel_theme": "Funding and invoices",
+    "specific_theme": "Payout timing"
+  },
+  {
+    "review_id": "rev-f4742dc44a32",
+    "strategic_theme": "Other feedback",
+    "midlevel_theme": "General sentiment",
+    "specific_theme": "Negative verdict"
+  },
+  {
+    "review_id": "rev-5b78ffceb6f6",
+    "strategic_theme": "Other feedback",
+    "midlevel_theme": "General sentiment",
+    "specific_theme": "Negative verdict"
   },
   {
     "review_id": "rev-d0b9e8123dc6",
@@ -1323,13 +1545,19 @@
     "review_id": "rev-aa78098b5220",
     "strategic_theme": "Service and communication",
     "midlevel_theme": "Support delivery",
-    "specific_theme": "Follow-up and ownership"
+    "specific_theme": "Response timeliness"
   },
   {
     "review_id": "rev-aa78098b5220",
     "strategic_theme": "Service and communication",
     "midlevel_theme": "Support delivery",
-    "specific_theme": "Response timeliness"
+    "specific_theme": "Follow-up and ownership"
+  },
+  {
+    "review_id": "rev-fb16c342b8bb",
+    "strategic_theme": "Financing lifecycle",
+    "midlevel_theme": "Product fit and flexibility",
+    "specific_theme": "Product suitability"
   },
   {
     "review_id": "rev-fb16c342b8bb",
@@ -1353,7 +1581,19 @@
     "review_id": "rev-fe42435eea5a",
     "strategic_theme": "Pricing and terms",
     "midlevel_theme": "Contractual terms",
-    "specific_theme": "Terms clarity"
+    "specific_theme": "Term changes"
+  },
+  {
+    "review_id": "rev-2acf9f0b7c20",
+    "strategic_theme": "Service and communication",
+    "midlevel_theme": "Advisor relationship",
+    "specific_theme": "Advisor expertise"
+  },
+  {
+    "review_id": "rev-2acf9f0b7c20",
+    "strategic_theme": "Financing lifecycle",
+    "midlevel_theme": "Product fit and flexibility",
+    "specific_theme": "Product suitability"
   },
   {
     "review_id": "rev-2acf9f0b7c20",
@@ -1369,21 +1609,9 @@
   },
   {
     "review_id": "rev-2acf9f0b7c20",
-    "strategic_theme": "Digital experience and data",
-    "midlevel_theme": "Reporting and data",
-    "specific_theme": "Financial data accuracy"
-  },
-  {
-    "review_id": "rev-2acf9f0b7c20",
     "strategic_theme": "Service and communication",
     "midlevel_theme": "Support delivery",
     "specific_theme": "Response timeliness"
-  },
-  {
-    "review_id": "rev-2acf9f0b7c20",
-    "strategic_theme": "Service and communication",
-    "midlevel_theme": "Advisor relationship",
-    "specific_theme": "Advisor expertise"
   },
   {
     "review_id": "rev-0572bcf24ec2",
@@ -1393,9 +1621,9 @@
   },
   {
     "review_id": "rev-e5b09cd30bc1",
-    "strategic_theme": "Service and communication",
-    "midlevel_theme": "Advisor relationship",
-    "specific_theme": "Staff conduct"
+    "strategic_theme": "Other feedback",
+    "midlevel_theme": "General sentiment",
+    "specific_theme": "Negative verdict"
   },
   {
     "review_id": "rev-4a039d450c57",
@@ -1407,13 +1635,19 @@
     "review_id": "rev-a8c4942bfbda",
     "strategic_theme": "Service and communication",
     "midlevel_theme": "Advisor relationship",
-    "specific_theme": "Advisor expertise"
+    "specific_theme": "Staff conduct"
   },
   {
     "review_id": "rev-4876e70eb4ef",
     "strategic_theme": "Pricing and terms",
     "midlevel_theme": "Fees",
     "specific_theme": "Fee transparency"
+  },
+  {
+    "review_id": "rev-1440fb510a12",
+    "strategic_theme": "Other feedback",
+    "midlevel_theme": "Out-of-scope subjects",
+    "specific_theme": "Unattributed price remarks"
   },
   {
     "review_id": "rev-5cc959cfbc14",
@@ -1444,6 +1678,12 @@
     "strategic_theme": "Pricing and terms",
     "midlevel_theme": "Fees",
     "specific_theme": "Fee level"
+  },
+  {
+    "review_id": "rev-6d5d8fe73e4c",
+    "strategic_theme": "Other feedback",
+    "midlevel_theme": "General sentiment",
+    "specific_theme": "Positive endorsement"
   },
   {
     "review_id": "rev-f216a3d34fba",
@@ -1538,14 +1778,14 @@
   {
     "review_id": "rev-686592de9071",
     "strategic_theme": "Service and communication",
-    "midlevel_theme": "Support delivery",
-    "specific_theme": "Response timeliness"
+    "midlevel_theme": "Advisor relationship",
+    "specific_theme": "Advisor expertise"
   },
   {
     "review_id": "rev-686592de9071",
     "strategic_theme": "Service and communication",
-    "midlevel_theme": "Advisor relationship",
-    "specific_theme": "Advisor expertise"
+    "midlevel_theme": "Support delivery",
+    "specific_theme": "Follow-up and ownership"
   },
   {
     "review_id": "rev-612ad4bedba7",
@@ -1557,19 +1797,19 @@
     "review_id": "rev-612ad4bedba7",
     "strategic_theme": "Service and communication",
     "midlevel_theme": "Advisor relationship",
-    "specific_theme": "Relationship continuity"
+    "specific_theme": "Advisor expertise"
   },
   {
     "review_id": "rev-612ad4bedba7",
     "strategic_theme": "Pricing and terms",
-    "midlevel_theme": "Interest rates",
-    "specific_theme": "Interest rate level"
+    "midlevel_theme": "Fees",
+    "specific_theme": "Fee level"
   },
   {
     "review_id": "rev-a2b719d632cf",
     "strategic_theme": "Pricing and terms",
     "midlevel_theme": "Contractual terms",
-    "specific_theme": "Terms clarity"
+    "specific_theme": "Term changes"
   },
   {
     "review_id": "rev-a2b719d632cf",
@@ -1591,6 +1831,12 @@
   },
   {
     "review_id": "rev-7f7563bde13e",
+    "strategic_theme": "Other feedback",
+    "midlevel_theme": "Out-of-scope subjects",
+    "specific_theme": "Marketing communications"
+  },
+  {
+    "review_id": "rev-7f7563bde13e",
     "strategic_theme": "Financing lifecycle",
     "midlevel_theme": "Application and decisions",
     "specific_theme": "Application requirements"
@@ -1598,8 +1844,8 @@
   {
     "review_id": "rev-7f7563bde13e",
     "strategic_theme": "Financing lifecycle",
-    "midlevel_theme": "Funding and invoices",
-    "specific_theme": "Payout timing"
+    "midlevel_theme": "Application and decisions",
+    "specific_theme": "Decision turnaround"
   },
   {
     "review_id": "rev-5354c4c196db",
@@ -1626,10 +1872,10 @@
     "specific_theme": "Interest rate level"
   },
   {
-    "review_id": "rev-5354c4c196db",
-    "strategic_theme": "Service and communication",
-    "midlevel_theme": "Advisor relationship",
-    "specific_theme": "Relationship continuity"
+    "review_id": "rev-e11bfb4d7aeb",
+    "strategic_theme": "Financing lifecycle",
+    "midlevel_theme": "Product fit and flexibility",
+    "specific_theme": "Product suitability"
   },
   {
     "review_id": "rev-e11bfb4d7aeb",
@@ -1654,11 +1900,5 @@
     "strategic_theme": "Pricing and terms",
     "midlevel_theme": "Fees",
     "specific_theme": "Fee level"
-  },
-  {
-    "review_id": "rev-e11bfb4d7aeb",
-    "strategic_theme": "Financing lifecycle",
-    "midlevel_theme": "Product fit and flexibility",
-    "specific_theme": "Product suitability"
   }
 ]

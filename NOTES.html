@@ -121,10 +121,10 @@
   </p>
 
   <div class="metrics">
-    <div class="metric"><strong>9m 36s</strong><span>full classification (active batch time)</span></div>
-    <div class="metric"><strong>$0.029361</strong><span>classification list-price estimate</span></div>
-    <div class="metric"><strong>0.741</strong><span>holdout micro-F1 (277 assignments, 223 reviews)</span></div>
-    <div class="metric"><strong>4 / 14 / 31</strong><span>strategic / midlevel / specific</span></div>
+    <div class="metric"><strong>13m 57s</strong><span>full classification (active batch time)</span></div>
+    <div class="metric"><strong>$0.032926</strong><span>classification list-price estimate</span></div>
+    <div class="metric"><strong>0.769</strong><span>holdout micro-F1 (317 assignments, 223 reviews)</span></div>
+    <div class="metric"><strong>5 / 16 / 38</strong><span>strategic / midlevel / specific</span></div>
   </div>
 
   <h2>Theme set and how I arrived at it</h2>
@@ -145,23 +145,39 @@
     performed the final taxonomy review myself.
   </p>
   <p>
-    The frozen set contains 31 polarity-neutral specific subjects under 14
-    midlevel and four strategic themes. Important boundary decisions include
-    separating fee level from fee transparency, portal access from usability and
-    performance, response speed from follow-up ownership, and interest level
-    from calculation. A positive and negative review use the same subject label.
+    The core of the frozen set contains 31 polarity-neutral specific subjects
+    under 14 midlevel and four strategic themes. Important boundary decisions
+    include separating fee level from fee transparency, portal access from
+    usability and performance, response speed from follow-up ownership, and
+    interest level from calculation. A positive and negative review use the
+    same subject label.
+  </p>
+  <p>
+    A first measured run abstained on 39 reviews. Auditing all of them showed
+    two recurring populations — pure verdicts with no subject, and concrete
+    subjects the core tree does not cover — so taxonomy v1.1 adds a fifth
+    strategic branch, <strong>Other feedback</strong>, with the same three-tier
+    depth: a general-sentiment midlevel (positive endorsement, negative
+    verdict, neutral remark) and an out-of-scope midlevel (credit enquiries,
+    account administration, marketing communications, unattributed price
+    remarks). The sentiment leaves are the one deliberate exception to
+    polarity-neutral labels: their entire content is the verdict, so every
+    review now lands somewhere in the hierarchy instead of vanishing into an
+    empty list. The frozen total is 38 specific subjects under 16 midlevel and
+    five strategic themes.
   </p>
   <div class="callout">
     The final distribution supports the chosen granularity: the median specific
-    theme has eight rows, only one of 31 leaves is a singleton, and the largest
-    strategic theme contains 35% rather than dominating the tree.
+    theme has seven rows, only one of 38 leaves is a singleton, every leaf is
+    used, and the largest strategic theme contains 30% rather than dominating
+    the tree. All 223 reviews receive at least one assignment.
   </div>
 
   <h2>Decisions the brief left open</h2>
   <ul>
     <li><strong>Theme identity:</strong> stable snake-case IDs are canonical; labels and definitions can evolve without breaking assignments.</li>
     <li><strong>Multi-label behaviour:</strong> every independently supported subject is returned, up to a safety ceiling of five. The ceiling is stated in the prompt itself: a seven-subject review demonstrated that enforcing a limit the model has never been told about turns honest output into a validation failure.</li>
-    <li><strong>Abstention:</strong> an empty assignment list means the review contains no supported subject. The rich output derives an explicit <code>no_relevant_theme</code> reason.</li>
+    <li><strong>Abstention:</strong> subject-free verdicts and known out-of-scope subjects route to explicit Other-feedback leaves rather than an empty list, so the count of "nothing to say" reviews is a first-class, visible part of the tree. An empty assignment list remains legal and means the review discusses a concrete subject that even the v1.1 taxonomy does not cover; the rich output derives an explicit <code>no_relevant_theme</code> reason.</li>
     <li><strong>Evidence:</strong> every assignment carries one contiguous source span. Unknown IDs, duplicates, paraphrased evidence, missing reviews, or reordered results fail the batch.</li>
     <li><strong>Hierarchy:</strong> the model emits only a specific-theme ID. Midlevel and strategic parents are looked up from the frozen registry, making model-created tree contradictions impossible.</li>
     <li><strong>Provider configuration:</strong> 20-review responses were not reliably schema-complete. Ten-review batches cleared that failure mode and remained comfortably inside the time gate.</li>
@@ -196,7 +212,7 @@
     opt-in experiment behind <code>--hybrid</code> and an optional dependency
     extra. A preliminary measurement showed candidate lists at top-12 retained
     only 79.2% of the reference assignments, so it is not part of the submitted
-    configuration; the submitted run gives the model the full 31-leaf taxonomy.
+    configuration; the submitted run gives the model the full 38-leaf taxonomy.
   </p>
 
   <h2>What I tried that did not work</h2>
@@ -228,9 +244,16 @@
       <tr><td>120B, v4 prompt (baseline)</td><td>0.667</td><td>0.702</td><td>0.684</td><td>0.560</td><td>0.333</td><td>0.778 / 0.636</td></tr>
       <tr><td>120B, v5 prompt (selected)</td><td>0.769</td><td>0.702</td><td>0.734</td><td>0.640</td><td>0.231</td><td>0.714 / 0.909</td></tr>
       <tr><td>20B, v5 prompt (challenger)</td><td>0.763</td><td>0.509</td><td>0.611</td><td>0.520</td><td>0.237</td><td>0.562 / 0.818</td></tr>
-      <tr><td><strong>120B, v5.1 prompt (submitted full run)</strong></td><td>0.729</td><td>0.754</td><td><strong>0.741</strong></td><td>0.640</td><td>0.271</td><td>0.750 / 0.818</td></tr>
+      <tr><td>120B, v5.1 prompt (full run, taxonomy v1.0)</td><td>0.729</td><td>0.754</td><td>0.741</td><td>0.640</td><td>0.271</td><td>0.750 / 0.818</td></tr>
+      <tr><td><strong>120B, v6 prompt (submitted full run, taxonomy v1.1)</strong></td><td>0.764</td><td>0.775</td><td><strong>0.769</strong></td><td>0.660</td><td>0.236</td><td>n/a / 0.000</td></tr>
     </tbody>
   </table>
+  <p class="small">
+    Rows v4–v5.1 are scored against the taxonomy-v1.0 annotations; the v6 row
+    is scored against the holdout re-annotated for v1.1, in which former
+    sentiment-only and out-of-scope abstentions carry Other-feedback leaves and
+    only two reference abstentions remain.
+  </p>
   <p>
     The boundary rules cut false positives without costing recall; the cheaper
     20B model matched precision but lost a third of true assignments and
@@ -240,12 +263,14 @@
     overlap of 0.877 and an unchanged micro-F1 (0.736 vs 0.734) — evidence
     that the measured quality is not a sampling fluke. Evidence validity is
     1.000 in every configuration because verbatim spans are enforced by code,
-    not the model. The submitted v5.1 run — v5 plus the disclosed
-    five-assignment ceiling — lifted multi-subject recall from 0.679 to 0.821
-    and recall to 0.754, and two failures documented against the baseline
-    (an effective-rate discrepancy misread as a rate change, and a chatbot
-    dead-end misread as portal usability) were verified fixed in the final
-    output.
+    not the model. The submitted v6 run — v5.1 plus the Other-feedback
+    routing rules over taxonomy v1.1 — is the best configuration on every
+    headline metric (micro-F1 0.769, macro-F1 0.714, exact match 0.660) while
+    converting the former abstention pool into auditable, evidence-carrying
+    assignments. The visible cost is abstention recall: the two reviews whose
+    subjects still sit outside even the extended taxonomy (remote e-signing
+    and delegated accountant access) were absorbed by nearby leaves instead of
+    left empty, and both are documented in the failure table below.
   </p>
 
   <h2>Measured numbers</h2>
@@ -260,8 +285,9 @@
       <tr><td>Holdout comparison, v5 prompt</td><td>GPT-OSS 120B, low</td><td>18,315</td><td>7,241</td><td>189.268s</td><td>$0.007092</td></tr>
       <tr><td>Holdout comparison, v5 prompt</td><td>GPT-OSS 20B, low</td><td>15,237</td><td>5,476</td><td>155.415s</td><td>$0.002786</td></tr>
       <tr><td>Stability rerun, v5 prompt</td><td>GPT-OSS 120B, low</td><td>15,237</td><td>6,488</td><td>121.259s</td><td>$0.006178</td></tr>
-      <tr><td>Full classification, v5.1 prompt</td><td>GPT-OSS 120B, low</td><td>73,477</td><td>30,566</td><td>575.962s</td><td>$0.029361</td></tr>
-      <tr><th>Successful reproducible calls</th><th>Both</th><th>133,446</th><th>59,433</th><th>1,100.179s</th><th>$0.051479</th></tr>
+      <tr><td>Full classification, v5.1 prompt (taxonomy v1.0)</td><td>GPT-OSS 120B, low</td><td>73,477</td><td>30,566</td><td>575.962s</td><td>$0.029361</td></tr>
+      <tr><td>Full classification, v6 prompt (taxonomy v1.1, submitted)</td><td>GPT-OSS 120B, low</td><td>85,581</td><td>33,481</td><td>836.820s</td><td>$0.032926</td></tr>
+      <tr><th>Successful reproducible calls</th><th>Both</th><th>219,027</th><th>92,914</th><th>1,936.999s</th><th>$0.084405</th></tr>
     </tbody>
   </table>
   <p class="small">
@@ -269,18 +295,19 @@
     table reports list-price estimates from provider token usage. Two
     interrupted full-run attempts additionally consumed roughly 150k tokens of
     daily quota before their failing batches; priced conservatively, all
-    development traffic combined stays far below the $6 gate. The final
-    classification used 23 batches, one semantic retry, 25 rate-limit waits,
-    and no schema-generation retry; a daily-quota exhaustion mid-run was
-    absorbed by checkpoint resume, so the time reported is the summed active
-    batch time.
+    development traffic combined stays far below the $6 gate. The submitted v6
+    classification used 23 batches, one semantic retry, 28 rate-limit waits,
+    and no schema-generation retry; the time reported is the summed active
+    batch time, dominated by free-tier token-per-minute pacing.
   </p>
 
   <h2>Five outputs I believe are wrong</h2>
   <p class="small">
-    Checked against the submitted v5.1 output. Two failures documented against
-    the baseline run were fixed by the v5 boundary rules and are no longer
-    listed; these five remain wrong today.
+    Checked against the submitted v6 output. Two failures documented against
+    earlier runs were fixed by taxonomy v1.1 and are no longer listed:
+    “Credit-checked me four times…” now lands on the new credit-enquiries leaf,
+    and the repayment-plan praise misread as term changes is now correctly
+    repayment flexibility. These five remain wrong today.
   </p>
   <table>
     <thead>
@@ -288,16 +315,10 @@
     </thead>
     <tbody>
       <tr>
-        <td><code>rev-706ecdc3768f</code><br>“Credit-checked me four times…”</td>
-        <td>No assignment</td>
-        <td>A credit-check frequency or credit-bureau impact theme.</td>
-        <td>The compact taxonomy has no credit-enquiry subject; this is a coverage miss.</td>
-      </tr>
-      <tr>
         <td><code>rev-c4a71cb33578</code><br>“Can you attach several users…”</td>
-        <td>Portal usability</td>
+        <td>Account administration</td>
         <td>User access and role management.</td>
-        <td>The taxonomy lacks a permissions subject, so the model now files the request under the nearest portal leaf instead of abstaining — a coverage gap surfacing as a wrong positive.</td>
+        <td>The taxonomy still lacks a permissions subject; the model files the request under the nearest administrative leaf instead of abstaining — a coverage gap surfacing as a wrong positive.</td>
       </tr>
       <tr>
         <td><code>rev-64b0877f861d</code><br>“The portal said ‘approved’, the email said ‘rejected’.”</td>
@@ -307,28 +328,38 @@
       </tr>
       <tr>
         <td><code>rev-791c08f22ece</code><br>“The price quoted on the phone was not the price in the agreement.”</td>
-        <td>Fee level and fee transparency</td>
+        <td>Unattributed price remarks</td>
         <td>Cross-channel consistency (and fee transparency at most).</td>
-        <td>Price words anchor the pricing branch; the mismatch-between-channels framing is lost.</td>
+        <td>Price words anchor the new price leaf; the mismatch-between-channels framing that motivates the complaint is lost.</td>
       </tr>
       <tr>
-        <td><code>rev-d88e745c52c8</code><br>“They changed the repayment plan three times without blinking…”</td>
-        <td>Term changes</td>
-        <td>Repayment flexibility; the customer praises accommodation, not unilateral changes.</td>
-        <td>Surface form (“changed … three times”) matches the term-change subject; the taxonomy is polarity-neutral but the two subjects differ by who initiates the change.</td>
+        <td><code>rev-8c6e6cf270f9</code><br>“Finally a bank where I don't have to meet anyone in person to sign.”</td>
+        <td>Positive endorsement</td>
+        <td>Abstention: remote e-signing is a concrete subject no leaf covers.</td>
+        <td>The general-sentiment leaves lower the cost of not abstaining; positive phrasing about an uncovered subject is absorbed as a subject-free endorsement.</td>
+      </tr>
+      <tr>
+        <td><code>rev-978939a63827</code><br>“No way to give the accountant access. Have to send everything manually.”</td>
+        <td>Accounting integration reliability</td>
+        <td>Abstention: delegated accountant access is a permissions subject no leaf covers.</td>
+        <td>The word “accountant” anchors the integration leaf even though the review is about granting a person access, not about data exchange.</td>
       </tr>
     </tbody>
   </table>
 
   <h2>What I would do with another week</h2>
   <p>
-    The holdout confirmed that the dominant remaining errors are taxonomy
-    coverage, not classification: account administration, user and role
-    management, and credit enquiries recur in reviews the pipeline can only
-    abstain on. The first revision would add those leaves and re-annotate. I
-    would then grow the holdout beyond 50 reviews, add a second independent
-    annotator to measure agreement, and only adopt further prompt rules when a
-    failure pattern repeats across annotators.
+    Taxonomy v1.1 already executed the first revision this section used to
+    promise: the audited abstention pool became the Other-feedback branch, and
+    the coverage leaves it added (credit enquiries, account administration,
+    marketing communications, unattributed price remarks) fixed two documented
+    failures outright. The remaining gaps are narrower: a user-and-permissions
+    subject and a remote-signing subject would eliminate three of the five
+    failures still listed above. Beyond coverage, I would grow the holdout
+    past 50 reviews, add a second independent annotator to measure agreement,
+    and only adopt further prompt rules when a failure pattern repeats across
+    annotators — the sentiment leaves in particular need a measured guard
+    against absorbing reviews that do name a subject.
   </p>
   <p>
     The embedding pre-filter stays parked: it is implemented and measurable,

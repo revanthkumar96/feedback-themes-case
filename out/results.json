@@ -5,25 +5,25 @@
     "model": "openai/gpt-oss-120b",
     "reasoning_effort": "low",
     "max_completion_tokens": 3000,
-    "created_at": "2026-07-31T13:14:24.520526+00:00",
-    "elapsed_seconds": 575.962,
-    "process_wall_seconds": 0.148,
+    "created_at": "2026-08-01T04:48:58.754908+00:00",
+    "elapsed_seconds": 836.82,
+    "process_wall_seconds": 836.911,
     "review_subset_size": null,
     "batch_size": 10,
     "batch_count": 23,
     "usage": {
-      "input_tokens": 73477,
-      "output_tokens": 30566,
-      "total_tokens": 104043
+      "input_tokens": 85581,
+      "output_tokens": 33481,
+      "total_tokens": 119062
     },
-    "estimated_cost_usd": 0.029361,
+    "estimated_cost_usd": 0.032926,
     "validation_retries": 1,
     "generation_retries": 0,
-    "rate_limit_retries": 25,
+    "rate_limit_retries": 28,
     "retrieval": null,
     "abstention_audit": null,
-    "resumed": true,
-    "taxonomy_hash": "7bb3da4cef9da83d0d0006df5a7a2b40e62655058ad526d3e8d1eb2481716c4d"
+    "resumed": false,
+    "taxonomy_hash": "036cf96a2a25ac9f5f72219864d0632e343bc1d9cca4521fe7a9127c41c001dd"
   },
   "taxonomy": {
     "version": "v1",
@@ -308,6 +308,62 @@
             ]
           }
         ]
+      },
+      {
+        "id": "other_feedback",
+        "label": "Other feedback",
+        "definition": "Reviews whose content is a general verdict or a subject outside the core banking taxonomy.",
+        "midlevel_themes": [
+          {
+            "id": "general_sentiment",
+            "label": "General sentiment",
+            "definition": "A verdict on the company or service that names no concrete subject.",
+            "specific_themes": [
+              {
+                "id": "positive_endorsement",
+                "label": "Positive endorsement",
+                "definition": "Praise, thanks, or a recommendation with no specific subject discussed."
+              },
+              {
+                "id": "negative_verdict",
+                "label": "Negative verdict",
+                "definition": "Criticism, rejection, or a warning with no specific subject discussed."
+              },
+              {
+                "id": "neutral_remark",
+                "label": "Neutral remark",
+                "definition": "A neutral or mixed remark with no specific subject discussed."
+              }
+            ]
+          },
+          {
+            "id": "out_of_scope_subjects",
+            "label": "Out-of-scope subjects",
+            "definition": "Concrete subjects the core taxonomy does not yet cover.",
+            "specific_themes": [
+              {
+                "id": "credit_enquiries",
+                "label": "Credit enquiries",
+                "definition": "The frequency or credit-bureau impact of credit checks performed by the bank."
+              },
+              {
+                "id": "account_administration",
+                "label": "Account administration",
+                "definition": "Changing account details or closing the account, including how long it takes."
+              },
+              {
+                "id": "marketing_communications",
+                "label": "Marketing communications",
+                "definition": "Unsolicited marketing contact or the honesty of advertising claims."
+              },
+              {
+                "id": "unattributed_price_remarks",
+                "label": "Unattributed price remarks",
+                "definition": "Cost or price feedback that does not identify whether fees or interest are meant."
+              }
+            ]
+          }
+        ]
       }
     ]
   },
@@ -317,22 +373,27 @@
       "assignments": [
         {
           "specific_theme_id": "institutional_credibility",
-          "evidence": "all the five-star reviews arrived in the same week"
+          "evidence": "Strange how all the five-star reviews arrived in the same week."
         }
       ],
       "no_assignment_reason": null
     },
     {
       "review_id": "rev-f04f75b142cc",
-      "assignments": [],
-      "no_assignment_reason": "no_relevant_theme"
+      "assignments": [
+        {
+          "specific_theme_id": "positive_endorsement",
+          "evidence": "We have recommended them to four other companies in the industry."
+        }
+      ],
+      "no_assignment_reason": null
     },
     {
       "review_id": "rev-639e1e30f2a5",
       "assignments": [
         {
           "specific_theme_id": "collections_handling",
-          "evidence": "Sent the case to collections over 900 kroner without calling first"
+          "evidence": "Sent the case to collections over 900 kroner without calling first."
         }
       ],
       "no_assignment_reason": null
@@ -342,7 +403,7 @@
       "assignments": [
         {
           "specific_theme_id": "payout_timing",
-          "evidence": "take from invoice to payout"
+          "evidence": "How long does it usually take from invoice to payout?"
         }
       ],
       "no_assignment_reason": null
@@ -352,7 +413,7 @@
       "assignments": [
         {
           "specific_theme_id": "follow_up_and_ownership",
-          "evidence": "always follows up"
+          "evidence": "always follows up!"
         }
       ],
       "no_assignment_reason": null
@@ -376,7 +437,7 @@
       "assignments": [
         {
           "specific_theme_id": "payout_timing",
-          "evidence": "Payout the same hour the invoice was approved"
+          "evidence": "Payout the same hour the invoice was approved."
         }
       ],
       "no_assignment_reason": null
@@ -386,7 +447,7 @@
       "assignments": [
         {
           "specific_theme_id": "portal_usability",
-          "evidence": "portal is the best I have used"
+          "evidence": "The portal is the best I have used in a bank."
         }
       ],
       "no_assignment_reason": null
@@ -435,8 +496,13 @@
     },
     {
       "review_id": "rev-2f4968e59d9e",
-      "assignments": [],
-      "no_assignment_reason": "no_relevant_theme"
+      "assignments": [
+        {
+          "specific_theme_id": "positive_endorsement",
+          "evidence": "🙌🙌"
+        }
+      ],
+      "no_assignment_reason": null
     },
     {
       "review_id": "rev-be44695beb61",
@@ -450,8 +516,12 @@
           "evidence": "Customer service is slow"
         },
         {
+          "specific_theme_id": "unattributed_price_remarks",
+          "evidence": "The price is high"
+        },
+        {
           "specific_theme_id": "portal_usability",
-          "evidence": "portal is okay"
+          "evidence": "The portal is okay"
         }
       ],
       "no_assignment_reason": null
@@ -461,19 +531,20 @@
       "assignments": [
         {
           "specific_theme_id": "fee_transparency",
-          "evidence": "administration fee\" nobody could explain"
-        },
-        {
-          "specific_theme_id": "fee_level",
-          "evidence": "Establishment fee, instalment fee"
+          "evidence": "\"administration fee\" nobody could explain"
         }
       ],
       "no_assignment_reason": null
     },
     {
       "review_id": "rev-ac14589c4894",
-      "assignments": [],
-      "no_assignment_reason": "no_relevant_theme"
+      "assignments": [
+        {
+          "specific_theme_id": "negative_verdict",
+          "evidence": "Disappointed."
+        }
+      ],
+      "no_assignment_reason": null
     },
     {
       "review_id": "rev-813602e7e748",
@@ -508,7 +579,7 @@
       "assignments": [
         {
           "specific_theme_id": "fee_level",
-          "evidence": "fees ate up the entire saving"
+          "evidence": "the fees ate up the entire saving"
         }
       ],
       "no_assignment_reason": null
@@ -518,7 +589,7 @@
       "assignments": [
         {
           "specific_theme_id": "staff_conduct",
-          "evidence": "Incredibly pleasant people"
+          "evidence": "Incredibly pleasant people who actually want you to succeed"
         }
       ],
       "no_assignment_reason": null
@@ -528,7 +599,7 @@
       "assignments": [
         {
           "specific_theme_id": "rate_change_communication",
-          "evidence": "rate has been raised and nobody has said anything"
+          "evidence": "the rate has been raised and nobody has said anything"
         }
       ],
       "no_assignment_reason": null
@@ -538,7 +609,7 @@
       "assignments": [
         {
           "specific_theme_id": "terms_clarity",
-          "evidence": "Nothing about it is stated in the agreement I received."
+          "evidence": "Nothing about it is stated in the agreement"
         }
       ],
       "no_assignment_reason": null
@@ -547,16 +618,21 @@
       "review_id": "rev-eb5ea855fe49",
       "assignments": [
         {
-          "specific_theme_id": "decision_turnaround",
-          "evidence": "three weeks for a rejection"
+          "specific_theme_id": "negative_verdict",
+          "evidence": "Fantastic to wait three weeks for a rejection"
         }
       ],
       "no_assignment_reason": null
     },
     {
       "review_id": "rev-e213b6681da5",
-      "assignments": [],
-      "no_assignment_reason": "no_relevant_theme"
+      "assignments": [
+        {
+          "specific_theme_id": "neutral_remark",
+          "evidence": "It's okay"
+        }
+      ],
+      "no_assignment_reason": null
     },
     {
       "review_id": "rev-64b0877f861d",
@@ -573,7 +649,7 @@
       "assignments": [
         {
           "specific_theme_id": "reporting_and_export_access",
-          "evidence": "Was told it isn't possible to retrieve."
+          "evidence": "Was told it isn't possible to retrieve"
         }
       ],
       "no_assignment_reason": null
@@ -583,7 +659,7 @@
       "assignments": [
         {
           "specific_theme_id": "decision_turnaround",
-          "evidence": "ten business days, not the \"same day\" that was promised"
+          "evidence": "The processing time was ten business days, not the \"same day\" that was promised"
         }
       ],
       "no_assignment_reason": null
@@ -603,7 +679,7 @@
       "assignments": [
         {
           "specific_theme_id": "application_requirements",
-          "evidence": "They asked for five years of accounts. The company is three years old."
+          "evidence": "They asked for five years of accounts"
         }
       ],
       "no_assignment_reason": null
@@ -623,23 +699,23 @@
       "assignments": [
         {
           "specific_theme_id": "credit_line_flexibility",
-          "evidence": "At renewal the credit line was cut without warning"
+          "evidence": "credit line was cut without warning"
         },
         {
           "specific_theme_id": "fee_level",
           "evidence": "the fee doubled"
         },
         {
-          "specific_theme_id": "fee_transparency",
-          "evidence": "fee doubled, and nobody could say why"
+          "specific_theme_id": "portal_usability",
+          "evidence": "chatbot sent me to a page that doesn't exist"
         },
         {
-          "specific_theme_id": "support_channel_navigation",
-          "evidence": "The chatbot sent me to a page that doesn't exist"
-        },
-        {
-          "specific_theme_id": "response_timeliness",
+          "specific_theme_id": "decision_transparency",
           "evidence": "After four emails I was told that \"the decision has been made\""
+        },
+        {
+          "specific_theme_id": "term_changes",
+          "evidence": "At renewal the credit line was cut without warning"
         }
       ],
       "no_assignment_reason": null
@@ -663,7 +739,7 @@
         },
         {
           "specific_theme_id": "terms_clarity",
-          "evidence": "I can't find anything about it in the terms."
+          "evidence": "can't find anything about it in the terms"
         }
       ],
       "no_assignment_reason": null
@@ -683,11 +759,15 @@
       "assignments": [
         {
           "specific_theme_id": "staff_conduct",
-          "evidence": "Terrible customer service, employees who are outright rude"
+          "evidence": "employees who are outright rude"
         },
         {
           "specific_theme_id": "accounting_integration_reliability",
           "evidence": "integration with Kontosmart that has never worked"
+        },
+        {
+          "specific_theme_id": "terms_clarity",
+          "evidence": "the worst terms in the market"
         },
         {
           "specific_theme_id": "institutional_credibility",
@@ -708,13 +788,23 @@
     },
     {
       "review_id": "rev-706ecdc3768f",
-      "assignments": [],
-      "no_assignment_reason": "no_relevant_theme"
+      "assignments": [
+        {
+          "specific_theme_id": "credit_enquiries",
+          "evidence": "Credit-checked me four times in two weeks."
+        }
+      ],
+      "no_assignment_reason": null
     },
     {
       "review_id": "rev-5d91e7d0b839",
-      "assignments": [],
-      "no_assignment_reason": "no_relevant_theme"
+      "assignments": [
+        {
+          "specific_theme_id": "positive_endorsement",
+          "evidence": "Good experience from start to finish."
+        }
+      ],
+      "no_assignment_reason": null
     },
     {
       "review_id": "rev-ac5672b8626c",
@@ -730,7 +820,7 @@
       "review_id": "rev-2594378ac75b",
       "assignments": [
         {
-          "specific_theme_id": "product_suitability",
+          "specific_theme_id": "invoice_administration",
           "evidence": "The invoices arrive on the same date every month"
         }
       ],
@@ -751,47 +841,67 @@
       "assignments": [
         {
           "specific_theme_id": "staff_conduct",
-          "evidence": "Rude tone on the phone"
+          "evidence": "Rude tone on the phone."
         }
       ],
       "no_assignment_reason": null
     },
     {
       "review_id": "rev-abaa9b8ef682",
-      "assignments": [],
-      "no_assignment_reason": "no_relevant_theme"
+      "assignments": [
+        {
+          "specific_theme_id": "positive_endorsement",
+          "evidence": "Solid and serious bank."
+        }
+      ],
+      "no_assignment_reason": null
     },
     {
       "review_id": "rev-c1a8a1149135",
-      "assignments": [],
-      "no_assignment_reason": "no_relevant_theme"
+      "assignments": [
+        {
+          "specific_theme_id": "marketing_communications",
+          "evidence": "advert shows a founder getting money in two minutes"
+        }
+      ],
+      "no_assignment_reason": null
     },
     {
       "review_id": "rev-a7ba7b47d684",
-      "assignments": [],
-      "no_assignment_reason": "no_relevant_theme"
+      "assignments": [
+        {
+          "specific_theme_id": "marketing_communications",
+          "evidence": "Stop sending me texts about loans I haven't asked for."
+        }
+      ],
+      "no_assignment_reason": null
     },
     {
       "review_id": "rev-b71ef45aef23",
       "assignments": [
         {
           "specific_theme_id": "product_suitability",
-          "evidence": "The overdraft is a lifesaver"
+          "evidence": "The overdraft is a lifesaver when customers pay late."
         }
       ],
       "no_assignment_reason": null
     },
     {
       "review_id": "rev-656bcbc11f28",
-      "assignments": [],
-      "no_assignment_reason": "no_relevant_theme"
+      "assignments": [
+        {
+          "specific_theme_id": "positive_endorsement",
+          "evidence": "Faster, friendlier, cheaper."
+        }
+      ],
+      "no_assignment_reason": null
     },
     {
       "review_id": "rev-35e4632026e8",
       "assignments": [
         {
           "specific_theme_id": "fee_level",
-          "evidence": "reminder fee"
+          "evidence": "A reminder fee on an invoice"
         }
       ],
       "no_assignment_reason": null
@@ -810,7 +920,7 @@
       "review_id": "rev-d22d3fd856cf",
       "assignments": [
         {
-          "specific_theme_id": "support_channel_navigation",
+          "specific_theme_id": "cross_channel_consistency",
           "evidence": "three different messages from three different people"
         }
       ],
@@ -818,19 +928,20 @@
     },
     {
       "review_id": "rev-ef06ffe6226e",
-      "assignments": [],
-      "no_assignment_reason": "no_relevant_theme"
+      "assignments": [
+        {
+          "specific_theme_id": "fee_level",
+          "evidence": "Kvist was the cheapest"
+        }
+      ],
+      "no_assignment_reason": null
     },
     {
       "review_id": "rev-791c08f22ece",
       "assignments": [
         {
-          "specific_theme_id": "fee_transparency",
+          "specific_theme_id": "unattributed_price_remarks",
           "evidence": "price quoted on the phone was not the price in the agreement"
-        },
-        {
-          "specific_theme_id": "fee_level",
-          "evidence": "Two percentage points higher."
         }
       ],
       "no_assignment_reason": null
@@ -867,15 +978,20 @@
     },
     {
       "review_id": "rev-dfee5e1d8e0d",
-      "assignments": [],
-      "no_assignment_reason": "no_relevant_theme"
+      "assignments": [
+        {
+          "specific_theme_id": "positive_endorsement",
+          "evidence": "Strongly recommended"
+        }
+      ],
+      "no_assignment_reason": null
     },
     {
       "review_id": "rev-6ad01cdd3eb3",
       "assignments": [
         {
           "specific_theme_id": "repayment_flexibility",
-          "evidence": "gave us it"
+          "evidence": "understood that we needed time, and gave us it"
         }
       ],
       "no_assignment_reason": null
@@ -899,10 +1015,10 @@
       "assignments": [
         {
           "specific_theme_id": "decision_turnaround",
-          "evidence": "application sat for two weeks without anyone saying anything"
+          "evidence": "sat for two weeks without anyone saying anything"
         },
         {
-          "specific_theme_id": "application_requirements",
+          "specific_theme_id": "decision_transparency",
           "evidence": "waiting for a document they had never asked for"
         }
       ],
@@ -930,8 +1046,13 @@
     },
     {
       "review_id": "rev-56a3968e66a7",
-      "assignments": [],
-      "no_assignment_reason": "no_relevant_theme"
+      "assignments": [
+        {
+          "specific_theme_id": "positive_endorsement",
+          "evidence": "👍"
+        }
+      ],
+      "no_assignment_reason": null
     },
     {
       "review_id": "rev-6d35d82a9188",
@@ -975,8 +1096,13 @@
     },
     {
       "review_id": "rev-50bb05811c71",
-      "assignments": [],
-      "no_assignment_reason": "no_relevant_theme"
+      "assignments": [
+        {
+          "specific_theme_id": "positive_endorsement",
+          "evidence": "Completely okay."
+        }
+      ],
+      "no_assignment_reason": null
     },
     {
       "review_id": "rev-d84c2823d8b4",
@@ -993,22 +1119,27 @@
       "assignments": [
         {
           "specific_theme_id": "mobile_app",
-          "evidence": "there is no app - everything has to be done in the browser"
+          "evidence": "no app - everything has to be done in the browser"
         }
       ],
       "no_assignment_reason": null
     },
     {
       "review_id": "rev-30726de0f472",
-      "assignments": [],
-      "no_assignment_reason": "no_relevant_theme"
+      "assignments": [
+        {
+          "specific_theme_id": "unattributed_price_remarks",
+          "evidence": "Twice as expensive as the bank we came from"
+        }
+      ],
+      "no_assignment_reason": null
     },
     {
       "review_id": "rev-c59f0ee4ca75",
       "assignments": [
         {
-          "specific_theme_id": "staff_conduct",
-          "evidence": "Unprofessional from start to finish"
+          "specific_theme_id": "negative_verdict",
+          "evidence": "Unprofessional from start to finish."
         }
       ],
       "no_assignment_reason": null
@@ -1019,6 +1150,10 @@
         {
           "specific_theme_id": "payout_timing",
           "evidence": "No longer having to wait 60 days for customers to pay"
+        },
+        {
+          "specific_theme_id": "product_suitability",
+          "evidence": "The invoice financing has saved our liquidity"
         }
       ],
       "no_assignment_reason": null
@@ -1028,6 +1163,10 @@
       "assignments": [
         {
           "specific_theme_id": "application_requirements",
+          "evidence": "We are a sole proprietorship and evidently don't qualify"
+        },
+        {
+          "specific_theme_id": "decision_transparency",
           "evidence": "it says nothing about that anywhere"
         }
       ],
@@ -1035,8 +1174,13 @@
     },
     {
       "review_id": "rev-eb742f5a177c",
-      "assignments": [],
-      "no_assignment_reason": "no_relevant_theme"
+      "assignments": [
+        {
+          "specific_theme_id": "account_administration",
+          "evidence": "Two months to change an account number"
+        }
+      ],
+      "no_assignment_reason": null
     },
     {
       "review_id": "rev-9e2ccd454d88",
@@ -1044,10 +1188,6 @@
         {
           "specific_theme_id": "interest_calculation",
           "evidence": "how the interest is calculated"
-        },
-        {
-          "specific_theme_id": "financial_data_accuracy",
-          "evidence": "spreadsheet that didn't match the invoice"
         }
       ],
       "no_assignment_reason": null
@@ -1065,22 +1205,27 @@
         },
         {
           "specific_theme_id": "portal_usability",
-          "evidence": "thin on self-service"
+          "evidence": "a bit thin on self-service"
         }
       ],
       "no_assignment_reason": null
     },
     {
       "review_id": "rev-d351246d1d7b",
-      "assignments": [],
-      "no_assignment_reason": "no_relevant_theme"
+      "assignments": [
+        {
+          "specific_theme_id": "positive_endorsement",
+          "evidence": "Top!"
+        }
+      ],
+      "no_assignment_reason": null
     },
     {
       "review_id": "rev-80feb11841e7",
       "assignments": [
         {
-          "specific_theme_id": "product_suitability",
-          "evidence": "We outgrew them"
+          "specific_theme_id": "positive_endorsement",
+          "evidence": "Thank you."
         }
       ],
       "no_assignment_reason": null
@@ -1100,15 +1245,15 @@
       "assignments": [
         {
           "specific_theme_id": "credit_line_flexibility",
-          "evidence": "credit line would be extended"
-        },
-        {
-          "specific_theme_id": "follow_up_and_ownership",
-          "evidence": "nobody would stand by it"
+          "evidence": "credit line would be extended before the summer"
         },
         {
           "specific_theme_id": "decision_transparency",
           "evidence": "rejection without justification"
+        },
+        {
+          "specific_theme_id": "follow_up_and_ownership",
+          "evidence": "nobody would stand by it"
         }
       ],
       "no_assignment_reason": null
@@ -1121,7 +1266,7 @@
           "evidence": "Good follow-up throughout the application"
         },
         {
-          "specific_theme_id": "portal_performance",
+          "specific_theme_id": "response_timeliness",
           "evidence": "slow system"
         }
       ],
@@ -1131,8 +1276,8 @@
       "review_id": "rev-30b3d910c05a",
       "assignments": [
         {
-          "specific_theme_id": "support_channel_navigation",
-          "evidence": "I had to call to do it"
+          "specific_theme_id": "account_administration",
+          "evidence": "Closing went fine"
         }
       ],
       "no_assignment_reason": null
@@ -1142,20 +1287,34 @@
       "assignments": [
         {
           "specific_theme_id": "accounting_integration_reliability",
-          "evidence": "works flawlessly"
+          "evidence": "integration with Bokfør works flawlessly"
+        },
+        {
+          "specific_theme_id": "invoice_administration",
+          "evidence": "The invoices end up where they should"
         }
       ],
       "no_assignment_reason": null
     },
     {
       "review_id": "rev-905ddbd723bc",
-      "assignments": [],
-      "no_assignment_reason": "no_relevant_theme"
+      "assignments": [
+        {
+          "specific_theme_id": "positive_endorsement",
+          "evidence": "The direct debit takes the right amount on the right day"
+        }
+      ],
+      "no_assignment_reason": null
     },
     {
       "review_id": "rev-31150867dd30",
-      "assignments": [],
-      "no_assignment_reason": "no_relevant_theme"
+      "assignments": [
+        {
+          "specific_theme_id": "positive_endorsement",
+          "evidence": "Simple and fast"
+        }
+      ],
+      "no_assignment_reason": null
     },
     {
       "review_id": "rev-0e542f157238",
@@ -1184,15 +1343,11 @@
       "assignments": [
         {
           "specific_theme_id": "advisor_expertise",
-          "evidence": "understood our business model immediately"
+          "evidence": "advisor understood our business model immediately"
         },
         {
           "specific_theme_id": "product_suitability",
-          "evidence": "suggested an overdraft facility instead of the loan we had applied for"
-        },
-        {
-          "specific_theme_id": "credit_line_flexibility",
-          "evidence": "overdraft facility"
+          "evidence": "suggested an overdraft facility instead of the loan"
         }
       ],
       "no_assignment_reason": null
@@ -1241,16 +1396,12 @@
       "review_id": "rev-e1e288b2122a",
       "assignments": [
         {
-          "specific_theme_id": "application_requirements",
-          "evidence": "rejected on the grounds of \"too short a track record\""
-        },
-        {
           "specific_theme_id": "decision_transparency",
           "evidence": "could have said that in the form on day one"
         },
         {
           "specific_theme_id": "decision_turnaround",
-          "evidence": "After two weeks"
+          "evidence": "We lost three weeks"
         }
       ],
       "no_assignment_reason": null
@@ -1269,25 +1420,31 @@
       "review_id": "rev-bd0f4ecfcb6e",
       "assignments": [
         {
-          "specific_theme_id": "application_requirements",
-          "evidence": "Had to send the same document three times"
-        },
-        {
-          "specific_theme_id": "decision_turnaround",
-          "evidence": "lost it internally"
+          "specific_theme_id": "follow_up_and_ownership",
+          "evidence": "they lost it internally"
         }
       ],
       "no_assignment_reason": null
     },
     {
       "review_id": "rev-855cf7fb495c",
-      "assignments": [],
-      "no_assignment_reason": "no_relevant_theme"
+      "assignments": [
+        {
+          "specific_theme_id": "positive_endorsement",
+          "evidence": "Happy customer since 2021"
+        }
+      ],
+      "no_assignment_reason": null
     },
     {
       "review_id": "rev-b74a731add88",
-      "assignments": [],
-      "no_assignment_reason": "no_relevant_theme"
+      "assignments": [
+        {
+          "specific_theme_id": "negative_verdict",
+          "evidence": "Bad"
+        }
+      ],
+      "no_assignment_reason": null
     },
     {
       "review_id": "rev-3922e1f0cbf7",
@@ -1337,12 +1494,12 @@
           "evidence": "Got a collections notice and a reminder fee of 350 kroner"
         },
         {
-          "specific_theme_id": "repayment_flexibility",
-          "evidence": "payment plan I was told it wasn't possible"
+          "specific_theme_id": "fee_level",
+          "evidence": "reminder fee of 350 kroner"
         },
         {
-          "specific_theme_id": "response_timeliness",
-          "evidence": "Was two days late with one instalment"
+          "specific_theme_id": "repayment_flexibility",
+          "evidence": "When I asked for a payment plan I was told it wasn't possible"
         }
       ],
       "no_assignment_reason": null
@@ -1351,16 +1508,24 @@
       "review_id": "rev-0d4d3326d84f",
       "assignments": [
         {
-          "specific_theme_id": "product_suitability",
-          "evidence": "got a credit line that fitted our size"
+          "specific_theme_id": "credit_line_flexibility",
+          "evidence": "credit line that fitted our size"
+        },
+        {
+          "specific_theme_id": "advisor_expertise",
+          "evidence": "contact person who answers texts"
         },
         {
           "specific_theme_id": "portal_usability",
           "evidence": "The portal is simple"
         },
         {
+          "specific_theme_id": "reporting_and_export_access",
+          "evidence": "the statements are easy to send to the accountant"
+        },
+        {
           "specific_theme_id": "mobile_app",
-          "evidence": "The only thing I miss is an app"
+          "evidence": "The only thing I miss is an app."
         }
       ],
       "no_assignment_reason": null
@@ -1369,7 +1534,7 @@
       "review_id": "rev-5be2b33a91fe",
       "assignments": [
         {
-          "specific_theme_id": "product_suitability",
+          "specific_theme_id": "application_requirements",
           "evidence": "only accepts customers with a good credit score"
         }
       ],
@@ -1383,8 +1548,8 @@
           "evidence": "only works if you have large, safe customers"
         },
         {
-          "specific_theme_id": "terms_clarity",
-          "evidence": "say so in the advert"
+          "specific_theme_id": "marketing_communications",
+          "evidence": "say so in the advert."
         }
       ],
       "no_assignment_reason": null
@@ -1394,7 +1559,7 @@
       "assignments": [
         {
           "specific_theme_id": "fee_transparency",
-          "evidence": "No hidden fees"
+          "evidence": "No hidden fees."
         }
       ],
       "no_assignment_reason": null
@@ -1404,7 +1569,7 @@
       "assignments": [
         {
           "specific_theme_id": "application_requirements",
-          "evidence": "Quite a lot of documentation"
+          "evidence": "Quite a lot of documentation, but they explained why they needed each piece."
         }
       ],
       "no_assignment_reason": null
@@ -1414,7 +1579,7 @@
       "assignments": [
         {
           "specific_theme_id": "invoice_administration",
-          "evidence": "Got an invoice for a month I had already paid"
+          "evidence": "Got an invoice for a month I had already paid."
         }
       ],
       "no_assignment_reason": null
@@ -1431,12 +1596,21 @@
     },
     {
       "review_id": "rev-b4d0ead5dc0a",
-      "assignments": [],
-      "no_assignment_reason": "no_relevant_theme"
+      "assignments": [
+        {
+          "specific_theme_id": "positive_endorsement",
+          "evidence": "Thank you so much for everything!"
+        }
+      ],
+      "no_assignment_reason": null
     },
     {
       "review_id": "rev-9326017b404c",
       "assignments": [
+        {
+          "specific_theme_id": "interest_rate_level",
+          "evidence": "There is no 3.9% interest rate."
+        },
         {
           "specific_theme_id": "interest_calculation",
           "evidence": "effective rate turned out to be 38% per year"
@@ -1446,8 +1620,13 @@
     },
     {
       "review_id": "rev-222b3a70633d",
-      "assignments": [],
-      "no_assignment_reason": "no_relevant_theme"
+      "assignments": [
+        {
+          "specific_theme_id": "positive_endorsement",
+          "evidence": "Very good, thank you!"
+        }
+      ],
+      "no_assignment_reason": null
     },
     {
       "review_id": "rev-29c446ed04cb",
@@ -1465,6 +1644,10 @@
         {
           "specific_theme_id": "decision_turnaround",
           "evidence": "Fast and simple application"
+        },
+        {
+          "specific_theme_id": "unattributed_price_remarks",
+          "evidence": "they are expensive"
         }
       ],
       "no_assignment_reason": null
@@ -1491,21 +1674,31 @@
           "evidence": "Logged in with BankID"
         },
         {
-          "specific_theme_id": "accounting_integration_reliability",
-          "evidence": "figures pulled automatically"
+          "specific_theme_id": "portal_usability",
+          "evidence": "figures pulled automatically, done"
         }
       ],
       "no_assignment_reason": null
     },
     {
       "review_id": "rev-8c6e6cf270f9",
-      "assignments": [],
-      "no_assignment_reason": "no_relevant_theme"
+      "assignments": [
+        {
+          "specific_theme_id": "positive_endorsement",
+          "evidence": "Finally a bank where I don't have to meet anyone in person to sign."
+        }
+      ],
+      "no_assignment_reason": null
     },
     {
       "review_id": "rev-05e2a5f08c76",
-      "assignments": [],
-      "no_assignment_reason": "no_relevant_theme"
+      "assignments": [
+        {
+          "specific_theme_id": "positive_endorsement",
+          "evidence": "Fast, tidy, straight."
+        }
+      ],
+      "no_assignment_reason": null
     },
     {
       "review_id": "rev-0cff33b4221a",
@@ -1515,7 +1708,7 @@
           "evidence": "rate is among the best for businesses"
         },
         {
-          "specific_theme_id": "product_suitability",
+          "specific_theme_id": "payout_timing",
           "evidence": "money is available the same day I need it"
         }
       ],
@@ -1525,42 +1718,52 @@
       "review_id": "rev-ed219d9064c3",
       "assignments": [
         {
+          "specific_theme_id": "account_administration",
+          "evidence": "Closed the account"
+        },
+        {
           "specific_theme_id": "invoice_administration",
-          "evidence": "invoice two months later"
+          "evidence": "Got an invoice two months later"
         }
       ],
       "no_assignment_reason": null
     },
     {
       "review_id": "rev-e0a9b4470ec3",
-      "assignments": [],
-      "no_assignment_reason": "no_relevant_theme"
+      "assignments": [
+        {
+          "specific_theme_id": "negative_verdict",
+          "evidence": "Not good enough."
+        }
+      ],
+      "no_assignment_reason": null
     },
     {
       "review_id": "rev-1b69c895034e",
       "assignments": [
         {
-          "specific_theme_id": "staff_conduct",
-          "evidence": "Professional and accommodating the whole way"
+          "specific_theme_id": "positive_endorsement",
+          "evidence": "Professional and accommodating the whole way."
         }
       ],
       "no_assignment_reason": null
     },
     {
       "review_id": "rev-2883e5932538",
-      "assignments": [],
-      "no_assignment_reason": "no_relevant_theme"
+      "assignments": [
+        {
+          "specific_theme_id": "account_administration",
+          "evidence": "Tried to close in January"
+        }
+      ],
+      "no_assignment_reason": null
     },
     {
       "review_id": "rev-dca96d2b719c",
       "assignments": [
         {
           "specific_theme_id": "credit_line_flexibility",
-          "evidence": "cut from 800,000 to 200,000 at renewal"
-        },
-        {
-          "specific_theme_id": "term_changes",
-          "evidence": "cut from 800,000 to 200,000 at renewal"
+          "evidence": "line was cut from 800,000 to 200,000 at renewal"
         }
       ],
       "no_assignment_reason": null
@@ -1570,7 +1773,7 @@
       "assignments": [
         {
           "specific_theme_id": "accounting_integration_reliability",
-          "evidence": "double-posts every transaction"
+          "evidence": "integration with Regna double-posts every transaction"
         }
       ],
       "no_assignment_reason": null
@@ -1579,12 +1782,8 @@
       "review_id": "rev-40c491735c6b",
       "assignments": [
         {
-          "specific_theme_id": "fee_transparency",
+          "specific_theme_id": "unattributed_price_remarks",
           "evidence": "Misleading prices"
-        },
-        {
-          "specific_theme_id": "fee_level",
-          "evidence": "pay a break fee of 12,000"
         },
         {
           "specific_theme_id": "response_timeliness",
@@ -1598,23 +1797,23 @@
       "assignments": [
         {
           "specific_theme_id": "decision_transparency",
-          "evidence": "no explanation for the gap"
+          "evidence": "granted 150,000 with no explanation for the gap"
         },
         {
-          "specific_theme_id": "decision_turnaround",
-          "evidence": "took six weeks and four emails"
-        },
-        {
-          "specific_theme_id": "portal_usability",
-          "evidence": "portal has nowhere to do it yourself"
-        },
-        {
-          "specific_theme_id": "advisor_expertise",
-          "evidence": "new one knew nothing about our case"
+          "specific_theme_id": "relationship_continuity",
+          "evidence": "advisor we had spoken to left"
         },
         {
           "specific_theme_id": "follow_up_and_ownership",
           "evidence": "had to submit the same accounting figures three times because they got lost internally"
+        },
+        {
+          "specific_theme_id": "account_administration",
+          "evidence": "it took six weeks and four emails"
+        },
+        {
+          "specific_theme_id": "portal_usability",
+          "evidence": "portal has nowhere to do it yourself"
         }
       ],
       "no_assignment_reason": null
@@ -1622,6 +1821,10 @@
     {
       "review_id": "rev-1ecc4c82dc14",
       "assignments": [
+        {
+          "specific_theme_id": "account_administration",
+          "evidence": "How do I terminate the credit line?"
+        },
         {
           "specific_theme_id": "portal_usability",
           "evidence": "can't find any button for it in the portal"
@@ -1634,7 +1837,7 @@
       "assignments": [
         {
           "specific_theme_id": "interest_rate_level",
-          "evidence": "gives a better rate than anything else"
+          "evidence": "gives a better rate than anything else we found for businesses"
         }
       ],
       "no_assignment_reason": null
@@ -1653,8 +1856,12 @@
       "review_id": "rev-b8ab7985f6f8",
       "assignments": [
         {
+          "specific_theme_id": "product_suitability",
+          "evidence": "The product fits"
+        },
+        {
           "specific_theme_id": "credit_line_flexibility",
-          "evidence": "could be adjusted without a new application"
+          "evidence": "wish the credit line could be adjusted without a new application"
         }
       ],
       "no_assignment_reason": null
@@ -1663,46 +1870,52 @@
       "review_id": "rev-d8ae754d7571",
       "assignments": [
         {
-          "specific_theme_id": "decision_turnaround",
+          "specific_theme_id": "payout_timing",
           "evidence": "money in the account the same day"
-        },
-        {
-          "specific_theme_id": "application_requirements",
-          "evidence": "Simple application"
         }
       ],
       "no_assignment_reason": null
     },
     {
       "review_id": "rev-dba8c8ddbded",
-      "assignments": [],
-      "no_assignment_reason": "no_relevant_theme"
+      "assignments": [
+        {
+          "specific_theme_id": "negative_verdict",
+          "evidence": "Unserious and unprofessional"
+        }
+      ],
+      "no_assignment_reason": null
     },
     {
       "review_id": "rev-330369fb041f",
       "assignments": [
         {
           "specific_theme_id": "interest_rate_level",
-          "evidence": "The rate could have been lower"
+          "evidence": "rate could have been lower"
         },
         {
           "specific_theme_id": "decision_turnaround",
-          "evidence": "the processing time is beyond reproach"
+          "evidence": "processing time is beyond reproach"
         }
       ],
       "no_assignment_reason": null
     },
     {
       "review_id": "rev-dc4f275c9215",
-      "assignments": [],
-      "no_assignment_reason": "no_relevant_theme"
+      "assignments": [
+        {
+          "specific_theme_id": "positive_endorsement",
+          "evidence": "Great service"
+        }
+      ],
+      "no_assignment_reason": null
     },
     {
       "review_id": "rev-0da14c238e68",
       "assignments": [
         {
           "specific_theme_id": "rate_change_communication",
-          "evidence": "The rate went up for the third time in one year"
+          "evidence": "rate went up for the third time"
         }
       ],
       "no_assignment_reason": null
@@ -1712,7 +1925,7 @@
       "assignments": [
         {
           "specific_theme_id": "product_suitability",
-          "evidence": "Either their product fits or it doesn't"
+          "evidence": "Zero flexibility"
         }
       ],
       "no_assignment_reason": null
@@ -1722,7 +1935,7 @@
       "assignments": [
         {
           "specific_theme_id": "terms_clarity",
-          "evidence": "The terms are strict but perfectly clear"
+          "evidence": "perfectly clear"
         }
       ],
       "no_assignment_reason": null
@@ -1735,12 +1948,12 @@
           "evidence": "it took three weeks"
         },
         {
-          "specific_theme_id": "interest_rate_level",
+          "specific_theme_id": "cross_channel_consistency",
           "evidence": "rate was two percentage points higher than what the calculator on the website said"
         },
         {
           "specific_theme_id": "relationship_continuity",
-          "evidence": "The advisor left along the way"
+          "evidence": "advisor left along the way and the new one had to start over"
         }
       ],
       "no_assignment_reason": null
@@ -1750,7 +1963,7 @@
       "assignments": [
         {
           "specific_theme_id": "cross_channel_consistency",
-          "evidence": "The calculator gives figures that don't match the offer"
+          "evidence": "calculator gives figures that don't match the offer"
         }
       ],
       "no_assignment_reason": null
@@ -1777,7 +1990,7 @@
       "review_id": "rev-1fd8954c6851",
       "assignments": [
         {
-          "specific_theme_id": "staff_conduct",
+          "specific_theme_id": "positive_endorsement",
           "evidence": "The best customer service"
         }
       ],
@@ -1787,12 +2000,8 @@
       "review_id": "rev-e5c8b97a4003",
       "assignments": [
         {
-          "specific_theme_id": "support_channel_navigation",
-          "evidence": "Spent twenty minutes finding the form to change the account number"
-        },
-        {
           "specific_theme_id": "portal_usability",
-          "evidence": "The website is a mess"
+          "evidence": "website is a mess. Spent twenty minutes finding the form to change the account number"
         }
       ],
       "no_assignment_reason": null
@@ -1801,28 +2010,33 @@
       "review_id": "rev-c358dd363166",
       "assignments": [
         {
-          "specific_theme_id": "term_changes",
-          "evidence": "terms change"
+          "specific_theme_id": "product_suitability",
+          "evidence": "invoice financing is genuinely good"
         },
         {
-          "specific_theme_id": "relationship_continuity",
-          "evidence": "people leave"
+          "specific_theme_id": "term_changes",
+          "evidence": "terms change"
         },
         {
           "specific_theme_id": "cross_channel_consistency",
           "evidence": "information doesn't line up across channels"
         },
         {
-          "specific_theme_id": "product_suitability",
-          "evidence": "invoice financing is genuinely good"
+          "specific_theme_id": "relationship_continuity",
+          "evidence": "people leave"
         }
       ],
       "no_assignment_reason": null
     },
     {
       "review_id": "rev-3178d2b84479",
-      "assignments": [],
-      "no_assignment_reason": "no_relevant_theme"
+      "assignments": [
+        {
+          "specific_theme_id": "neutral_remark",
+          "evidence": "It works, but nothing more than that."
+        }
+      ],
+      "no_assignment_reason": null
     },
     {
       "review_id": "rev-5e7ccc2378ef",
@@ -1857,10 +2071,6 @@
     {
       "review_id": "rev-d2b247072230",
       "assignments": [
-        {
-          "specific_theme_id": "repayment_flexibility",
-          "evidence": "asked for a month's deferral"
-        },
         {
           "specific_theme_id": "collections_handling",
           "evidence": "case had gone to collections"
@@ -1920,8 +2130,13 @@
     },
     {
       "review_id": "rev-35d7d7f97866",
-      "assignments": [],
-      "no_assignment_reason": "no_relevant_theme"
+      "assignments": [
+        {
+          "specific_theme_id": "negative_verdict",
+          "evidence": "Never again."
+        }
+      ],
+      "no_assignment_reason": null
     },
     {
       "review_id": "rev-73b4ab9db41f",
@@ -1937,7 +2152,7 @@
       "review_id": "rev-d88e745c52c8",
       "assignments": [
         {
-          "specific_theme_id": "term_changes",
+          "specific_theme_id": "repayment_flexibility",
           "evidence": "changed the repayment plan three times"
         }
       ],
@@ -1989,8 +2204,13 @@
     },
     {
       "review_id": "rev-aefd165ea585",
-      "assignments": [],
-      "no_assignment_reason": "no_relevant_theme"
+      "assignments": [
+        {
+          "specific_theme_id": "positive_endorsement",
+          "evidence": "Solid."
+        }
+      ],
+      "no_assignment_reason": null
     },
     {
       "review_id": "rev-067c12bb90eb",
@@ -2018,15 +2238,20 @@
     },
     {
       "review_id": "rev-824375a933e6",
-      "assignments": [],
-      "no_assignment_reason": "no_relevant_theme"
+      "assignments": [
+        {
+          "specific_theme_id": "negative_verdict",
+          "evidence": "This is pure fraud"
+        }
+      ],
+      "no_assignment_reason": null
     },
     {
       "review_id": "rev-80da4e33302c",
       "assignments": [
         {
-          "specific_theme_id": "fee_transparency",
-          "evidence": "charged two fees"
+          "specific_theme_id": "unattributed_price_remarks",
+          "evidence": "charged two fees in the same month"
         }
       ],
       "no_assignment_reason": null
@@ -2036,7 +2261,7 @@
       "assignments": [
         {
           "specific_theme_id": "portal_access",
-          "evidence": "Login with BankID"
+          "evidence": "Login with BankID every time"
         }
       ],
       "no_assignment_reason": null
@@ -2046,19 +2271,19 @@
       "assignments": [
         {
           "specific_theme_id": "staff_conduct",
-          "evidence": "people here are excellent"
+          "evidence": "The people here are excellent"
         },
         {
           "specific_theme_id": "portal_performance",
-          "evidence": "portal hangs"
+          "evidence": "The portal hangs"
         },
         {
           "specific_theme_id": "accounting_integration_reliability",
-          "evidence": "accounting integration fails"
+          "evidence": "the accounting integration fails every other week"
         },
         {
           "specific_theme_id": "financial_data_accuracy",
-          "evidence": "balance rarely adds up"
+          "evidence": "the balance rarely adds up"
         }
       ],
       "no_assignment_reason": null
@@ -2067,12 +2292,8 @@
       "review_id": "rev-174fd2a981c0",
       "assignments": [
         {
-          "specific_theme_id": "advisor_expertise",
-          "evidence": "proposed three ways to solve it"
-        },
-        {
           "specific_theme_id": "follow_up_and_ownership",
-          "evidence": "None of them required me to do anything extra"
+          "evidence": "they proposed three ways to solve it"
         }
       ],
       "no_assignment_reason": null
@@ -2082,7 +2303,7 @@
       "assignments": [
         {
           "specific_theme_id": "interest_rate_level",
-          "evidence": "almost 19% effective"
+          "evidence": "Paying almost 19% effective"
         }
       ],
       "no_assignment_reason": null
@@ -2092,7 +2313,7 @@
       "assignments": [
         {
           "specific_theme_id": "product_suitability",
-          "evidence": "product I didn't need"
+          "evidence": "sold me a product I didn't need"
         }
       ],
       "no_assignment_reason": null
@@ -2101,12 +2322,8 @@
       "review_id": "rev-83833ecb43d3",
       "assignments": [
         {
-          "specific_theme_id": "terms_clarity",
-          "evidence": "\"from 4.9%\". We got 16.5%"
-        },
-        {
-          "specific_theme_id": "interest_rate_level",
-          "evidence": "16.5%"
+          "specific_theme_id": "marketing_communications",
+          "evidence": "The advert says \"from 4.9%\""
         }
       ],
       "no_assignment_reason": null
@@ -2125,7 +2342,7 @@
       "review_id": "rev-c4a71cb33578",
       "assignments": [
         {
-          "specific_theme_id": "portal_usability",
+          "specific_theme_id": "account_administration",
           "evidence": "attach several users to the same account"
         }
       ],
@@ -2139,16 +2356,16 @@
           "evidence": "money came quickly"
         },
         {
+          "specific_theme_id": "invoice_administration",
+          "evidence": "incorrectly posted invoice"
+        },
+        {
           "specific_theme_id": "response_timeliness",
           "evidence": "took nine days before anyone replied"
         },
         {
           "specific_theme_id": "follow_up_and_ownership",
-          "evidence": "got two different answers from two different people"
-        },
-        {
-          "specific_theme_id": "invoice_administration",
-          "evidence": "incorrectly posted invoice"
+          "evidence": "two different answers from two different people"
         }
       ],
       "no_assignment_reason": null
@@ -2158,7 +2375,7 @@
       "assignments": [
         {
           "specific_theme_id": "staff_conduct",
-          "evidence": "nicest bank people"
+          "evidence": "nicest bank people I have spoken to"
         }
       ],
       "no_assignment_reason": null
@@ -2188,7 +2405,7 @@
       "assignments": [
         {
           "specific_theme_id": "credit_line_flexibility",
-          "evidence": "two overdraft facilities"
+          "evidence": "two overdraft facilities on the same company number"
         }
       ],
       "no_assignment_reason": null
@@ -2197,8 +2414,8 @@
       "review_id": "rev-cf4662dbabcb",
       "assignments": [
         {
-          "specific_theme_id": "support_channel_navigation",
-          "evidence": "Nobody tells you anything unless you ask"
+          "specific_theme_id": "follow_up_and_ownership",
+          "evidence": "half an answer"
         }
       ],
       "no_assignment_reason": null
@@ -2225,30 +2442,54 @@
     },
     {
       "review_id": "rev-924c64d7715b",
-      "assignments": [],
-      "no_assignment_reason": "no_relevant_theme"
+      "assignments": [
+        {
+          "specific_theme_id": "positive_endorsement",
+          "evidence": "Good experience on the whole."
+        }
+      ],
+      "no_assignment_reason": null
     },
     {
       "review_id": "rev-a02bbf85613d",
-      "assignments": [],
-      "no_assignment_reason": "no_relevant_theme"
+      "assignments": [
+        {
+          "specific_theme_id": "invoice_administration",
+          "evidence": "I sell the invoices the same day they are issued"
+        },
+        {
+          "specific_theme_id": "payout_timing",
+          "evidence": "same day they are issued"
+        }
+      ],
+      "no_assignment_reason": null
     },
     {
       "review_id": "rev-f4742dc44a32",
-      "assignments": [],
-      "no_assignment_reason": "no_relevant_theme"
+      "assignments": [
+        {
+          "specific_theme_id": "negative_verdict",
+          "evidence": "Bad service, plain and simple."
+        }
+      ],
+      "no_assignment_reason": null
     },
     {
       "review_id": "rev-5b78ffceb6f6",
-      "assignments": [],
-      "no_assignment_reason": "no_relevant_theme"
+      "assignments": [
+        {
+          "specific_theme_id": "negative_verdict",
+          "evidence": "Terrible service."
+        }
+      ],
+      "no_assignment_reason": null
     },
     {
       "review_id": "rev-d0b9e8123dc6",
       "assignments": [
         {
           "specific_theme_id": "repayment_flexibility",
-          "evidence": "adapted to it"
+          "evidence": "adapted to it without me having to argue"
         }
       ],
       "no_assignment_reason": null
@@ -2258,7 +2499,7 @@
       "assignments": [
         {
           "specific_theme_id": "mobile_app",
-          "evidence": "No app"
+          "evidence": "No app in 2026"
         }
       ],
       "no_assignment_reason": null
@@ -2281,12 +2522,12 @@
       "review_id": "rev-aa78098b5220",
       "assignments": [
         {
-          "specific_theme_id": "follow_up_and_ownership",
-          "evidence": "support case is still open"
+          "specific_theme_id": "response_timeliness",
+          "evidence": "We never received the email they claim to have sent"
         },
         {
-          "specific_theme_id": "response_timeliness",
-          "evidence": "never received the email"
+          "specific_theme_id": "follow_up_and_ownership",
+          "evidence": "the support case is still open"
         }
       ],
       "no_assignment_reason": null
@@ -2294,6 +2535,10 @@
     {
       "review_id": "rev-fb16c342b8bb",
       "assignments": [
+        {
+          "specific_theme_id": "product_suitability",
+          "evidence": "The tax payment loan saved us in June"
+        },
         {
           "specific_theme_id": "interest_rate_level",
           "evidence": "decent rate"
@@ -2306,7 +2551,7 @@
       "assignments": [
         {
           "specific_theme_id": "invoice_administration",
-          "evidence": "invoice came with the wrong amount"
+          "evidence": "The invoice came with the wrong amount"
         },
         {
           "specific_theme_id": "fee_transparency",
@@ -2319,7 +2564,7 @@
       "review_id": "rev-fe42435eea5a",
       "assignments": [
         {
-          "specific_theme_id": "terms_clarity",
+          "specific_theme_id": "term_changes",
           "evidence": "Three years' binding on an overdraft"
         }
       ],
@@ -2329,6 +2574,14 @@
       "review_id": "rev-2acf9f0b7c20",
       "assignments": [
         {
+          "specific_theme_id": "advisor_expertise",
+          "evidence": "The advisors are skilled and pleasant"
+        },
+        {
+          "specific_theme_id": "product_suitability",
+          "evidence": "the product suits us"
+        },
+        {
           "specific_theme_id": "portal_performance",
           "evidence": "the portal is slow"
         },
@@ -2337,16 +2590,8 @@
           "evidence": "the integration with the accounting system has failed four times this year"
         },
         {
-          "specific_theme_id": "financial_data_accuracy",
-          "evidence": "the balance cannot be trusted"
-        },
-        {
           "specific_theme_id": "response_timeliness",
-          "evidence": "I got an answer after eight days"
-        },
-        {
-          "specific_theme_id": "advisor_expertise",
-          "evidence": "The advisors are skilled and pleasant"
+          "evidence": "an answer after eight days"
         }
       ],
       "no_assignment_reason": null
@@ -2356,7 +2601,7 @@
       "assignments": [
         {
           "specific_theme_id": "product_suitability",
-          "evidence": "The maximum loan amount is too low"
+          "evidence": "maximum loan amount is too low for a company of our size"
         }
       ],
       "no_assignment_reason": null
@@ -2365,7 +2610,7 @@
       "review_id": "rev-e5b09cd30bc1",
       "assignments": [
         {
-          "specific_theme_id": "staff_conduct",
+          "specific_theme_id": "negative_verdict",
           "evidence": "Your reply below is not true"
         }
       ],
@@ -2385,7 +2630,7 @@
       "review_id": "rev-a8c4942bfbda",
       "assignments": [
         {
-          "specific_theme_id": "advisor_expertise",
+          "specific_theme_id": "staff_conduct",
           "evidence": "Got wrong information twice about the same matter"
         }
       ],
@@ -2403,8 +2648,13 @@
     },
     {
       "review_id": "rev-1440fb510a12",
-      "assignments": [],
-      "no_assignment_reason": "no_relevant_theme"
+      "assignments": [
+        {
+          "specific_theme_id": "unattributed_price_remarks",
+          "evidence": "A bit expensive"
+        }
+      ],
+      "no_assignment_reason": null
     },
     {
       "review_id": "rev-5cc959cfbc14",
@@ -2415,11 +2665,11 @@
         },
         {
           "specific_theme_id": "response_timeliness",
-          "evidence": "I get answers the same day"
+          "evidence": "answers the same day"
         },
         {
           "specific_theme_id": "advisor_expertise",
-          "evidence": "the advisor remembers who we are"
+          "evidence": "advisor remembers who we are"
         }
       ],
       "no_assignment_reason": null
@@ -2439,15 +2689,20 @@
       "assignments": [
         {
           "specific_theme_id": "fee_level",
-          "evidence": "fees make it more expensive"
+          "evidence": "fees make it more expensive than the competitors"
         }
       ],
       "no_assignment_reason": null
     },
     {
       "review_id": "rev-6d5d8fe73e4c",
-      "assignments": [],
-      "no_assignment_reason": "no_relevant_theme"
+      "assignments": [
+        {
+          "specific_theme_id": "positive_endorsement",
+          "evidence": "Everything has worked as it should since we started"
+        }
+      ],
+      "no_assignment_reason": null
     },
     {
       "review_id": "rev-f216a3d34fba",
@@ -2478,7 +2733,7 @@
         },
         {
           "specific_theme_id": "follow_up_and_ownership",
-          "evidence": "Have reported it three times"
+          "evidence": "reported it three times"
         }
       ],
       "no_assignment_reason": null
@@ -2518,7 +2773,7 @@
       "assignments": [
         {
           "specific_theme_id": "decision_transparency",
-          "evidence": "always knew where the case stood"
+          "evidence": "Clear information the whole way"
         }
       ],
       "no_assignment_reason": null
@@ -2538,7 +2793,7 @@
       "assignments": [
         {
           "specific_theme_id": "application_requirements",
-          "evidence": "Didn't need to submit a single PDF"
+          "evidence": "Didn't need to submit a single PDF."
         }
       ],
       "no_assignment_reason": null
@@ -2572,7 +2827,7 @@
       "assignments": [
         {
           "specific_theme_id": "product_suitability",
-          "evidence": "The loan was larger than we hoped for"
+          "evidence": "The loan was larger than we hoped for and the structure suited the investment"
         }
       ],
       "no_assignment_reason": null
@@ -2591,12 +2846,12 @@
       "review_id": "rev-686592de9071",
       "assignments": [
         {
-          "specific_theme_id": "response_timeliness",
-          "evidence": "I never got a reply to my email afterwards"
-        },
-        {
           "specific_theme_id": "advisor_expertise",
           "evidence": "The advisor was good"
+        },
+        {
+          "specific_theme_id": "follow_up_and_ownership",
+          "evidence": "I never got a reply to my email afterwards"
         }
       ],
       "no_assignment_reason": null
@@ -2609,11 +2864,11 @@
           "evidence": "credit line was granted in under a day"
         },
         {
-          "specific_theme_id": "relationship_continuity",
-          "evidence": "our advisor calls on their own initiative when something comes up"
+          "specific_theme_id": "advisor_expertise",
+          "evidence": "advisor calls on their own initiative"
         },
         {
-          "specific_theme_id": "interest_rate_level",
+          "specific_theme_id": "fee_level",
           "evidence": "price is lower than what our previous bank offered us"
         }
       ],
@@ -2623,8 +2878,8 @@
       "review_id": "rev-a2b719d632cf",
       "assignments": [
         {
-          "specific_theme_id": "terms_clarity",
-          "evidence": "small print on page four"
+          "specific_theme_id": "term_changes",
+          "evidence": "The binding period is 24 months and it is in small print on page four"
         },
         {
           "specific_theme_id": "fee_level",
@@ -2638,7 +2893,7 @@
       "assignments": [
         {
           "specific_theme_id": "collections_handling",
-          "evidence": "called and asked if we needed help when they saw the instalment was late"
+          "evidence": "They called and asked if we needed help when they saw the instalment was late"
         }
       ],
       "no_assignment_reason": null
@@ -2648,7 +2903,7 @@
       "assignments": [
         {
           "specific_theme_id": "interest_rate_level",
-          "evidence": "rate is lower than the three others"
+          "evidence": "The rate is lower than the three others we got quotes from"
         }
       ],
       "no_assignment_reason": null
@@ -2657,11 +2912,15 @@
       "review_id": "rev-7f7563bde13e",
       "assignments": [
         {
-          "specific_theme_id": "application_requirements",
-          "evidence": "We were asked for a personal guarantee"
+          "specific_theme_id": "marketing_communications",
+          "evidence": "The Facebook campaign said \"money in the account today, no security required\""
         },
         {
-          "specific_theme_id": "payout_timing",
+          "specific_theme_id": "application_requirements",
+          "evidence": "personal guarantee"
+        },
+        {
+          "specific_theme_id": "decision_turnaround",
           "evidence": "waited eleven days"
         }
       ],
@@ -2672,23 +2931,19 @@
       "assignments": [
         {
           "specific_theme_id": "decision_turnaround",
-          "evidence": "the application took minutes"
+          "evidence": "application took minutes"
         },
         {
           "specific_theme_id": "payout_timing",
-          "evidence": "the money arrived the same day"
+          "evidence": "money arrived the same day"
         },
         {
           "specific_theme_id": "advisor_expertise",
-          "evidence": "got a person on the line who actually knew our case"
+          "evidence": "person on the line who actually knew our case"
         },
         {
           "specific_theme_id": "interest_rate_level",
-          "evidence": "The rate is higher than the big bank"
-        },
-        {
-          "specific_theme_id": "relationship_continuity",
-          "evidence": "when I needed to speak to someone I got a person on the line"
+          "evidence": "rate is higher than the big bank"
         }
       ],
       "no_assignment_reason": null
@@ -2697,8 +2952,12 @@
       "review_id": "rev-e11bfb4d7aeb",
       "assignments": [
         {
+          "specific_theme_id": "product_suitability",
+          "evidence": "used the overdraft and invoice sale"
+        },
+        {
           "specific_theme_id": "relationship_continuity",
-          "evidence": "both have known our company well enough that I don't have to explain the business model again every time"
+          "evidence": "both have known our company well enough"
         },
         {
           "specific_theme_id": "advisor_expertise",
@@ -2710,11 +2969,7 @@
         },
         {
           "specific_theme_id": "fee_level",
-          "evidence": "The price is not the lowest in the market"
-        },
-        {
-          "specific_theme_id": "product_suitability",
-          "evidence": "We have used the overdraft and invoice sale"
+          "evidence": "price is not the lowest in the market"
         }
       ],
       "no_assignment_reason": null

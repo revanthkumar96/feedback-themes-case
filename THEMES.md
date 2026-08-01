@@ -2,7 +2,10 @@
 
 The machine-readable source of truth is `themes.json`. Labels describe subjects,
 not sentiment: the same theme applies to praise, criticism, and neutral
-questions.
+questions. The one deliberate exception is the **Other feedback** branch, whose
+general-sentiment leaves exist precisely to hold reviews that voice a verdict
+without naming any subject, so that every review lands somewhere in the
+three-tier hierarchy.
 
 ## Financing lifecycle
 
@@ -95,3 +98,21 @@ accuracy of displayed data.
 
 - **Reporting and export access** — The availability, history, completeness, and exportability of statements and reports.
 - **Financial data accuracy** — The correctness of balances, transactions, invoices, and other financial figures displayed.
+
+## Other feedback
+
+Reviews whose content is a general verdict or a subject outside the core
+banking taxonomy.
+
+### General sentiment
+
+- **Positive endorsement** — Praise, thanks, or a recommendation with no specific subject discussed.
+- **Negative verdict** — Criticism, rejection, or a warning with no specific subject discussed.
+- **Neutral remark** — A neutral or mixed remark with no specific subject discussed.
+
+### Out-of-scope subjects
+
+- **Credit enquiries** — The frequency or credit-bureau impact of credit checks performed by the bank.
+- **Account administration** — Changing account details or closing the account, including how long it takes.
+- **Marketing communications** — Unsolicited marketing contact or the honesty of advertising claims.
+- **Unattributed price remarks** — Cost or price feedback that does not identify whether fees or interest are meant.

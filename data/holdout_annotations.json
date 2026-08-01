@@ -1,7 +1,7 @@
 {
   "purpose": "Human reference annotations for semantic evaluation. Replace each null specific_theme_ids with the complete list of supported leaf IDs; use an empty list for a correct abstention.",
-  "taxonomy_version": "v1",
-  "taxonomy_hash": "7bb3da4cef9da83d0d0006df5a7a2b40e62655058ad526d3e8d1eb2481716c4d",
+  "taxonomy_version": "v1.1",
+  "taxonomy_hash": "036cf96a2a25ac9f5f72219864d0632e343bc1d9cca4521fe7a9127c41c001dd",
   "theme_reference": [
     {
       "specific_theme_id": "application_requirements",
@@ -157,6 +157,41 @@
       "specific_theme_id": "financial_data_accuracy",
       "path": "Digital experience and data > Reporting and data > Financial data accuracy",
       "definition": "The correctness of balances, transactions, invoices, and other financial figures displayed."
+    },
+    {
+      "specific_theme_id": "positive_endorsement",
+      "path": "Other feedback > General sentiment > Positive endorsement",
+      "definition": "Praise, thanks, or a recommendation with no specific subject discussed."
+    },
+    {
+      "specific_theme_id": "negative_verdict",
+      "path": "Other feedback > General sentiment > Negative verdict",
+      "definition": "Criticism, rejection, or a warning with no specific subject discussed."
+    },
+    {
+      "specific_theme_id": "neutral_remark",
+      "path": "Other feedback > General sentiment > Neutral remark",
+      "definition": "A neutral or mixed remark with no specific subject discussed."
+    },
+    {
+      "specific_theme_id": "credit_enquiries",
+      "path": "Other feedback > Out-of-scope subjects > Credit enquiries",
+      "definition": "The frequency or credit-bureau impact of credit checks performed by the bank."
+    },
+    {
+      "specific_theme_id": "account_administration",
+      "path": "Other feedback > Out-of-scope subjects > Account administration",
+      "definition": "Changing account details or closing the account, including how long it takes."
+    },
+    {
+      "specific_theme_id": "marketing_communications",
+      "path": "Other feedback > Out-of-scope subjects > Marketing communications",
+      "definition": "Unsolicited marketing contact or the honesty of advertising claims."
+    },
+    {
+      "specific_theme_id": "unattributed_price_remarks",
+      "path": "Other feedback > Out-of-scope subjects > Unattributed price remarks",
+      "definition": "Cost or price feedback that does not identify whether fees or interest are meant."
     }
   ],
   "annotations": [
@@ -167,8 +202,10 @@
       "content_en": "We have recommended them to four other companies in the industry.",
       "seen_during_discovery": false,
       "reference": {
-        "specific_theme_ids": [],
-        "notes": "Endorsement only; no subject discussed."
+        "specific_theme_ids": [
+          "positive_endorsement"
+        ],
+        "notes": "Recommendation with no subject discussed; general-sentiment leaf."
       }
     },
     {
@@ -232,8 +269,10 @@
       "content_en": "🙌🙌",
       "seen_during_discovery": false,
       "reference": {
-        "specific_theme_ids": [],
-        "notes": "Emoji only."
+        "specific_theme_ids": [
+          "positive_endorsement"
+        ],
+        "notes": "Celebratory emoji only; positive with no subject."
       }
     },
     {
@@ -296,8 +335,10 @@
       "content_en": "Credit-checked me four times in two weeks. That hits my score.",
       "seen_during_discovery": false,
       "reference": {
-        "specific_theme_ids": [],
-        "notes": "Repeated credit checks harming credit score; no leaf covers credit enquiries (known coverage gap)."
+        "specific_theme_ids": [
+          "credit_enquiries"
+        ],
+        "notes": "Repeated credit checks harming credit score; covered by the new credit_enquiries leaf."
       }
     },
     {
@@ -307,8 +348,10 @@
       "content_en": "Good experience from start to finish.",
       "seen_during_discovery": false,
       "reference": {
-        "specific_theme_ids": [],
-        "notes": "Pure sentiment."
+        "specific_theme_ids": [
+          "positive_endorsement"
+        ],
+        "notes": "Positive verdict with no subject discussed."
       }
     },
     {
@@ -319,9 +362,10 @@
       "seen_during_discovery": false,
       "reference": {
         "specific_theme_ids": [
-          "staff_conduct"
+          "staff_conduct",
+          "unattributed_price_remarks"
         ],
-        "notes": "'Friendlier' supports staff_conduct; 'faster' and 'cheaper' too unspecific to pin to a leaf."
+        "notes": "'Friendlier' is staff conduct; 'cheaper' names no mechanism so it is an unattributed price remark; 'faster' names no process."
       }
     },
     {
@@ -383,8 +427,10 @@
       "content_en": "Unprofessional from start to finish.",
       "seen_during_discovery": false,
       "reference": {
-        "specific_theme_ids": [],
-        "notes": "Pure sentiment; 'unprofessional' names no subject."
+        "specific_theme_ids": [
+          "negative_verdict"
+        ],
+        "notes": "Negative verdict with no subject discussed."
       }
     },
     {
@@ -477,9 +523,10 @@
         "specific_theme_ids": [
           "application_requirements",
           "decision_turnaround",
-          "terms_clarity"
+          "terms_clarity",
+          "marketing_communications"
         ],
-        "notes": "Four document rounds, two weeks, eligibility (track record) not disclosed upfront; decision_transparency defensible too."
+        "notes": "Four document rounds, two weeks, eligibility not disclosed upfront, and the advert promised start-up financing they do not offer (marketing_communications)."
       }
     },
     {
@@ -489,8 +536,10 @@
       "content_en": "Happy customer since 2021.",
       "seen_during_discovery": false,
       "reference": {
-        "specific_theme_ids": [],
-        "notes": "Pure sentiment."
+        "specific_theme_ids": [
+          "positive_endorsement"
+        ],
+        "notes": "Loyalty statement with no subject discussed."
       }
     },
     {
@@ -541,9 +590,10 @@
       "seen_during_discovery": false,
       "reference": {
         "specific_theme_ids": [
-          "decision_turnaround"
+          "decision_turnaround",
+          "unattributed_price_remarks"
         ],
-        "notes": "'Fast and simple application'; 'expensive' too unspecific to pick fee vs rate leaf."
+        "notes": "Fast application plus 'they are expensive' with no fee or interest mechanism named."
       }
     },
     {
@@ -554,7 +604,7 @@
       "seen_during_discovery": false,
       "reference": {
         "specific_theme_ids": [],
-        "notes": "Digital signing without in-person meeting; no matching leaf. Borderline application_requirements."
+        "notes": "Remote e-signing is a concrete subject no leaf covers, including the v1.1 out-of-scope leaves; abstain."
       }
     },
     {
@@ -565,9 +615,10 @@
       "seen_during_discovery": false,
       "reference": {
         "specific_theme_ids": [
-          "financial_data_accuracy"
+          "financial_data_accuracy",
+          "account_administration"
         ],
-        "notes": "Invoice issued after account closure treated as incorrect invoice; account administration is a coverage gap."
+        "notes": "Invoice issued after closure: incorrect invoice (financial_data_accuracy) and closure handled badly (account_administration)."
       }
     },
     {
@@ -578,9 +629,9 @@
       "seen_during_discovery": false,
       "reference": {
         "specific_theme_ids": [
-          "credit_line_flexibility"
+          "account_administration"
         ],
-        "notes": "Account closure delayed for months; 'end without delay' is the nearest leaf."
+        "notes": "Account closure delayed for months; now covered by account_administration (was a nearest-leaf compromise on credit_line_flexibility)."
       }
     },
     {
@@ -618,8 +669,10 @@
       "content_en": "It works, but nothing more than that.",
       "seen_during_discovery": true,
       "reference": {
-        "specific_theme_ids": [],
-        "notes": "Pure sentiment."
+        "specific_theme_ids": [
+          "neutral_remark"
+        ],
+        "notes": "Neutral verdict with no subject discussed."
       }
     },
     {
@@ -630,7 +683,7 @@
       "seen_during_discovery": false,
       "reference": {
         "specific_theme_ids": [],
-        "notes": "Cannot grant accountant access; user-role management is a known coverage gap."
+        "notes": "Delegated accountant access is a concrete subject no leaf covers, including the v1.1 out-of-scope leaves; abstain."
       }
     },
     {
@@ -640,8 +693,10 @@
       "content_en": "Never again.",
       "seen_during_discovery": false,
       "reference": {
-        "specific_theme_ids": [],
-        "notes": "Pure sentiment."
+        "specific_theme_ids": [
+          "negative_verdict"
+        ],
+        "notes": "Rejection with no subject discussed."
       }
     },
     {
@@ -678,9 +733,10 @@
       "seen_during_discovery": false,
       "reference": {
         "specific_theme_ids": [
-          "product_suitability"
+          "product_suitability",
+          "marketing_communications"
         ],
-        "notes": "Sold a product they did not need; unsolicited sales calls are a coverage gap."
+        "notes": "Sold a product they didn't need (suitability) via an unsolicited sales call (marketing_communications)."
       }
     },
     {
@@ -746,8 +802,10 @@
       "content_en": "A bit expensive, but they deliver on what they promise.",
       "seen_during_discovery": false,
       "reference": {
-        "specific_theme_ids": [],
-        "notes": "'A bit expensive' too unspecific to pick fee vs rate leaf; 'deliver on promise' is generic praise."
+        "specific_theme_ids": [
+          "unattributed_price_remarks"
+        ],
+        "notes": "'A bit expensive' names no fee or interest mechanism; the praise clause names no subject and per the rules is not double-labelled."
       }
     },
     {

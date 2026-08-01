@@ -14,7 +14,7 @@ from .domain import (
 )
 from .groq import Completion
 
-PROMPT_VERSION = "classification-v5.1"
+PROMPT_VERSION = "classification-v6"
 MODEL_PRICING_USD_PER_MILLION = {
     "openai/gpt-oss-20b": {"input": 0.075, "output": 0.30},
     "openai/gpt-oss-120b": {"input": 0.15, "output": 0.60},
@@ -76,11 +76,12 @@ def build_prompt(
         reviews_for_model.append(review_payload)
 
     rules = [
-        "Classify subjects the customer explicitly discusses, not sentiment.",
+        "Classify the subjects the customer explicitly discusses; sentiment alone never justifies a subject theme.",
         "Use only the supplied specific_theme_id values.",
-        "Do not force an assignment when no supplied theme is supported.",
-        "A general verdict on the company or service that names no concrete subject supports no theme, however strongly it is worded.",
-        "When a cost complaint does not identify whether fees or interest are meant, treat it as unsupported rather than guessing a pricing theme.",
+        "Do not force a subject assignment when no supplied theme is supported.",
+        "A verdict on the company or service that names no concrete subject belongs to exactly one general-sentiment leaf (positive endorsement, negative verdict, or neutral remark), never to a subject theme.",
+        "Use the general-sentiment leaves only when the whole review names no concrete subject; when any subject theme applies, do not add a general-sentiment assignment alongside it.",
+        "When a cost complaint does not identify whether fees or interest are meant, assign unattributed price remarks rather than guessing a fee or interest theme.",
         "Distinguish the interest subjects: the size or competitiveness of a rate, how interest or effective rates are calculated or explained, and how rate changes are announced are different themes.",
         "Evaluate every independent sentence and clause; return every distinct supported theme rather than only the most prominent one.",
         "A multi-topic review should normally have multiple assignments when separate clauses support separate themes.",

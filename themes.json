@@ -281,6 +281,62 @@
           ]
         }
       ]
+    },
+    {
+      "id": "other_feedback",
+      "label": "Other feedback",
+      "definition": "Reviews whose content is a general verdict or a subject outside the core banking taxonomy.",
+      "midlevel_themes": [
+        {
+          "id": "general_sentiment",
+          "label": "General sentiment",
+          "definition": "A verdict on the company or service that names no concrete subject.",
+          "specific_themes": [
+            {
+              "id": "positive_endorsement",
+              "label": "Positive endorsement",
+              "definition": "Praise, thanks, or a recommendation with no specific subject discussed."
+            },
+            {
+              "id": "negative_verdict",
+              "label": "Negative verdict",
+              "definition": "Criticism, rejection, or a warning with no specific subject discussed."
+            },
+            {
+              "id": "neutral_remark",
+              "label": "Neutral remark",
+              "definition": "A neutral or mixed remark with no specific subject discussed."
+            }
+          ]
+        },
+        {
+          "id": "out_of_scope_subjects",
+          "label": "Out-of-scope subjects",
+          "definition": "Concrete subjects the core taxonomy does not yet cover.",
+          "specific_themes": [
+            {
+              "id": "credit_enquiries",
+              "label": "Credit enquiries",
+              "definition": "The frequency or credit-bureau impact of credit checks performed by the bank."
+            },
+            {
+              "id": "account_administration",
+              "label": "Account administration",
+              "definition": "Changing account details or closing the account, including how long it takes."
+            },
+            {
+              "id": "marketing_communications",
+              "label": "Marketing communications",
+              "definition": "Unsolicited marketing contact or the honesty of advertising claims."
+            },
+            {
+              "id": "unattributed_price_remarks",
+              "label": "Unattributed price remarks",
+              "definition": "Cost or price feedback that does not identify whether fees or interest are meant."
+            }
+          ]
+        }
+      ]
     }
   ]
 }
